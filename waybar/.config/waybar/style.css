@@ -72,6 +72,22 @@
   color: @white;
 }
 
+#waybar.first #custom-lock,
+#waybar.first #custom-power {
+  padding: 5pt 8pt;
+  margin: 2px 4px 2px 4px;
+  background: transparent;
+  color: @white;
+}
+
+#waybar.first #custom-lock {
+  margin-right: 2px;
+}
+
+#waybar.first #custom-power {
+  margin-left: 2px;
+}
+
 #waybar.first #network.info {
   padding-right: 6px;
   padding-left: 6px;
