@@ -22,6 +22,13 @@ exec_always --no-startup-id ~/.config/sway/autotiling
 # Focus helper (opacity highlight, constant border)
 exec_always --no-startup-id pkill -f "sway-focus-visual"
 exec_always --no-startup-id ~/.config/sway/sway-focus-visual
+# Idle locking and DPMS
+exec_always --no-startup-id pkill -x swayidle
+exec_always --no-startup-id swayidle -w \
+    timeout 300 'swaylock -f --config ~/.config/sway/swaylock.conf' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f --config ~/.config/sway/swaylock.conf'
 
 # Tokyo Night palette
 client.focused          #7aa2f7 #1a1b26 #c0caf5 #7aa2f7 #bb9af7

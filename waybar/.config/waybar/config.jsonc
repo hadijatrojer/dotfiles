@@ -266,7 +266,7 @@
     "custom/lock": {
       "format": "  ",
       "tooltip": false,
-      "on-click": "swaylock"
+      "on-click": "swaylock -f --config ~/.config/sway/swaylock.conf"
     },
     "custom/power": {
       "format": " ⏻ ",
