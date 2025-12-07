@@ -12,7 +12,7 @@ from i3ipc import Connection, Event
 
 BASE_BORDER = int(os.getenv("BASE_BORDER", "1"))
 FOCUSED_OPACITY = float(os.getenv("FOCUSED_OPACITY", "1"))
-UNFOCUSED_OPACITY = float(os.getenv("UNFOCUSED_OPACITY", "0.75"))
+UNFOCUSED_OPACITY = float(os.getenv("UNFOCUSED_OPACITY", "0.85"))
 
 
 def is_window(con) -> bool:
