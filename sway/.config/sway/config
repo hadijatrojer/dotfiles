@@ -16,6 +16,9 @@ set $menu wofi --show drun -i
 default_border pixel 1
 default_floating_border pixel 1
 
+# autotiling
+exec_always ~/.config/sway/autotiling
+
 # Tokyo Night palette
 client.focused          #7aa2f7 #1a1b26 #c0caf5 #7aa2f7 #bb9af7
 client.focused_inactive #24283b #24283b #a9b1d6 #24283b #24283b
