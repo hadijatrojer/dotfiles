@@ -141,12 +141,12 @@
     "network#info": {
       "interval": 1,
       "format": "󱘖  Offline",
-      "format-wifi": "{icon} {bandwidthDownBits}",
+      "format-wifi": "{icon}",
       "format-ethernet": "󰈀 {bandwidthDownBits}",
-      "min-length": 11,
+      "min-length": 3,
       "tooltip": "{}",
-      "tooltip-format-wifi": "{ifname}\n{essid}\n{signalStrength}% \n{frequency} GHz\n󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
-      "tooltip-format-ethernet": "{ifname}\n󰇚 {bandwidthDownBits} \n󰕒 {bandwidthUpBits}",
+      "tooltip-format-wifi": "󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
+      "tooltip-format-ethernet": "󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
       "on-click": "iwgtk",
       "format-icons": ["󰤫", "󰤟", "󰤢", "󰤥", "󰤨"],
       "states": {
