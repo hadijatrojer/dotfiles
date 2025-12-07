@@ -46,8 +46,7 @@ def main() -> None:
     def apply_focus_state(_i3, focused_con) -> None:
         nonlocal prev_id
         if not focused_con or not is_window(focused_con):
-            prev_id = None
-            set_all_windows(_i3, UNFOCUSED_OPACITY)
+            # If focus is lost (e.g. during slurp/grim), keep existing opacity state
             return
 
         if prev_id is None:

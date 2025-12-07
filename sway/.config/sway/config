@@ -36,8 +36,8 @@ include /etc/sway/config-vars.d/*
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg ~/Backgrounds/background_2.jpg fill
 
-output HDMI-A-1 scale 1.8 position 1920 0 
-output HDMI-A-2 scale 1 position 0 0 
+output HDMI-A-1 scale 1.8 position 1920 0
+output HDMI-A-2 scale 1 position 0 0
 
 input "*" {
     xkb_layout "gb"
@@ -56,12 +56,15 @@ input "*" {
     bindsym $mod+b exec google-chrome-stable --profile-directory="Profile 1"
     # Customer support
     bindsym $mod+c exec google-chrome-stable --profile-directory="Profile 3"
-    # Calibration 
+    # Calibration
     bindsym $mod+l exec google-chrome-stable --profile-directory="Profile 4"
     # IOQ
     bindsym $mod+i exec google-chrome-stable --profile-directory="Profile 5"
     # Hadija@gmail
     bindsym $mod+p exec google-chrome-stable --profile-directory="Default"
+
+    # Screenshot
+    bindsym $mod+Shift+s exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')"
 
     # Kill focused window
     bindsym $mod+Shift+q kill
