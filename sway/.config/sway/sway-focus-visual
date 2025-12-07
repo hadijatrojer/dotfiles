@@ -19,6 +19,13 @@ def is_window(con) -> bool:
     return con.type in ("con", "floating_con")
 
 
+def set_all_windows(i3, opacity: float) -> None:
+    tree = i3.get_tree()
+    for con in tree.descendents():
+        if is_window(con):
+            set_border_and_opacity(con, BASE_BORDER, opacity)
+
+
 def set_border_and_opacity(con, border: int, opacity: float) -> None:
     try:
         con.command(f"border pixel {border}")
@@ -34,36 +41,47 @@ def main() -> None:
     except Exception as e:
         sys.exit(0)
 
-    tree = i3.get_tree()
-    for con in tree.descendents():
-        if is_window(con):
-            set_border_and_opacity(con, BASE_BORDER, UNFOCUSED_OPACITY)
-
-    focused = tree.find_focused()
     prev_id = None
-    if focused and is_window(focused):
-        set_border_and_opacity(focused, BASE_BORDER, FOCUSED_OPACITY)
-        prev_id = focused.id
 
-    def on_focus(_i3, event) -> None:
+    def apply_focus_state(_i3, focused_con) -> None:
         nonlocal prev_id
-        con = event.container
-        if not con or not is_window(con):
+        if not focused_con or not is_window(focused_con):
+            prev_id = None
+            set_all_windows(_i3, UNFOCUSED_OPACITY)
             return
-        if prev_id and prev_id != con.id:
+
+        if prev_id is None:
+            set_all_windows(_i3, UNFOCUSED_OPACITY)
+
+        if prev_id and prev_id != focused_con.id:
             prev = _i3.get_tree().find_by_id(prev_id)
             if prev and is_window(prev):
                 set_border_and_opacity(prev, BASE_BORDER, UNFOCUSED_OPACITY)
-        set_border_and_opacity(con, BASE_BORDER, FOCUSED_OPACITY)
-        prev_id = con.id
+
+        set_border_and_opacity(focused_con, BASE_BORDER, FOCUSED_OPACITY)
+        prev_id = focused_con.id
+
+    def on_focus(_i3, event) -> None:
+        apply_focus_state(_i3, event.container)
 
     def on_new(_i3, event) -> None:
         con = event.container
         if con and is_window(con):
             set_border_and_opacity(con, BASE_BORDER, UNFOCUSED_OPACITY)
 
+    def on_workspace_focus(_i3, _event) -> None:
+        if _event.current and not _event.current.leaves():
+            apply_focus_state(_i3, None)
+            return
+        focused_con = _i3.get_tree().find_focused()
+        apply_focus_state(_i3, focused_con)
+
+    set_all_windows(i3, UNFOCUSED_OPACITY)
+    apply_focus_state(i3, i3.get_tree().find_focused())
+
     i3.on(Event.WINDOW_FOCUS, on_focus)
     i3.on(Event.WINDOW_NEW, on_new)
+    i3.on(Event.WORKSPACE_FOCUS, on_workspace_focus)
 
     try:
         i3.main()
