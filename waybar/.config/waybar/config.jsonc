@@ -29,6 +29,8 @@
       "custom/spacer1",
       "network#info",
       "custom/spacer1",
+      "bluetooth",
+      "custom/spacer1",
       "pulseaudio#input",
       "custom/spacer1",
       "pulseaudio#output",
@@ -149,6 +151,22 @@
       "states": {
         "normal": 25
       }
+    },
+
+    "bluetooth": {
+      "format": "{icon}",
+      "format-connected": "{icon} {device_alias}",
+      "format-connected-battery": "{icon} {device_alias} {device_battery_percentage}%",
+      "format-icons": {
+        "disabled": "󰂲",
+        "disconnected": "󰂯",
+        "connected": "󰂱"
+      },
+      "tooltip-format": "{status}",
+      "tooltip-format-connected": "{controller_alias}\n{controller_address}\n{device_alias}",
+      "tooltip-format-connected-battery": "{controller_alias}\n{controller_address}\n{device_alias}\n{device_battery_percentage}%",
+      "on-click": "blueman-manager",
+      "on-click-right": "blueman-manager"
     },
 
     "network#up": {
