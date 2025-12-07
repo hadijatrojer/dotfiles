@@ -7,7 +7,6 @@
     "name": "first",
 
     "modules-left": [
-      "tray",
       "custom/spacer1",
       "custom/spacer2",
       "sway/workspaces",
@@ -36,6 +35,8 @@
       "pulseaudio#output",
       "custom/spacer1",
       "clock",
+      "custom/spacer1",
+      "tray",
       "custom/spacer1",
       "custom/lock",
       "custom/power"
@@ -154,19 +155,14 @@
     },
 
     "bluetooth": {
-      "format": "{icon}",
-      "format-connected": "{icon} {device_alias}",
-      "format-connected-battery": "{icon} {device_alias} {device_battery_percentage}%",
-      "format-icons": {
-        "disabled": "󰂲",
-        "disconnected": "󰂯",
-        "connected": "󰂱"
-      },
+      "format": "",
+      "format-connected": "  {device_alias:.10} ",
+      "format-connected-battery": "  {device_alias:.6} {device_battery_percentage}% ",
       "tooltip-format": "{status}",
-      "tooltip-format-connected": "{controller_alias}\n{controller_address}\n{device_alias}",
-      "tooltip-format-connected-battery": "{controller_alias}\n{controller_address}\n{device_alias}\n{device_battery_percentage}%",
-      "on-click": "blueman-manager",
-      "on-click-right": "blueman-manager"
+      "tooltip-format-connected": " {device_alias}\n{controller_alias}\n{controller_address}",
+      "tooltip-format-connected-battery": " {device_alias}\n{controller_alias}\n{controller_address}\n{device_battery_percentage}%",
+      "on-click": "BLUEMAN_PLUGINS_DISABLED=StatusIcon blueman-manager",
+      "on-click-right": "BLUEMAN_PLUGINS_DISABLED=StatusIcon blueman-manager"
     },
 
     "network#up": {
