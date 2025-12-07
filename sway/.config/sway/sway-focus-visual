@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""
+Highlight focused window without resizing geometry:
+- Keeps a consistent border width (default 1px).
+- Uses opacity to dim unfocused windows (default 0.65) and full opacity for focused.
+Configurable via env: BASE_BORDER, FOCUSED_OPACITY, UNFOCUSED_OPACITY.
+Depends on python3-i3ipc (same as autotiling).
+"""
+import os
+import sys
+from i3ipc import Connection, Event
+
+BASE_BORDER = int(os.getenv("BASE_BORDER", "1"))
+FOCUSED_OPACITY = float(os.getenv("FOCUSED_OPACITY", "1"))
+UNFOCUSED_OPACITY = float(os.getenv("UNFOCUSED_OPACITY", "0.75"))
+
+
+def is_window(con) -> bool:
+    return con.type in ("con", "floating_con")
+
+
+def set_border_and_opacity(con, border: int, opacity: float) -> None:
+    try:
+        con.command(f"border pixel {border}")
+        con.command(f"opacity {opacity}")
+    except Exception as e:
+        # Sway might occasionally reject commands on transient containers; swallow quietly.
+        _ = e
+
+
+def main() -> None:
+    try:
+        i3 = Connection()
+    except Exception as e:
+        sys.exit(0)
+
+    tree = i3.get_tree()
+    for con in tree.descendents():
+        if is_window(con):
+            set_border_and_opacity(con, BASE_BORDER, UNFOCUSED_OPACITY)
+
+    focused = tree.find_focused()
+    prev_id = None
+    if focused and is_window(focused):
+        set_border_and_opacity(focused, BASE_BORDER, FOCUSED_OPACITY)
+        prev_id = focused.id
+
+    def on_focus(_i3, event) -> None:
+        nonlocal prev_id
+        con = event.container
+        if not con or not is_window(con):
+            return
+        if prev_id and prev_id != con.id:
+            prev = _i3.get_tree().find_by_id(prev_id)
+            if prev and is_window(prev):
+                set_border_and_opacity(prev, BASE_BORDER, UNFOCUSED_OPACITY)
+        set_border_and_opacity(con, BASE_BORDER, FOCUSED_OPACITY)
+        prev_id = con.id
+
+    def on_new(_i3, event) -> None:
+        con = event.container
+        if con and is_window(con):
+            set_border_and_opacity(con, BASE_BORDER, UNFOCUSED_OPACITY)
+
+    i3.on(Event.WINDOW_FOCUS, on_focus)
+    i3.on(Event.WINDOW_NEW, on_new)
+
+    try:
+        i3.main()
+    except Exception:
+        pass
+
+
+if __name__ == "__main__":
+    main()

@@ -17,7 +17,11 @@ default_border pixel 1
 default_floating_border pixel 1
 
 # autotiling
-exec_always ~/.config/sway/autotiling
+exec_always --no-startup-id pkill -f "autotiling"
+exec_always --no-startup-id ~/.config/sway/autotiling
+# Focus helper (opacity highlight, constant border)
+exec_always --no-startup-id pkill -f "sway-focus-visual"
+exec_always --no-startup-id ~/.config/sway/sway-focus-visual
 
 # Tokyo Night palette
 client.focused          #7aa2f7 #1a1b26 #c0caf5 #7aa2f7 #bb9af7
