@@ -87,7 +87,11 @@ def describe(command: str) -> str:
         return "File manager (Nautilus)"
 
     chrome_profile = re.search(r'--profile-directory="([^"]+)"', command)
-    if "google-chrome" in command:
+    if (
+        "google-chrome" in command
+        or "$chrome" in command
+        or "--profile-directory=" in command
+    ):
         profile = chrome_profile.group(1) if chrome_profile else "Default"
         friendly = {
             "Profile 1": "Chrome – Hadija@t-scan",
