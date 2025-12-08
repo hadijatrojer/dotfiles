@@ -22,11 +22,10 @@ exec_always --no-startup-id ~/.config/sway/autotiling
 # Focus helper (opacity highlight, constant border)
 exec_always --no-startup-id pkill -f "sway-focus-visual"
 exec_always --no-startup-id ~/.config/sway/sway-focus-visual
-# Idle locking and DPMS
+# Idle locking with DPMS helper (screen off 30s after lock)
 exec_always --no-startup-id pkill -x swayidle
 exec_always --no-startup-id swayidle -w \
-    timeout 300 'swaylock -f --config ~/.config/sway/swaylock.conf' \
-    timeout 600 'swaymsg "output * dpms off"' \
+    timeout 300 '~/.config/sway/lock.sh' \
     resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f --config ~/.config/sway/swaylock.conf'
 
