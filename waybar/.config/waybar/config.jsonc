@@ -38,8 +38,6 @@
       "custom/spacer1",
       "tray",
       "custom/spacer1",
-      "custom/lock",
-      "custom/spacer1",
       "custom/power"
     ],
 
@@ -263,11 +261,6 @@
     "custom/spacer3": {
       "format": "/",
       "tooltip": false
-    },
-    "custom/lock": {
-      "format": "  ",
-      "tooltip": false,
-      "on-click": "~/.config/sway/lock.sh"
     },
     "custom/power": {
       "format": " ⏻ ",
