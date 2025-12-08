@@ -59,6 +59,9 @@ input "*" {
     # Start a terminal
     bindsym $mod+t exec $term
 
+    # Shortcut cheat sheet
+    bindsym $mod+h exec ~/.config/sway/show-bindings
+
     bindsym $mod+f exec nautilus
 
     # Hadija@t-scan
@@ -187,7 +190,7 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    birdsym Left resize shrink width 10px
+    bindsym Left resize shrink width 10px
     bindsym Down resize grow height 10px
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px

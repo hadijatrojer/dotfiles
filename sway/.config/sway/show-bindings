@@ -1,0 +1,216 @@
+#!/usr/bin/env python3
+"""Simple sway bindings cheat sheet shown via wofi (or stdout if headless)."""
+
+import json
+import os
+import re
+import subprocess
+import sys
+from typing import Dict, List, Tuple
+
+
+MENU_DEFAULT = 'wofi --dmenu -i -p "Shortcuts"'
+CONFIG_DEFAULT = os.path.expanduser("~/.config/sway/config")
+STATE_DIR = os.path.expanduser("~/.local/state/wofi")
+USAGE_FILE = os.path.join(STATE_DIR, "bindings_usage.json")
+
+
+def get_config_text() -> str:
+    """Fetch live config from sway; fall back to the local file."""
+    try:
+        result = subprocess.run(
+            ["swaymsg", "-t", "get_config", "-r"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        data = json.loads(result.stdout)
+        if isinstance(data, dict):
+            text = data.get("config", "")
+            if text:
+                return text
+    except Exception:
+        pass
+
+    config_path = os.environ.get("SWAY_CONFIG", CONFIG_DEFAULT)
+    try:
+        with open(config_path, encoding="utf-8") as f:
+            return f.read()
+    except Exception:
+        return ""
+
+
+def describe(command: str) -> str:
+    """Return a friendly description for a sway command."""
+    # Common window management
+    m = re.match(r"workspace number (\d+)", command)
+    if m:
+        return f"Switch to workspace {m.group(1)}"
+
+    m = re.match(r"move container to workspace number (\d+)", command)
+    if m:
+        return f"Move window to workspace {m.group(1)}"
+
+    m = re.match(r"focus (left|right|up|down)", command, re.I)
+    if m:
+        return f"Focus {m.group(1).lower()}"
+
+    m = re.match(r"move (left|right|up|down)", command, re.I)
+    if m:
+        return f"Move window {m.group(1).lower()}"
+
+    if command == 'mode "resize"':
+        return "Enter resize mode"
+    if command == 'mode "default"':
+        return "Exit resize mode"
+
+    m = re.match(r"resize (grow|shrink) (width|height) (\d+)px", command)
+    if m:
+        verb, axis, amount = m.groups()
+        return f"Resize window: {verb} {axis} by {amount}px"
+
+    if command.startswith("layout toggle split"):
+        return "Toggle split layout"
+    if command == "fullscreen":
+        return "Toggle fullscreen"
+    if command == "kill":
+        return "Close window"
+    if command == "reload":
+        return "Reload Sway config"
+
+    # Apps
+    if command.startswith("$menu"):
+        return "Application launcher"
+    if command.startswith("$term"):
+        return "Terminal"
+    if command.startswith("nautilus"):
+        return "File manager (Nautilus)"
+
+    chrome_profile = re.search(r'--profile-directory="([^"]+)"', command)
+    if "google-chrome" in command:
+        profile = chrome_profile.group(1) if chrome_profile else "Default"
+        friendly = {
+            "Profile 1": "Chrome – Hadija@t-scan",
+            "Profile 3": "Chrome – Customer support",
+            "Profile 4": "Chrome – Calibration",
+            "Profile 5": "Chrome – IOQ",
+            "Default": "Chrome – Hadija@gmail",
+        }.get(profile)
+        return friendly or f"Chrome ({profile})"
+
+    if command.startswith("grim "):
+        return "Screenshot selection to Pictures/Screenshots"
+
+    return command
+
+
+def parse_binds(config_text: str) -> List[Tuple[str, str, str]]:
+    """Extract (combo, raw_command, description) from bindsym lines."""
+    binds: List[Tuple[str, str, str]] = []
+    pattern = re.compile(r"^\s*bindsym\s+(\S+)\s+(.*)$")
+
+    for line in config_text.splitlines():
+        match = pattern.match(line)
+        if not match:
+            continue
+        combo, command_raw = match.group(1), match.group(2)
+        command_raw = command_raw.split("#", 1)[0].strip()  # strip inline comment
+        if not combo or not command_raw:
+            continue
+        command_clean = re.sub(r"^exec\s+", "", command_raw)
+        command_clean = re.sub(r"\s+", " ", command_clean).strip()
+        if not command_clean:
+            continue
+        desc = describe(command_clean)
+        binds.append((combo, command_raw, desc))
+
+    return binds
+
+
+def render(
+    binds: List[Tuple[str, str, str]], usage: Dict[str, int]
+) -> Tuple[str, Dict[str, Tuple[str, str]]]:
+    # Sort by usage desc, then combo, then description.
+    binds_sorted = sorted(
+        binds,
+        key=lambda triple: (
+            -usage.get(triple[0], 0),
+            triple[0].lower(),
+            triple[2].lower(),
+        ),
+    )
+    width = max(22, max((len(combo) for combo, _, _ in binds), default=0))
+    lines: List[str] = []
+    mapping: Dict[str, Tuple[str, str]] = {}
+    for combo, command_raw, desc in binds_sorted:
+        detail = desc
+        line = f"{combo:<{width}} {detail}"
+        lines.append(line)
+        mapping[line] = (combo, command_raw)
+    return "\n".join(lines), mapping
+
+
+def load_usage() -> Dict[str, int]:
+    try:
+        with open(USAGE_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            return {k: int(v) for k, v in data.items()}
+    except Exception:
+        pass
+    return {}
+
+
+def save_usage(usage: Dict[str, int]) -> None:
+    try:
+        os.makedirs(STATE_DIR, exist_ok=True)
+        with open(USAGE_FILE, "w", encoding="utf-8") as f:
+            json.dump(usage, f, indent=2)
+    except Exception:
+        pass
+
+
+def main() -> int:
+    menu_cmd = os.environ.get("MENU_CMD", MENU_DEFAULT)
+    if not (os.environ.get("WAYLAND_DISPLAY") or os.environ.get("DISPLAY")):
+        menu_cmd = "cat"
+
+    config_text = get_config_text()
+    if not config_text:
+        sys.stderr.write("No bindings available (could not read config).\n")
+        return 1
+
+    binds = parse_binds(config_text)
+    if not binds:
+        sys.stderr.write("No bindings found in config.\n")
+        return 1
+
+    usage = load_usage()
+    output, mapping = render(binds, usage)
+    if menu_cmd.strip() == "cat":
+        print(output)
+        return 0
+
+    proc = subprocess.run(
+        menu_cmd, input=output, text=True, shell=True, capture_output=True
+    )
+    selection = (proc.stdout or "").strip()
+
+    if not selection:
+        return proc.returncode
+
+    entry = mapping.get(selection)
+    if not entry:
+        return proc.returncode
+
+    combo, command_raw = entry
+    usage[combo] = usage.get(combo, 0) + 1
+    save_usage(usage)
+
+    # Send the original command to sway.
+    subprocess.run(["swaymsg", "--", command_raw])
+    return proc.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
