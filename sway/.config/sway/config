@@ -11,6 +11,8 @@ set $right l
 set $term ghostty
 # Your preferred application launcher
 set $menu wofi --show drun -i
+# Chrome launcher (Wayland + native notifications)
+set $chrome google-chrome-stable --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations,DesktopLinuxNotifications
 
 # Window styling
 default_border pixel 1
@@ -22,12 +24,18 @@ exec_always --no-startup-id ~/.config/sway/autotiling
 # Focus helper (opacity highlight, constant border)
 exec_always --no-startup-id pkill -f "sway-focus-visual"
 exec_always --no-startup-id ~/.config/sway/sway-focus-visual
+# Notifications (Wayland-native mako)
+exec_always --no-startup-id pkill -x mako
+exec_always --no-startup-id mako
 # Idle locking with DPMS helper (screen off 30s after lock)
 exec_always --no-startup-id pkill -x swayidle
 exec_always --no-startup-id swayidle -w \
     timeout 300 '~/.config/sway/lock.sh' \
     resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f --config ~/.config/sway/swaylock.conf'
+# Keep notification popups from tiling (covers X11 daemons like dunst).
+for_window [window_type="notification"] floating enable, border none, sticky enable
+no_focus [window_type="notification"]
 
 # Tokyo Night palette
 client.focused          #7aa2f7 #1a1b26 #c0caf5 #7aa2f7 #bb9af7
@@ -65,15 +73,15 @@ input "*" {
     bindsym $mod+f exec nautilus
 
     # Hadija@t-scan
-    bindsym $mod+b exec google-chrome-stable --profile-directory="Profile 1"
+    bindsym $mod+b exec $chrome --profile-directory="Profile 1"
     # Customer support
-    bindsym $mod+c exec google-chrome-stable --profile-directory="Profile 3"
+    bindsym $mod+c exec $chrome --profile-directory="Profile 3"
     # Calibration
-    bindsym $mod+l exec google-chrome-stable --profile-directory="Profile 4"
+    bindsym $mod+l exec $chrome --profile-directory="Profile 4"
     # IOQ
-    bindsym $mod+i exec google-chrome-stable --profile-directory="Profile 5"
+    bindsym $mod+i exec $chrome --profile-directory="Profile 5"
     # Hadija@gmail
-    bindsym $mod+p exec google-chrome-stable --profile-directory="Default"
+    bindsym $mod+p exec $chrome --profile-directory="Default"
 
     # Screenshot
     bindsym $mod+Shift+s exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')"

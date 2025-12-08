@@ -1,0 +1,14 @@
+# Tokyo Night-ish styling for mako notifications
+font=sans 11
+anchor=top-right
+margin=16
+padding=12
+border-size=2
+border-radius=8
+background-color=#1a1b26e6
+text-color=#c0caf5
+border-color=#7aa2f7
+progress-color=#7aa2f7
+default-timeout=5000
+max-visible=4
+markup=1
