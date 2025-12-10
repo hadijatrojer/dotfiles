@@ -22,15 +22,11 @@
       "custom/spacer1",
       "memory#ram",
       "custom/spacer1",
-      "memory#swap",
-      "custom/spacer1",
       "disk",
       "custom/spacer1",
       "network#info",
       "custom/spacer1",
       "bluetooth",
-      "custom/spacer1",
-      "pulseaudio#input",
       "custom/spacer1",
       "pulseaudio#output",
       "custom/spacer1",
@@ -74,7 +70,7 @@
 
     "clock": {
       "interval": 10,
-      "format": " {:%H:%M}",
+      "format": " {:%a %d %B %H:%M}",
       "tooltip-format": "Current date: {:%d.%m.%Y} \n\n<tt><small>{calendar}</small></tt>",
       "calendar": {
         "mode": "year",
@@ -154,14 +150,12 @@
     },
 
     "bluetooth": {
-      "format": "",
-      "format-connected": "  {device_alias:.10} ",
-      "format-connected-battery": "  {device_alias:.6} {device_battery_percentage}% ",
-      "tooltip-format": "{status}",
-      "tooltip-format-connected": " {device_alias}\n{controller_alias}\n{controller_address}",
-      "tooltip-format-connected-battery": " {device_alias}\n{controller_alias}\n{controller_address}\n{device_battery_percentage}%",
+      "format": "  ",
+      "format-disabled": " 󰂲 ",
+      "format-connected": " 󰂱 ",
+      "format-no-controller": " ",
+      "tooltip-format": "Devices connected: {num_connections}",
       "on-click": "BLUEMAN_PLUGINS_DISABLED=StatusIcon blueman-manager",
-      "on-click-right": "BLUEMAN_PLUGINS_DISABLED=StatusIcon blueman-manager"
     },
 
     "network#up": {
