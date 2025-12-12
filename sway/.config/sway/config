@@ -18,6 +18,9 @@ set $chrome google-chrome-stable --ozone-platform=wayland --enable-features=UseO
 default_border pixel 1
 default_floating_border pixel 1
 
+# Mouse cursor theme
+seat seat0 xcursor_theme volantes 28
+
 # autotiling
 exec_always --no-startup-id pkill -f "autotiling"
 exec_always --no-startup-id ~/.config/sway/autotiling
