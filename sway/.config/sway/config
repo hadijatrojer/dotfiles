@@ -12,14 +12,14 @@ set $term ghostty
 # Your preferred application launcher
 set $menu wofi --show drun -i
 # Chrome launcher (Wayland + native notifications)
-set $chrome google-chrome-stable --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations,DesktopLinuxNotifications
+set $chrome google-chrome-stable --new-window --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations,DesktopLinuxNotifications
 
 # Window styling
 default_border pixel 1
 default_floating_border pixel 1
 
 # Mouse cursor theme
-seat seat0 xcursor_theme volantes 28
+seat seat0 xcursor_theme macOS 28
 
 # autotiling
 exec_always --no-startup-id pkill -f "autotiling"
@@ -81,18 +81,9 @@ input "*" {
     # Shortcut cheat sheet
     bindsym $mod+h exec ~/.config/sway/show-bindings
 
-    bindsym $mod+f exec nautilus
+    bindsym $mod+f exec nautilus -w
 
-    # Hadija@t-scan
-    bindsym $mod+b exec $chrome --profile-directory="Profile 1"
-    # Customer support
-    bindsym $mod+c exec $chrome --profile-directory="Profile 3"
-    # Calibration
-    bindsym $mod+l exec $chrome --profile-directory="Profile 4"
-    # IOQ
-    bindsym $mod+i exec $chrome --profile-directory="Profile 5"
-    # Hadija@gmail
-    bindsym $mod+p exec $chrome --profile-directory="Default"
+    bindsym $mod+b exec $chrome
 
     # Screenshot
     bindsym $mod+Shift+s exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')"
