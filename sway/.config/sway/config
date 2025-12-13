@@ -74,6 +74,8 @@ workspace 10 output HDMI-A-1
 
 input "*" {
     xkb_layout "gb"
+    ## remap caps-lock to esc
+    xkb_options "caps:escape"
 }
 
 ### Key bindings
