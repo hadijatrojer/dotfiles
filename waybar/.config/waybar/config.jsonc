@@ -203,6 +203,9 @@
     "pulseaudio#output": {
       "format": "{icon} {volume}%",
       "format-bluetooth": "{icon} {volume}%",
+      "format-muted": "{icon} 0%",
+      "format-bluetooth-muted": "{icon} 0%",
+      "max-volume": 100,
       "format-source-muted": "{volume}",
       "format-icons": {
         "headphone": "",
