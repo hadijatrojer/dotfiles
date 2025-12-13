@@ -70,7 +70,7 @@
 
     "clock": {
       "interval": 10,
-      "format": " {:%a %d %B %H:%M}",
+      "format": "{:%a %d %B %H:%M}",
       "tooltip-format": "Current date: {:%d.%m.%Y} \n\n<tt><small>{calendar}</small></tt>",
       "calendar": {
         "mode": "year",
@@ -150,20 +150,20 @@
     },
 
     "bluetooth": {
-      "format": "  ",
-      "format-disabled": " 󰂲 ",
-      "format-connected": " 󰂱 ",
-      "format-no-controller": " ",
+      "format": "",
+      "format-disabled": "󰂲",
+      "format-connected": "󰂱",
+      "format-no-controller": "",
       "tooltip-format": "Devices connected: {num_connections}",
       "on-click": "BLUEMAN_PLUGINS_DISABLED=StatusIcon blueman-manager",
     },
 
     "network#up": {
       "interval": 5,
-      "format": " ",
+      "format": "",
       "format-wifi": "󰕒 {bandwidthUpBits}",
       "format-ethernet": "󰕒 {bandwidthUpBits}",
-      "format-disconnected": " ",
+      "format-disconnected": "",
       "min-length": 11
     },
 
@@ -257,7 +257,7 @@
       "tooltip": false
     },
     "custom/power": {
-      "format": " ⏻ ",
+      "format": "⏻",
       "tooltip": "Power Options",
       "on-click": "~/.config/waybar/scripts/powermenu.sh"
     }
