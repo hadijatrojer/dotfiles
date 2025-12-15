@@ -10,7 +10,7 @@ set $right l
 # Your preferred terminal emulator
 set $term ghostty
 # Your preferred application launcher
-set $menu wofi --show drun -i
+set $menu wofi --show drun -i --allow-images --no-actions
 # Chrome launcher (Wayland + native notifications)
 set $chrome google-chrome-stable --new-window --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations,DesktopLinuxNotifications
 
