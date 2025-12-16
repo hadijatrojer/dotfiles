@@ -15,8 +15,11 @@ set $menu wofi --show drun -i --allow-images --no-actions
 set $chrome google-chrome-stable --new-window --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations,DesktopLinuxNotifications
 
 # Window styling
-default_border pixel 1
-default_floating_border pixel 1
+gaps inner 4
+smart_gaps on
+smart_borders off
+default_border pixel 4
+default_floating_border pixel 4
 
 # Mouse cursor theme
 seat seat0 xcursor_theme macOS 28
@@ -30,8 +33,8 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec_always --no-startup-id pkill -f "autotiling"
 exec_always --no-startup-id ~/.config/sway/autotiling
 # Focus helper (opacity highlight, constant border)
-exec_always --no-startup-id pkill -f "sway-focus-visual"
-exec_always --no-startup-id ~/.config/sway/sway-focus-visual
+# exec_always --no-startup-id pkill -f "sway-focus-visual"
+# exec_always --no-startup-id ~/.config/sway/sway-focus-visual
 # Notifications (Wayland-native mako)
 exec_always --no-startup-id pkill -x mako
 exec_always --no-startup-id mako
@@ -188,7 +191,7 @@ input "*" {
     bindsym $mod+Shift+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    # bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
     # bindsym $mod+space focus mode_toggle
