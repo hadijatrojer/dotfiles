@@ -15,7 +15,8 @@ set $menu wofi --show drun -i --allow-images --no-actions
 set $chrome google-chrome-stable --new-window --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations,DesktopLinuxNotifications
 
 # Window styling
-gaps inner 4
+gaps inner 1
+gaps outer 1
 smart_gaps on
 smart_borders off
 default_border pixel 4
