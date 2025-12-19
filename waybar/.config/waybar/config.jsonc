@@ -16,6 +16,10 @@
       "hyprland/window"
     ],
 
+    "modules-center": [
+      "clock"
+    ],
+
     "modules-right": [
       "custom/spacer1",
       "cpu",
@@ -29,8 +33,6 @@
       "bluetooth",
       "custom/spacer1",
       "pulseaudio#output",
-      "custom/spacer1",
-      "clock",
       "custom/spacer1",
       "tray",
       "custom/spacer1",
@@ -132,7 +134,7 @@
       "tooltip": "{}",
       "tooltip-format-wifi": "󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
       "tooltip-format-ethernet": "󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
-      "on-click": "iwgtk",
+      "on-click": "nm-connection-editor",
       "format-icons": ["󰤫", "󰤟", "󰤢", "󰤥", "󰤨"],
       "states": {
         "normal": 25
@@ -207,6 +209,7 @@
         "default": ["", ""]
       },
       "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+      "on-click-right": "pavucontrol",
       "tooltip": true,
       "scroll-step": 5
     },
