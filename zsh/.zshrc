@@ -72,8 +72,6 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(branch git fzf zoxide)
 
-eval "$($HOME/.local/bin/mise activate zsh)"
-
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -106,3 +104,4 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export VISUAL=nvim
+export EDITOR=nvim
