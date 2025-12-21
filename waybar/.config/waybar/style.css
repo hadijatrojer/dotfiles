@@ -42,6 +42,7 @@
   font-family: JetBrains Mono Nerd Font;
   font-size: 12pt;
   font-weight: bold;
+  padding-right: 6px;
 }
 
 #waybar.first button {
@@ -59,9 +60,8 @@
 #waybar.first #language,
 #waybar.first #memory.swap,
 #waybar.first #memory.ram,
-#waybar.first #mode,
+#waybar.first #submap,
 #waybar.first #pulseaudio,
-#waybar.first #bluetooth,
 #waybar.first #temperature,
 #waybar.first #tray,
 #waybar.first #disk,
@@ -73,37 +73,21 @@
   color: @white;
 }
 
-#waybar.first #custom-lock,
-#waybar.first #custom-power {
-  padding: 5pt 8pt;
-  margin: 2px 4px 2px 4px;
-  background: transparent;
-  color: @white;
-}
-
-#waybar.first #custom-lock {
-  margin-right: 2px;
-}
-
-#waybar.first #custom-power {
-  margin-left: 2px;
-}
-
 #waybar.first #network.info {
-  padding-right: 6px;
-  padding-left: 6px;
+  padding-right: 10px;
+  padding-left: 10px;
   color: @warning;
 }
 
 #waybar.first #network.info.wifi.normal,
 #waybar.first #network.info.ethernet {
   color: @white;
-  padding-right: 6px;
+  padding-right: 15px;
 }
 
 #waybar.first #network.info.wifi {
   color: @warning;
-  padding-right: 6px;
+  padding-right: 15px;
 }
 
 /* Each Main bar critical module */
@@ -122,8 +106,7 @@
   animation-timing-function: steps(15);
 }
 
-#waybar.first #mode.resize,
-#waybar.first #mode.RESIZE {
+#waybar.first #submap.RESIZE {
   color: @white;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -158,6 +141,17 @@
 
 /* Inactive (on unfocused output) & Active (on focused output) */
 #waybar.first #workspaces button.visible {
+  color: @white;
+  background: @indigo1;
+}
+
+/* Niri workspace states */
+#waybar.first #workspaces button.active {
+  color: @white;
+  background: @indigo1;
+}
+
+#waybar.first #workspaces button.focused {
   color: @white;
   background: @indigo1;
 }
@@ -201,8 +195,7 @@ tooltip {
   background: @warning;
 }
 
-#waybar.second #mode.resize,
-#waybar.second #mode.RESIZE {
+#waybar.second #submap.RESIZE {
   margin-left: -2305px; /* Try h.resolution +-1 */
   background: @resize;
 }
