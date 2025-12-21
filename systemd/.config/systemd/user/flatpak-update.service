@@ -1,0 +1,13 @@
+[Unit]
+Description=Update Flatpaks with Notification
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Optional: notify at start
+ExecStartPre=/usr/bin/notify-send "Flatpak" "Checking for app updates..."
+# Update all apps silently
+ExecStart=/usr/bin/flatpak update -y --noninteractive
+# Notify on success
+ExecStartPost=/usr/bin/notify-send "Flatpak" "All applications are up to date."
+
