@@ -8,7 +8,7 @@ StartLimitBurst=3
 [Service]
 WorkingDirectory=%h
 Environment=HOME=%h
-ExecStart=%h/scripts/rclone-mount.sh "GDrive:" "GDrive"
+ExecStart=%h/dotfiles/scripts/rclone-mount.sh "GDrive:" "GDrive"
 Restart=on-failure
 RestartSec=10s
 
