@@ -1,0 +1,16 @@
+[Unit]
+Description=Mount work Dropbox remote after login
+After=xdg-desktop-autostart.target network-online.target
+Wants=network-online.target xdg-desktop-autostart.target
+StartLimitIntervalSec=1min
+StartLimitBurst=3
+
+[Service]
+WorkingDirectory=%h
+Environment=HOME=%h
+ExecStart=%h/scripts/rclone-mount.sh "Work Dropbox:" "Work Dropbox"
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=graphical-session.target
