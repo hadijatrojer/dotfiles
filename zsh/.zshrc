@@ -105,3 +105,10 @@ source $ZSH/oh-my-zsh.sh
 
 export VISUAL=nvim
 export EDITOR=nvim
+
+if [[ -f /run/.toolboxenv ]]; then
+    echo "You are inside a Toolbox container."
+    export TERM=xterm-256color
+    PROMPT="%F{magenta}⬢ %f$PROMPT"
+fi
+
