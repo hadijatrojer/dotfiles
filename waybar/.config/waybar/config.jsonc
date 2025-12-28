@@ -41,6 +41,7 @@
 
     // Modules
     "disk": {
+      "path": "/etc",
       "interval": 10,
       "format": " {percentage_used}%",
       "tooltip": "{}",
