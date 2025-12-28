@@ -189,7 +189,7 @@
       "special-visible-only": true,
       "format-icons": {
         "magic": " SCRATCH",
-        // "10": "󰊴 "
+        "10": "󰊴 "
       }
     },
 
