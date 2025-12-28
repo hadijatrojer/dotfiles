@@ -74,20 +74,30 @@
 }
 
 #waybar.first #network.info {
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 0;
+  padding-left: 0;
   color: @warning;
 }
 
 #waybar.first #network.info.wifi.normal,
 #waybar.first #network.info.ethernet {
   color: @white;
-  padding-right: 15px;
+  padding-right: 0;
 }
 
 #waybar.first #network.info.wifi {
   color: @warning;
-  padding-right: 15px;
+  padding-right: 0;
+}
+
+#waybar.first #bluetooth {
+  padding-right: 8pt;
+  padding-left: 8pt;
+  color: @warning;
+}
+
+#waybar.first #bluetooth.connected {
+  color: @white;
 }
 
 /* Each Main bar critical module */
@@ -168,6 +178,11 @@
   font-size: 12pt;
   color: @darkgrey;
   background: transparent;
+}
+
+#waybar.first #custom-power {
+  padding-left: 8pt;
+  padding-right: 8pt;
 }
 
 /* Tooltip recolor */
