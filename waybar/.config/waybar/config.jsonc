@@ -8,7 +8,6 @@
 
     "modules-left": [
       "custom/spacer1",
-      "custom/spacer2",
       "hyprland/workspaces",
       "custom/spacer2",
       "custom/spacer3",
@@ -16,11 +15,9 @@
       "hyprland/window"
     ],
 
-    "modules-center": [
-      "clock"
-    ],
-
     "modules-right": [
+      "custom/spacer1",
+      "tray",
       "custom/spacer1",
       "cpu",
       "custom/spacer1",
@@ -34,7 +31,7 @@
       "custom/spacer1",
       "pulseaudio#output",
       "custom/spacer1",
-      "tray",
+      "clock",
       "custom/spacer1",
       "custom/power"
     ],
