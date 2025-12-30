@@ -145,7 +145,8 @@
       "format-connected": "󰂱",
       "format-no-controller": "",
       "tooltip-format": "Devices connected: {num_connections}",
-      "on-click": "BLUEMAN_PLUGINS_DISABLED=StatusIcon blueman-manager",
+      "on-click": "flatpak run io.github.ebonjaeger.bluejay",
+      "on-click-right": "flatpak run io.github.ebonjaeger.bluejay",
     },
 
     "network#up": {
@@ -207,7 +208,7 @@
         "default": ["", ""]
       },
       "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-      "on-click-right": "pavucontrol",
+      "on-click-right": "flatpak run com.saivert.pwvucontrol",
       "tooltip": true,
       "scroll-step": 5
     },
