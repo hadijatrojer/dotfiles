@@ -1,39 +1,55 @@
-Name                              Application ID                           Version                 Branch      Origin  Installation
-Flatseal                          com.github.tchx84.Flatseal               2.4.0                   stable      fedora  system
-Google Chrome                     com.google.Chrome                        143.0.7499.169-1        stable      flathub system
-Steam                             com.valvesoftware.Steam                  1.0.0.84                stable      flathub system
-Visual Studio Code                com.visualstudio.code                    1.107.0                 stable      flathub system
-Mission Center                    io.missioncenter.MissionCenter           1.1.0                   stable      flathub system
-Fedora Media Writer               org.fedoraproject.MediaWriter            5.2.9                   stable      fedora  system
-Fedora Platform                   org.fedoraproject.Platform               43                      f43         fedora  system
-Mesa                              org.fedoraproject.Platform.CL.default                            f43         fedora  system
-Mesa                              org.fedoraproject.Platform.GL.default                            f43         fedora  system
-fedoraproject platform translati… org.fedoraproject.Platform.Locale                                f43         fedora  system
-Freedesktop Platform              org.freedesktop.Platform                 freedesktop-sdk-25.08.6 25.08       flathub system
-i386                              org.freedesktop.Platform.Compat.i386                             25.08       flathub system
-Mesa                              org.freedesktop.Platform.GL.default      25.2.6                  25.08       flathub system
-Mesa (Extra)                      org.freedesktop.Platform.GL.default      25.2.6                  25.08-extra flathub system
-Mesa                              org.freedesktop.Platform.GL32.default    25.2.6                  25.08       flathub system
-Mesa (Extra)                      org.freedesktop.Platform.GL32.default    25.2.6                  25.08-extra flathub system
-Codecs Extra Extension            org.freedesktop.Platform.codecs-extra                            25.08-extra flathub system
-i386                              ….freedesktop.Platform.codecs_extra.i386                         25.08-extra flathub system
-Freedesktop SDK                   org.freedesktop.Sdk                      freedesktop-sdk-25.08.6 25.08       flathub system
-Calculator                        org.gnome.Calculator                     49.2                    stable      fedora  system
-Calendar                          org.gnome.Calendar                       49.0.1                  stable      fedora  system
-Characters                        org.gnome.Characters                     49.1                    stable      fedora  system
-Connections                       org.gnome.Connections                    49.0                    stable      fedora  system
-Contacts                          org.gnome.Contacts                       49.0                    stable      fedora  system
-Extensions                        org.gnome.Extensions                     48.alpha                stable      fedora  system
-Logs                              org.gnome.Logs                           49.0                    stable      fedora  system
-Image Viewer                      org.gnome.Loupe                          49.1                    stable      fedora  system
-Maps                              org.gnome.Maps                           49.2                    stable      fedora  system
-Sushi                             org.gnome.NautilusPreviewer              46.0                    stable      fedora  system
-Document Viewer                   org.gnome.Papers                         49.2                    stable      fedora  system
-GNOME Application Platform versi… org.gnome.Platform                                               49          flathub system
-Camera                            org.gnome.Snapshot                       49.9                    stable      fedora  system
-Text Editor                       org.gnome.TextEditor                     49.0                    stable      fedora  system
-Weather                           org.gnome.Weather                        49.0                    stable      fedora  system
-Disk Usage Analyzer               org.gnome.baobab                         49.1                    stable      fedora  system
-Clocks                            org.gnome.clocks                         49.0                    stable      fedora  system
-Fonts                             org.gnome.font-viewer                    49.0                    stable      fedora  system
-Zoom                              us.zoom.Zoom                             6.7.0.6313              stable      flathub system
+Name                                          Application ID                                     Version                         Branch              Origin               Installation
+Flatseal                                      com.github.tchx84.Flatseal                         2.4.0                           stable              fedora               system
+Google Chrome                                 com.google.Chrome                                  143.0.7499.169-1                stable              flathub              system
+pwvucontrol                                   com.saivert.pwvucontrol                            0.5.1                           stable              flathub              system
+Steam                                         com.valvesoftware.Steam                            1.0.0.84                        stable              flathub              system
+Visual Studio Code                            com.visualstudio.code                              1.107.0                         stable              flathub              system
+Memorado                                      im.bernard.Memorado                                0.6                             stable              flathub              system
+Valuta                                        io.github.idevecore.Valuta                         1.4.2                           stable              flathub              system
+BMI                                           io.github.philippkosarev.bmi                       v4.1                            stable              flathub              system
+Mission Center                                io.missioncenter.MissionCenter                     1.1.0                           stable              flathub              system
+Fedora Media Writer                           org.fedoraproject.MediaWriter                      5.2.9                           stable              fedora               system
+Fedora Platform                               org.fedoraproject.Platform                         42                              f42                 fedora               system
+Fedora Platform                               org.fedoraproject.Platform                         43                              f43                 fedora               system
+Mesa                                          org.fedoraproject.Platform.CL.default                                              f43                 fedora               system
+default                                       org.fedoraproject.Platform.GL.default                                              f42                 fedora               system
+Mesa                                          org.fedoraproject.Platform.GL.default                                              f43                 fedora               system
+fedoraproject platform translations           org.fedoraproject.Platform.Locale                                                  f42                 fedora               system
+fedoraproject platform translations           org.fedoraproject.Platform.Locale                                                  f43                 fedora               system
+Freedesktop Platform                          org.freedesktop.Platform                           freedesktop-sdk-25.08.6         25.08               flathub              system
+i386                                          org.freedesktop.Platform.Compat.i386                                               25.08               flathub              system
+Mesa                                          org.freedesktop.Platform.GL.default                25.2.6                          24.08               flathub              system
+Mesa (Extra)                                  org.freedesktop.Platform.GL.default                25.2.6                          24.08extra          flathub              system
+Mesa                                          org.freedesktop.Platform.GL.default                25.2.6                          25.08               flathub              system
+Mesa (Extra)                                  org.freedesktop.Platform.GL.default                25.2.6                          25.08-extra         flathub              system
+Mesa                                          org.freedesktop.Platform.GL32.default              25.2.6                          25.08               flathub              system
+Mesa (Extra)                                  org.freedesktop.Platform.GL32.default              25.2.6                          25.08-extra         flathub              system
+Codecs Extra Extension                        org.freedesktop.Platform.codecs-extra                                              25.08-extra         flathub              system
+i386                                          org.freedesktop.Platform.codecs_extra.i386                                         25.08-extra         flathub              system
+openh264                                      org.freedesktop.Platform.openh264                  2.5.1                           2.5.1               flathub              system
+Freedesktop SDK                               org.freedesktop.Sdk                                freedesktop-sdk-25.08.6         25.08               flathub              system
+Calculator                                    org.gnome.Calculator                               49.2                            stable              fedora               system
+Calendar                                      org.gnome.Calendar                                 49.0.1                          stable              fedora               system
+Characters                                    org.gnome.Characters                               49.1                            stable              fedora               system
+Connections                                   org.gnome.Connections                              49.0                            stable              fedora               system
+Contacts                                      org.gnome.Contacts                                 49.0                            stable              fedora               system
+Déjà Dup Backups                              org.gnome.DejaDup                                  49.2                            stable              fedora               system
+Extensions                                    org.gnome.Extensions                               49.2                            stable              fedora               system
+Logs                                          org.gnome.Logs                                     49.0                            stable              fedora               system
+Image Viewer                                  org.gnome.Loupe                                    49.1                            stable              fedora               system
+Maps                                          org.gnome.Maps                                     49.2                            stable              fedora               system
+Sushi                                         org.gnome.NautilusPreviewer                        46.0                            stable              fedora               system
+Document Viewer                               org.gnome.Papers                                   49.2                            stable              fedora               system
+GNOME Application Platform version 48         org.gnome.Platform                                                                 48                  flathub              system
+GNOME Application Platform version 49         org.gnome.Platform                                                                 49                  flathub              system
+Camera                                        org.gnome.Snapshot                                 49.9                            stable              fedora               system
+Text Editor                                   org.gnome.TextEditor                               49.0                            stable              fedora               system
+Weather                                       org.gnome.Weather                                  49.0                            stable              fedora               system
+Iotas                                         org.gnome.World.Iotas                              0.12.5                          stable              flathub              system
+Disk Usage Analyzer                           org.gnome.baobab                                   49.1                            stable              fedora               system
+Clocks                                        org.gnome.clocks                                   49.0                            stable              fedora               system
+Fonts                                         org.gnome.font-viewer                              49.0                            stable              fedora               system
+LibreOffice                                   org.libreoffice.LibreOffice                                                        stable              fedora               system
+LibreOffice translations                      org.libreoffice.LibreOffice.Locale                                                 stable              fedora               system
+Satty                                         org.satty.Satty                                                                    master              satty-origin         system
+Zoom                                          us.zoom.Zoom                                       6.7.0.6313                      stable              flathub              system
