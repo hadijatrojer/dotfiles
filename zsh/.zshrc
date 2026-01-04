@@ -7,6 +7,13 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 
 plugins=(branch git fzf zoxide)
 
+# Initialize mise (version manager)
+if command -v mise >/dev/null; then
+  eval "$(mise activate zsh)"
+elif test -e "${HOME}/.local/bin/mise"; then
+  eval "$(~/.local/bin/mise activate zsh)"
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 export VISUAL=nvim
