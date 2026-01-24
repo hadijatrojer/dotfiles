@@ -9,14 +9,14 @@ Summary
 -------
 - Multiple theming/color configurations are present across Wofi, Waybar, Hyprland, Sway,
   Niri, Mako, and shell prompt settings.
-- A shared Catppuccin Mocha palette appears in `hypr/.config/hypr/mocha.conf`,
+- A shared Tokyo Night palette appears in `hypr/.config/hypr/mocha.conf`,
   `wofi/.config/wofi/style.css`, and `mako/.config/mako/config`.
 
 Theme and color sources
 -----------------------
 
 wofi/.config/wofi/style.css
-- Defines a full Catppuccin Mocha palette via `@define-color`.
+- Defines a full Tokyo Night palette via `@define-color`.
 - Applies colors to window background, borders, text, selection, and input styling.
 
 waybar/.config/waybar/style.css
@@ -30,7 +30,7 @@ waybar/.config/waybar/config-niri.jsonc
   weekdays, and today.
 
 hypr/.config/hypr/mocha.conf
-- Catppuccin Mocha palette variables (RGB + hex variants) used by Hyprland configs.
+- Tokyo Night palette variables (RGB + hex variants) used by Hyprland configs.
 
 hypr/.config/hypr/hyprland.conf
 - Uses palette variables for border colors (`col.active_border`, `col.inactive_border`)
@@ -50,7 +50,7 @@ hypr/.config/hypr/*.png
 
 mako/.config/mako/config
 - Notification colors for background, text, border, progress, and urgency levels
-  (Catppuccin Mocha values).
+  (Tokyo Night values).
 
 sway/.config/sway/config
 - Window decoration palette (Tokyo Night) for focused/urgent states.
@@ -70,7 +70,7 @@ ghostty/.config/ghostty/config
 
 zsh/.zshrc
 - Oh My Zsh theme set (`ZSH_THEME="robbyrussell"`).
-- Toolbox prompt injects a magenta segment (`PROMPT="%F{magenta}..."`).
+- Toolbox prompt injects a blue segment (`PROMPT="%F{blue}..."`).
 
 Not theme-related (checked)
 ---------------------------

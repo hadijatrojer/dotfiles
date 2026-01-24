@@ -1,10 +1,10 @@
-@define-color darkgrey #606060;
-@define-color white    #FFFFFF;
-@define-color warning  #FF7070;
-@define-color indigo1  #4c539f;
-@define-color indigo2  rgba(9, 7, 31, 0.5);
-@define-color indigo3  rgba(9, 7, 31, 1.0);
-@define-color resize   #10aa70;
+@define-color darkgrey #565f89;
+@define-color white    #c0caf5;
+@define-color warning  #f7768e;
+@define-color indigo1  #7aa2f7;
+@define-color indigo2  rgba(26, 27, 38, 0.5);
+@define-color indigo3  rgba(26, 27, 38, 1.0);
+@define-color resize   #9ece6a;
 
 /* Reset all styles */
 * {

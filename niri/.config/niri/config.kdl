@@ -57,18 +57,18 @@ layout {
     focus-ring {
         // off
         width 2
-        active-color "#b4befe"
-        inactive-color "#181825"
-        // active-gradient from="#b4befe" to="#313244" angle=45
+        active-color "#7aa2f7"
+        inactive-color "#1a1b26"
+        // active-gradient from="#7aa2f7" to="#24283b" angle=45
         // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
     border {
         off
         width 4
-        active-color "#b4befe"
-        inactive-color "#181825"
-        urgent-color "#f38ba8"
+        active-color "#7aa2f7"
+        inactive-color "#1a1b26"
+        urgent-color "#f7768e"
     }
 
     shadow {
@@ -77,7 +77,7 @@ layout {
         softness 30
         spread 5
         offset x=0 y=5
-        color "#11111b"
+        color "#16161e"
     }
 
     struts {
