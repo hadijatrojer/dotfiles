@@ -7,11 +7,11 @@ border-size=2
 max-icon-size=32
 font=sans-serif 14px
 
-# Tokyo Night colors
-background-color=#1a1b26
-text-color=#c0caf5
-border-color=#24283b
-progress-color=#7aa2f7
+# Catppuccin Latte colors
+background-color=#eff1f5
+text-color=#4c4f69
+border-color=#ccd0da
+progress-color=#1e66f5
 
 [mode=do-not-disturb]
 invisible=true
@@ -20,18 +20,18 @@ invisible=true
 invisible=false
 
 [urgency=low]
-background-color=#1a1b26
-text-color=#7aa2f7
-border-color=#24283b
+background-color=#eff1f5
+text-color=#1e66f5
+border-color=#ccd0da
 
 [urgency=normal]
-background-color=#1a1b26
-text-color=#c0caf5
-border-color=#24283b
+background-color=#eff1f5
+text-color=#4c4f69
+border-color=#ccd0da
 
 [urgency=critical]
-background-color=#1a1b26
-text-color=#f7768e
-border-color=#f7768e
+background-color=#eff1f5
+text-color=#d20f39
+border-color=#d20f39
 default-timeout=0
 layer=overlay

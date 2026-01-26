@@ -1,10 +1,11 @@
-@define-color darkgrey #565f89;
-@define-color white    #c0caf5;
-@define-color warning  #f7768e;
-@define-color indigo1  #7aa2f7;
-@define-color indigo2  rgba(26, 27, 38, 0.5);
-@define-color indigo3  rgba(26, 27, 38, 1.0);
-@define-color resize   #9ece6a;
+@define-color darkgrey #6c6f85;
+@define-color white    #4c4f69;
+@define-color warning  #d20f39;
+@define-color indigo1  #1e66f5;
+@define-color indigo2  rgba(239, 241, 245, 0.7);
+@define-color indigo3  rgba(239, 241, 245, 1.0);
+@define-color resize   #40a02b;
+@define-color base     #eff1f5;
 
 /* Reset all styles */
 * {
@@ -160,24 +161,24 @@
 
 /* Inactive (on unfocused output) & Active (on focused output) */
 #waybar.first #workspaces button.visible {
-  color: @white;
+  color: @base;
   background: @indigo1;
 }
 
 /* Niri workspace states */
 #waybar.first #workspaces button.active {
-  color: @white;
+  color: @base;
   background: @indigo1;
 }
 
 #waybar.first #workspaces button.focused {
-  color: @white;
+  color: @base;
   background: @indigo1;
 }
 
 /* Style when cursor is on the button */
 #waybar.first #workspaces button:hover {
-  color: @white;
+  color: @base;
 }
 
 /* Custom slashes as spacers */

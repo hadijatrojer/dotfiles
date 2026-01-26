@@ -8,15 +8,15 @@ Scope
 Summary
 -------
 - Multiple theming/color configurations are present across Wofi, Waybar, Hyprland, Sway,
-  Niri, Mako, and shell prompt settings.
-- A shared Tokyo Night palette appears in `hypr/.config/hypr/mocha.conf`,
+  Niri, Mako, Btop, and shell prompt settings.
+- A shared Catppuccin Latte palette appears in `hypr/.config/hypr/theme.conf`,
   `wofi/.config/wofi/style.css`, and `mako/.config/mako/config`.
 
 Theme and color sources
 -----------------------
 
 wofi/.config/wofi/style.css
-- Defines a full Tokyo Night palette via `@define-color`.
+- Defines a full Catppuccin Latte palette via `@define-color`.
 - Applies colors to window background, borders, text, selection, and input styling.
 
 waybar/.config/waybar/style.css
@@ -29,8 +29,8 @@ waybar/.config/waybar/config-niri.jsonc
 - Calendar tooltip markup includes explicit hex colors for months, days, weeks,
   weekdays, and today.
 
-hypr/.config/hypr/mocha.conf
-- Tokyo Night palette variables (RGB + hex variants) used by Hyprland configs.
+hypr/.config/hypr/theme.conf
+- Catppuccin Latte palette variables (RGB + hex variants) used by Hyprland configs.
 
 hypr/.config/hypr/hyprland.conf
 - Uses palette variables for border colors (`col.active_border`, `col.inactive_border`)
@@ -50,20 +50,27 @@ hypr/.config/hypr/*.png
 
 mako/.config/mako/config
 - Notification colors for background, text, border, progress, and urgency levels
-  (Tokyo Night values).
+  (Catppuccin Latte values).
 
 sway/.config/sway/config
-- Window decoration palette (Tokyo Night) for focused/urgent states.
+- Window decoration palette (Catppuccin Latte) for focused/urgent states.
 - Sets cursor theme (`xcursor_theme macOS`) and wallpaper path.
 
 sway/.config/sway/swaylock.conf
-- Lockscreen colors (Tokyo Night palette).
+- Lockscreen colors (Catppuccin Latte palette).
 
 sway/.config/sway/sway-focus-visual
 - Uses opacity settings (focused vs unfocused) as a visual styling mechanism.
 
 niri/.config/niri/config.kdl
 - Focus ring, border, and shadow colors (hex values).
+
+btop/.config/btop/btop.conf
+- Sets `color_theme = "catppuccin-latte"` to load a custom theme.
+- Themes can be overridden via `~/.config/btop/themes`.
+
+btop/.config/btop/themes/catppuccin-latte.theme
+- Custom Catppuccin Latte palette for Btop UI and graphs.
 
 ghostty/.config/ghostty/config
 - `background-opacity` set (visual theming).

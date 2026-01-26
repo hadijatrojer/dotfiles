@@ -49,11 +49,11 @@ exec_always --no-startup-id swayidle -w \
 for_window [window_type="notification"] floating enable, border none, sticky enable
 no_focus [window_type="notification"]
 
-# Tokyo Night palette
-client.focused          #7aa2f7 #1a1b26 #c0caf5 #7aa2f7 #bb9af7
-client.focused_inactive #24283b #24283b #a9b1d6 #24283b #24283b
-client.unfocused        #1f2335 #1f2335 #565f89 #1f2335 #1f2335
-client.urgent           #f7768e #f7768e #1a1b26 #f7768e #f7768e
+# Catppuccin Latte palette
+client.focused          #1e66f5 #eff1f5 #4c4f69 #1e66f5 #7287fd
+client.focused_inactive #ccd0da #ccd0da #5c5f77 #ccd0da #ccd0da
+client.unfocused        #e6e9ef #e6e9ef #6c6f85 #e6e9ef #e6e9ef
+client.urgent           #d20f39 #d20f39 #eff1f5 #d20f39 #d20f39
 
 include /etc/sway/config-vars.d/*
 
