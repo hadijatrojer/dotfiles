@@ -8,6 +8,7 @@ rpm-ostree install \
   gcc \
   gcc-c++ \
   gdu \
+  google-chrome-stable \
   htop \
   make \
   rclone \
