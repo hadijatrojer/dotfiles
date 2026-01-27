@@ -22,5 +22,5 @@ export EDITOR=nvim
 if [[ -f /run/.toolboxenv ]]; then
     echo "You are inside a Toolbox container."
     export TERM=xterm-256color
-    PROMPT="%F{#1e66f5}[⬢] %f$PROMPT"
+    PROMPT="%F{#8aadf4}[⬢] %f$PROMPT"
 fi
