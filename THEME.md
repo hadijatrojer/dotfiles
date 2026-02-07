@@ -7,17 +7,17 @@ Scope
 
 Summary
 -------
-- Multiple theming/color configurations are present across Wofi, Waybar, Hyprland, Sway,
+- Multiple theming/color configurations are present across Fuzzel, Waybar, Hyprland, Sway,
   Niri, Mako, Btop, and shell prompt settings.
 - A shared Catppuccin Macchiato palette appears in `hypr/.config/hypr/theme.conf`,
-  `wofi/.config/wofi/style.css`, and `mako/.config/mako/config`.
+  `fuzzel/.config/fuzzel/fuzzel.ini`, and `mako/.config/mako/config`.
 
 Theme and color sources
 -----------------------
 
-wofi/.config/wofi/style.css
-- Defines a full Catppuccin Macchiato palette via `@define-color`.
-- Applies colors to window background, borders, text, selection, and input styling.
+fuzzel/.config/fuzzel/fuzzel.ini
+- Defines launcher typography and Catppuccin Macchiato colors for background, text,
+  selection, match highlighting, and border.
 
 waybar/.config/waybar/style.css
 - Defines a small Catppuccin Macchiato palette (`darkgrey`, `white`, `warning`, `indigo1/2/3`, `resize`).

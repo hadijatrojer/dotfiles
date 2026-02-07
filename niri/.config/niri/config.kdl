@@ -150,7 +150,7 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal" { spawn "ghostty"; }
     Mod+F hotkey-overlay-title="Open File Manager" { spawn "nautilus"; }
     Mod+B hotkey-overlay-title="Run a Browser" { spawn-sh "flatpak run com.google.Chrome"; }
-    Mod+Space hotkey-overlay-title="Run an Application" { spawn-sh "pkill -x wofi; wofi --show drun -i --allow-images --no-actions"; }
+    Mod+Space hotkey-overlay-title="Run an Application" { spawn-sh "pkill -x fuzzel; fuzzel"; }
     Mod+Shift+S hotkey-overlay-title="Screenshot" { spawn-sh "grim -g \"$(slurp)\" - | satty --filename - --output-filename \"$(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')\" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command 'wl-copy'"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }

@@ -8,5 +8,5 @@
 
 rpm-ostree install \
   hyprland waybar xdg-desktop-portal-hyprland hyprpaper hyprlock hypridle \
-  hyprland-guiutils xdg-terminal-exec ghostty wofi playerctl wiremix slurp \
+  hyprland-guiutils xdg-terminal-exec ghostty fuzzel playerctl wiremix slurp \
   grim wlr-randr mako fontawesome-fonts-all fastfetch niri

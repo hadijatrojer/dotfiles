@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Simple sway bindings cheat sheet shown via wofi (or stdout if headless)."""
+"""Simple sway bindings cheat sheet shown via fuzzel (or stdout if headless)."""
 
 import json
 import os
@@ -9,9 +9,9 @@ import sys
 from typing import Dict, List, Tuple
 
 
-MENU_DEFAULT = 'wofi --dmenu -i -p "Shortcuts"'
+MENU_DEFAULT = 'fuzzel --dmenu --prompt "Shortcuts " --width 80'
 CONFIG_DEFAULT = os.path.expanduser("~/.config/sway/config")
-STATE_DIR = os.path.expanduser("~/.local/state/wofi")
+STATE_DIR = os.path.expanduser("~/.local/state/fuzzel")
 USAGE_FILE = os.path.join(STATE_DIR, "bindings_usage.json")
 
 

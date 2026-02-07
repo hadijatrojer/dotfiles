@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Show Hyprland keybindings via wofi (or stdout when headless)."""
+"""Show Hyprland keybindings via fuzzel (or stdout when headless)."""
 
 import json
 import os
@@ -8,9 +8,9 @@ import subprocess
 import sys
 from typing import Dict, List, Tuple
 
-MENU_DEFAULT = 'wofi --dmenu -i -p "Shortcuts"'
+MENU_DEFAULT = 'fuzzel --dmenu --prompt "Shortcuts " --width 80'
 CONFIG_DEFAULT = os.path.expanduser("~/.config/hypr/hyprland.conf")
-STATE_DIR = os.path.expanduser("~/.local/state/wofi")
+STATE_DIR = os.path.expanduser("~/.local/state/fuzzel")
 USAGE_FILE = os.path.join(STATE_DIR, "hypr_bindings_usage.json")
 
 
@@ -58,7 +58,7 @@ def describe_exec(arg: str) -> str:
         return "Run command"
     if arg.startswith("$menu"):
         return "Application launcher"
-    if arg.startswith("wofi"):
+    if arg.startswith("fuzzel"):
         return "Application launcher"
     if arg.startswith("$terminal"):
         return "Terminal"
