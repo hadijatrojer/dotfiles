@@ -1,13 +1,23 @@
-# https://copr.fedorainfracloud.org/coprs/acidburnmonkey/hyprland/
-# https://copr.fedorainfracloud.org/coprs/scottames/ghostty/
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Download the .repo file. there is a download link for YOUR release
-# Copy to /etc/yum.repos.d:
-
-# rpm-ostree refresh-md
-
-rpm-ostree install \
-  hyprland waybar xdg-desktop-portal-hyprland hyprpaper hyprlock hypridle \
-  hyprland-guiutils xdg-terminal-exec ghostty fuzzel playerctl wiremix slurp \
-  grim wlr-randr mako fontawesome-fonts-all fastfetch niri clipman \
+packages=(
+  cava
+  clipman
+  fastfetch
+  fontawesome-fonts-all
+  fuzzel
+  ghostty
+  grim
+  hypridle
+  hyprland
+  hyprland-guiutils
+  niri
   noctalia-shell
+  slurp
+  wlr-randr
+  xdg-desktop-portal-hyprland
+  xdg-terminal-exec
+)
+
+rpm-ostree install "${packages[@]}"
