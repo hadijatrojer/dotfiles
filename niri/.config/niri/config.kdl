@@ -88,10 +88,11 @@ layout {
     }
 }
 
-spawn-sh-at-startup "pkill -x waybar; waybar -c ~/.config/waybar/config-niri.jsonc"
-spawn-sh-at-startup "pkill -x hyprpaper; hyprpaper"
+// spawn-sh-at-startup "pkill -x waybar; waybar -c ~/.config/waybar/config-niri.jsonc"
+// spawn-sh-at-startup "pkill -x hyprpaper; hyprpaper"
 spawn-sh-at-startup "pkill -x hypridle; hypridle -c ~/.config/niri/hypridle.conf"
-spawn-sh-at-startup "pkill -x mako; mako"
+// spawn-sh-at-startup "pkill -x mako; mako"
+spawn-sh-at-startup "qs -c noctalia-shell --no-duplicate"
 
 hotkey-overlay {
     skip-at-startup
@@ -145,13 +146,25 @@ window-rule {
     clip-to-geometry true
 }
 
+// Set the overview wallpaper on the backdrop.
+layer-rule {
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
+}
+
+
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
+}
+
 binds {
     Mod+H { show-hotkey-overlay; }
     Mod+T hotkey-overlay-title="Open a Terminal" { spawn "ghostty"; }
     Mod+F hotkey-overlay-title="Open File Manager" { spawn "nautilus"; }
     Mod+B hotkey-overlay-title="Run a Browser" { spawn-sh "flatpak run com.google.Chrome"; }
     Mod+Space hotkey-overlay-title="Run an Application" { spawn-sh "pkill -x fuzzel; fuzzel"; }
-    Mod+Shift+S hotkey-overlay-title="Screenshot" { spawn-sh "grim -g \"$(slurp)\" - | satty --filename - --output-filename \"$(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')\" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command 'wl-copy'"; }
+    Mod+Shift+S hotkey-overlay-title="Screenshot" { spawn-sh "$HOME/.cargo/bin/wayfreeze & PID=$!; sleep 0.1; (grim -g \"$(slurp)\" -; kill $PID) | flatpak run org.satty.Satty --filename - --output-filename \"$(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')\" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command 'wl-copy'"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
