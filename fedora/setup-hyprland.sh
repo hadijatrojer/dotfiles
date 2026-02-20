@@ -9,4 +9,5 @@
 rpm-ostree install \
   hyprland waybar xdg-desktop-portal-hyprland hyprpaper hyprlock hypridle \
   hyprland-guiutils xdg-terminal-exec ghostty fuzzel playerctl wiremix slurp \
-  grim wlr-randr mako fontawesome-fonts-all fastfetch niri clipman
+  grim wlr-randr mako fontawesome-fonts-all fastfetch niri clipman \
+  noctalia-shell
