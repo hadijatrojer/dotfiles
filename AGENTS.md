@@ -4,7 +4,7 @@
 This is a stow-style Linux dotfiles repo. Each top-level folder mirrors files under `$HOME`, inside nested `.config` paths.
 
 - Window managers/compositors:
-`hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers)
+`hypr/.config/hypr/` (`hyprland.conf`, `hypridle.conf`, `theme.conf`)
 - Panel/launcher/notifications/terminal:
 `fuzzel/.config/fuzzel/`, `ghostty/.config/ghostty/`
 - Shell/editor/tools:
@@ -45,7 +45,6 @@ No formal test suite exists. Treat lint/syntax checks as required pre-PR validat
 - Start with `THEME.md` before changing colors; it documents where theme values are defined across the repo.
 - Treat `hypr/.config/hypr/theme.conf` as the primary color source when updating Hypr-related theme values.
 - Keep palette changes synchronized with `fuzzel/.config/fuzzel/fuzzel.ini` and your active compositor theme files.
-- When changing wallpapers or lockscreen visuals, verify both `hyprpaper.conf` and `hyprlock.conf` still reference valid asset paths.
 
 ## Commit & Pull Request Guidelines
 Recent commits use short, imperative subjects (for example, `hypr tweaks`, `cleanup setup scripts`, `macchiato`).

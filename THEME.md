@@ -27,17 +27,6 @@ hypr/.config/hypr/hyprland.conf
   and shadow color.
 - Disables default Hyprland wallpapers/logos (visual theming behavior).
 
-hypr/.config/hypr/hyprlock.conf
-- Uses palette variables for lockscreen text, input field, and status colors.
-- References wallpaper images per monitor.
-
-hypr/.config/hypr/hyprpaper.conf
-- Sets wallpapers for each monitor (visual theming).
-
-hypr/.config/hypr/*.jpg
-hypr/.config/hypr/*.png
-- Wallpaper assets used by Hyprpaper/Hyprlock.
-
 btop/.config/btop/btop.conf
 - Sets `color_theme = "catppuccin-macchiato"` to load a custom theme.
 - Themes can be overridden via `~/.config/btop/themes`.
