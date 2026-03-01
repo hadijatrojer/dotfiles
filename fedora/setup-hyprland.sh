@@ -3,7 +3,6 @@ set -euo pipefail
 
 packages=(
   cava
-  clipman
   fastfetch
   fontawesome-fonts-all
   fuzzel
