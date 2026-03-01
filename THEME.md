@@ -7,7 +7,7 @@ Scope
 
 Summary
 -------
-- Multiple theming/color configurations are present across Fuzzel, Waybar, Hyprland, Sway,
+- Multiple theming/color configurations are present across Fuzzel, Hyprland,
   Btop, and shell prompt settings.
 - A shared Catppuccin Macchiato palette appears in `hypr/.config/hypr/theme.conf`,
   and `fuzzel/.config/fuzzel/fuzzel.ini`.
@@ -37,16 +37,6 @@ hypr/.config/hypr/hyprpaper.conf
 hypr/.config/hypr/*.jpg
 hypr/.config/hypr/*.png
 - Wallpaper assets used by Hyprpaper/Hyprlock.
-
-sway/.config/sway/config
-- Window decoration palette (Catppuccin Macchiato) for focused/urgent states.
-- Sets cursor theme (`xcursor_theme macOS`) and wallpaper path.
-
-sway/.config/sway/swaylock.conf
-- Lockscreen colors (Catppuccin Macchiato palette).
-
-sway/.config/sway/sway-focus-visual
-- Uses opacity settings (focused vs unfocused) as a visual styling mechanism.
 
 btop/.config/btop/btop.conf
 - Sets `color_theme = "catppuccin-macchiato"` to load a custom theme.

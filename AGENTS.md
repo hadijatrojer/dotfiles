@@ -4,7 +4,7 @@
 This is a stow-style Linux dotfiles repo. Each top-level folder mirrors files under `$HOME`, inside nested `.config` paths.
 
 - Window managers/compositors:
-`hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers), `sway/.config/sway/`
+`hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers)
 - Panel/launcher/notifications/terminal:
 `fuzzel/.config/fuzzel/`, `ghostty/.config/ghostty/`
 - Shell/editor/tools:
@@ -25,7 +25,7 @@ There is no compiled build step; validate and deploy changes directly.
 - `find . -path ./.git -prune -o -type f -print | sort`: file scan including hidden paths
 - `find systemd/.config/systemd/user -type l -ls`: inspect user-unit symlinks
 - `bash -n fedora/setup-*.sh scripts/*.sh`: shell syntax check
-- `python -m py_compile hypr/.config/hypr/cheatsheet.py sway/.config/sway/sway-session.py`: Python script check
+- `python -m py_compile hypr/.config/hypr/cheatsheet.py`: Python script check
 - `systemd-analyze --user verify systemd/.config/systemd/user/*.service`: validate user units
 
 ## Coding Style & Naming Conventions
@@ -38,7 +38,7 @@ There is no compiled build step; validate and deploy changes directly.
 No formal test suite exists. Treat lint/syntax checks as required pre-PR validation.
 
 - Run syntax checks for every touched script.
-- For UI config updates (Hypr/Sway/Fuzzel), reload the target app and verify behavior manually.
+- For UI config updates (Hypr/Fuzzel), reload the target app and verify behavior manually.
 - For systemd changes, run `systemctl --user daemon-reload` and test start/restart paths.
 
 ## Theming & Visual Consistency
