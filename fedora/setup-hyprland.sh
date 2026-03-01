@@ -12,7 +12,6 @@ packages=(
   hypridle
   hyprland
   hyprland-guiutils
-  niri
   noctalia-shell
   slurp
   wlr-randr

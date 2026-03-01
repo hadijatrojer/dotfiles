@@ -4,7 +4,7 @@
 This is a stow-style Linux dotfiles repo. Each top-level folder mirrors files under `$HOME`, inside nested `.config` paths.
 
 - Window managers/compositors:
-`hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers), `sway/.config/sway/`, `niri/.config/niri/`
+`hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers), `sway/.config/sway/`
 - Panel/launcher/notifications/terminal:
 `waybar/.config/waybar/` (`config*.jsonc`, `style.css`, `scripts/`), `fuzzel/.config/fuzzel/`, `mako/.config/mako/`, `ghostty/.config/ghostty/`
 - Shell/editor/tools:

@@ -8,7 +8,7 @@ Scope
 Summary
 -------
 - Multiple theming/color configurations are present across Fuzzel, Waybar, Hyprland, Sway,
-  Niri, Mako, Btop, and shell prompt settings.
+  Mako, Btop, and shell prompt settings.
 - A shared Catppuccin Macchiato palette appears in `hypr/.config/hypr/theme.conf`,
   `fuzzel/.config/fuzzel/fuzzel.ini`, and `mako/.config/mako/config`.
 
@@ -25,7 +25,6 @@ waybar/.config/waybar/style.css
   and the indicator bar.
 
 waybar/.config/waybar/config.jsonc
-waybar/.config/waybar/config-niri.jsonc
 - Calendar tooltip markup includes explicit hex colors for months, days, weeks,
   weekdays, and today.
 
@@ -61,9 +60,6 @@ sway/.config/sway/swaylock.conf
 
 sway/.config/sway/sway-focus-visual
 - Uses opacity settings (focused vs unfocused) as a visual styling mechanism.
-
-niri/.config/niri/config.kdl
-- Focus ring, border, and shadow colors (Catppuccin Macchiato hex values).
 
 btop/.config/btop/btop.conf
 - Sets `color_theme = "catppuccin-macchiato"` to load a custom theme.
