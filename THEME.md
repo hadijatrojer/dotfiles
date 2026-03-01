@@ -19,15 +19,6 @@ fuzzel/.config/fuzzel/fuzzel.ini
 - Defines launcher typography and Catppuccin Macchiato colors for background, text,
   selection, match highlighting, and border.
 
-waybar/.config/waybar/style.css
-- Defines a small Catppuccin Macchiato palette (`darkgrey`, `white`, `warning`, `indigo1/2/3`, `resize`).
-- Applies colors to the bar background, module text, critical/warning states, tooltips,
-  and the indicator bar.
-
-waybar/.config/waybar/config.jsonc
-- Calendar tooltip markup includes explicit hex colors for months, days, weeks,
-  weekdays, and today.
-
 hypr/.config/hypr/theme.conf
 - Catppuccin Macchiato palette variables (RGB + hex variants) used by Hyprland configs.
 

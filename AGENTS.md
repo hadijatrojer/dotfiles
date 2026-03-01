@@ -6,7 +6,7 @@ This is a stow-style Linux dotfiles repo. Each top-level folder mirrors files un
 - Window managers/compositors:
 `hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers), `sway/.config/sway/`
 - Panel/launcher/notifications/terminal:
-`waybar/.config/waybar/` (`config*.jsonc`, `style.css`, `scripts/`), `fuzzel/.config/fuzzel/`, `ghostty/.config/ghostty/`
+`fuzzel/.config/fuzzel/`, `ghostty/.config/ghostty/`
 - Shell/editor/tools:
 `zsh/.zshrc`, `vscode/settings.json`, `btop/.config/btop/`
 - Services/containers:
@@ -24,7 +24,7 @@ There is no compiled build step; validate and deploy changes directly.
 - `rg --hidden --glob '!.git' '<pattern>'`: search nested dot-folders
 - `find . -path ./.git -prune -o -type f -print | sort`: file scan including hidden paths
 - `find systemd/.config/systemd/user -type l -ls`: inspect user-unit symlinks
-- `bash -n fedora/setup-*.sh scripts/*.sh waybar/.config/waybar/scripts/*.sh`: shell syntax check
+- `bash -n fedora/setup-*.sh scripts/*.sh`: shell syntax check
 - `python -m py_compile hypr/.config/hypr/cheatsheet.py sway/.config/sway/sway-session.py`: Python script check
 - `systemd-analyze --user verify systemd/.config/systemd/user/*.service`: validate user units
 
@@ -38,17 +38,17 @@ There is no compiled build step; validate and deploy changes directly.
 No formal test suite exists. Treat lint/syntax checks as required pre-PR validation.
 
 - Run syntax checks for every touched script.
-- For UI config updates (Hypr/Sway/Waybar/Fuzzel), reload the target app and verify behavior manually.
+- For UI config updates (Hypr/Sway/Fuzzel), reload the target app and verify behavior manually.
 - For systemd changes, run `systemctl --user daemon-reload` and test start/restart paths.
 
 ## Theming & Visual Consistency
 - Start with `THEME.md` before changing colors; it documents where theme values are defined across the repo.
 - Treat `hypr/.config/hypr/theme.conf` as the primary color source when updating Hypr-related theme values.
-- Keep palette changes synchronized across `waybar/.config/waybar/style.css` and `fuzzel/.config/fuzzel/fuzzel.ini`.
+- Keep palette changes synchronized with `fuzzel/.config/fuzzel/fuzzel.ini` and your active compositor theme files.
 - When changing wallpapers or lockscreen visuals, verify both `hyprpaper.conf` and `hyprlock.conf` still reference valid asset paths.
 
 ## Commit & Pull Request Guidelines
-Recent commits use short, imperative subjects (for example, `waybar tweaks`, `cleanup setup scripts`, `macchiato`).
+Recent commits use short, imperative subjects (for example, `hypr tweaks`, `cleanup setup scripts`, `macchiato`).
 
 - Keep commit subjects concise (roughly 2-6 words), lowercase is acceptable.
 - Group related config changes in one commit; avoid mixing unrelated modules.
