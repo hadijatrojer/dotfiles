@@ -8,9 +8,9 @@ Scope
 Summary
 -------
 - Multiple theming/color configurations are present across Fuzzel, Waybar, Hyprland, Sway,
-  Mako, Btop, and shell prompt settings.
+  Btop, and shell prompt settings.
 - A shared Catppuccin Macchiato palette appears in `hypr/.config/hypr/theme.conf`,
-  `fuzzel/.config/fuzzel/fuzzel.ini`, and `mako/.config/mako/config`.
+  and `fuzzel/.config/fuzzel/fuzzel.ini`.
 
 Theme and color sources
 -----------------------
@@ -46,10 +46,6 @@ hypr/.config/hypr/hyprpaper.conf
 hypr/.config/hypr/*.jpg
 hypr/.config/hypr/*.png
 - Wallpaper assets used by Hyprpaper/Hyprlock.
-
-mako/.config/mako/config
-- Notification colors for background, text, border, progress, and urgency levels
-  (Catppuccin Macchiato values).
 
 sway/.config/sway/config
 - Window decoration palette (Catppuccin Macchiato) for focused/urgent states.

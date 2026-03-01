@@ -36,9 +36,6 @@ exec_always --no-startup-id ~/.config/sway/autotiling
 # Focus helper (opacity highlight, constant border)
 # exec_always --no-startup-id pkill -f "sway-focus-visual"
 # exec_always --no-startup-id ~/.config/sway/sway-focus-visual
-# Notifications (Wayland-native mako)
-exec_always --no-startup-id pkill -x mako
-exec_always --no-startup-id mako
 # Idle locking with DPMS helper (screen off 30s after lock)
 exec_always --no-startup-id pkill -x swayidle
 exec_always --no-startup-id swayidle -w \

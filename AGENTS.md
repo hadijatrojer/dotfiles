@@ -6,7 +6,7 @@ This is a stow-style Linux dotfiles repo. Each top-level folder mirrors files un
 - Window managers/compositors:
 `hypr/.config/hypr/` (`hyprland.conf`, `hyprlock.conf`, `hypridle.conf`, `hyprpaper.conf`, `theme.conf`, wallpapers), `sway/.config/sway/`
 - Panel/launcher/notifications/terminal:
-`waybar/.config/waybar/` (`config*.jsonc`, `style.css`, `scripts/`), `fuzzel/.config/fuzzel/`, `mako/.config/mako/`, `ghostty/.config/ghostty/`
+`waybar/.config/waybar/` (`config*.jsonc`, `style.css`, `scripts/`), `fuzzel/.config/fuzzel/`, `ghostty/.config/ghostty/`
 - Shell/editor/tools:
 `zsh/.zshrc`, `vscode/settings.json`, `btop/.config/btop/`
 - Services/containers:
@@ -44,7 +44,7 @@ No formal test suite exists. Treat lint/syntax checks as required pre-PR validat
 ## Theming & Visual Consistency
 - Start with `THEME.md` before changing colors; it documents where theme values are defined across the repo.
 - Treat `hypr/.config/hypr/theme.conf` as the primary color source when updating Hypr-related theme values.
-- Keep palette changes synchronized across `waybar/.config/waybar/style.css`, `fuzzel/.config/fuzzel/fuzzel.ini`, and `mako/.config/mako/config`.
+- Keep palette changes synchronized across `waybar/.config/waybar/style.css` and `fuzzel/.config/fuzzel/fuzzel.ini`.
 - When changing wallpapers or lockscreen visuals, verify both `hyprpaper.conf` and `hyprlock.conf` still reference valid asset paths.
 
 ## Commit & Pull Request Guidelines
