@@ -25,7 +25,7 @@ There is no compiled build step; validate and deploy changes directly.
 - `find . -path ./.git -prune -o -type f -print | sort`: file scan including hidden paths
 - `find systemd/.config/systemd/user -type l -ls`: inspect user-unit symlinks
 - `bash -n fedora/setup-*.sh scripts/*.sh`: shell syntax check
-- `python -m py_compile hypr/.config/hypr/cheatsheet.py`: Python script check
+- `python -m py_compile scripts/hypr-cheatsheet.py`: Python script check
 - `systemd-analyze --user verify systemd/.config/systemd/user/*.service`: validate user units
 
 ## Coding Style & Naming Conventions

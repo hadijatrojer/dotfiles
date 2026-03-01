@@ -64,7 +64,6 @@ fedora/setup-base.sh
 fedora/setup-toolbox.sh
 fedora/setup-mise.sh
 scripts/rclone-mount.sh
-scripts/restart-gdrive-dropbox.sh
 vscode/podman-host
 fedora/flatpaks
 - No theme or color configuration present.
