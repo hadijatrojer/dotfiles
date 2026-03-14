@@ -2,11 +2,9 @@
 set -euo pipefail
 
 packages=(
-  cava
+  alacritty
   fastfetch
   fontawesome-fonts-all
-  fuzzel
-  ghostty
   grim
   hypridle
   hyprland

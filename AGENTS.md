@@ -6,7 +6,7 @@ This is a stow-style Linux dotfiles repo. Each top-level folder mirrors files un
 - Window managers/compositors:
 `hypr/.config/hypr/` (`hyprland.conf`, `hypridle.conf`, `theme.conf`)
 - Panel/launcher/notifications/terminal:
-`fuzzel/.config/fuzzel/`, `ghostty/.config/ghostty/`
+`fuzzel/.config/fuzzel/`, `alacritty/.config/alacritty/`
 - Shell/editor/tools:
 `zsh/.zshrc`, `vscode/settings.json`, `btop/.config/btop/`
 - Services/containers:

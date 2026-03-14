@@ -53,7 +53,7 @@ def describe_exec(arg: str) -> str:
         return "Show Hyprland shortcuts"
     if "$menu" in arg or arg.startswith("fuzzel"):
         return "App launcher"
-    if "$terminal" in arg or arg.startswith("ghostty"):
+    if "$terminal" in arg or arg.startswith("alacritty"):
         return "Open terminal"
     if "$fileManager" in arg or arg.startswith("nautilus"):
         return "Open file manager"

@@ -34,8 +34,8 @@ btop/.config/btop/btop.conf
 btop/.config/btop/themes/catppuccin-macchiato.theme
 - Custom Catppuccin Macchiato palette for Btop UI and graphs.
 
-ghostty/.config/ghostty/config
-- `background-opacity` set (visual theming).
+alacritty/.config/alacritty/alacritty.toml
+- Terminal font, opacity, and Catppuccin Macchiato colors.
 
 zsh/.zshrc
 - Oh My Zsh theme set (`ZSH_THEME="robbyrussell"`).
