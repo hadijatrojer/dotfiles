@@ -1,0 +1,14 @@
+{
+  "id": "hypr-shortcuts",
+  "name": "Hypr Shortcuts",
+  "version": "1.0.0",
+  "author": "hadijatrojer",
+  "description": "Browse and run Hyprland keybindings from the Noctalia launcher.",
+  "metadata": {
+    "commandPrefix": "hypr"
+  },
+  "entryPoints": {
+    "main": "Main.qml",
+    "launcherProvider": "LauncherProvider.qml"
+  }
+}
