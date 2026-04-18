@@ -9,6 +9,10 @@ plugins_dir="${config_dir}/plugins"
 plugin_dst="${plugins_dir}/${plugin_name}"
 plugins_file="${config_dir}/plugins.json"
 
+if qs -c noctalia-shell ipc call hyprShortcuts toggle; then
+  exit 0
+fi
+
 mkdir -p "${plugins_dir}"
 
 if [[ ! -e "${plugin_dst}" ]]; then
@@ -56,10 +60,6 @@ with open(plugins_file, "w", encoding="utf-8") as handle:
     json.dump(data, handle, indent=4)
     handle.write("\n")
 PY
-
-if qs -c noctalia-shell ipc call hyprShortcuts toggle; then
-  exit 0
-fi
 
 qs -c noctalia-shell kill >/dev/null 2>&1 || true
 qs -c noctalia-shell --daemonize >/dev/null 2>&1 &

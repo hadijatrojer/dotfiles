@@ -13,7 +13,9 @@ Item {
   property string iconMode: Settings.data.appLauncher.iconMode
   property string configPath: (Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.config")) + "/hypr/hyprland.conf"
   property var binds: []
+  property var searchIndex: []
   property bool bindsLoaded: false
+  property string lastConfigText: ""
 
   FileView {
     id: configFile
@@ -49,13 +51,20 @@ Item {
   }
 
   function reloadBindings() {
+    const configText = String(configFile.text() || "");
+    if (configText === lastConfigText && bindsLoaded)
+      return;
+
     bindsLoaded = false;
+    lastConfigText = configText;
 
     try {
-      binds = parseBinds(String(configFile.text() || ""));
+      binds = parseBinds(configText);
+      searchIndex = buildSearchIndex(binds);
       bindsLoaded = binds.length > 0;
     } catch (error) {
       binds = [];
+      searchIndex = [];
     }
   }
 
@@ -119,6 +128,16 @@ Item {
         return comboCompare;
       return a.description.localeCompare(b.description);
     });
+  }
+
+  function buildSearchIndex(entries) {
+    return entries.map(entry => ({
+      "combo": entry.combo,
+      "description": entry.description,
+      "action": entry.action,
+      "arg": entry.arg,
+      "searchText": (entry.combo + " " + entry.description + " " + entry.action + " " + entry.arg).toLowerCase()
+    }));
   }
 
   function parseVariables(configText) {
@@ -235,15 +254,7 @@ Item {
     if (!searchTerm)
       return binds.map(entry => toLauncherItem(entry, 0));
 
-    const haystack = binds.map(entry => ({
-      "combo": entry.combo,
-      "description": entry.description,
-      "action": entry.action,
-      "arg": entry.arg,
-      "searchText": (entry.combo + " " + entry.description + " " + entry.action + " " + entry.arg).toLowerCase()
-    }));
-
-    const matches = FuzzySort.go(searchTerm.toLowerCase(), haystack, {
+    const matches = FuzzySort.go(searchTerm.toLowerCase(), searchIndex, {
       "keys": ["combo", "description", "searchText"],
       "limit": 40
     });
