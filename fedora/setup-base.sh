@@ -1,25 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-packages=(
-  7zip
-  automake
-  binutils
-  btop
-  distrobox
-  fd-find
-  gcc
-  gcc-c++
-  gdu
-  google-chrome-stable
-  htop
-  make
-  rclone
-  ripgrep
-  stow
-  tmux
-  vim
-  zsh
-)
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/base-packages.sh"
 
-rpm-ostree install "${packages[@]}"
+rpm-ostree install "${base_packages[@]}"

@@ -1,26 +1,40 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME=""
 
-zstyle ':omz:update' mode auto      # update automatically without asking
+zstyle ':omz:update' mode auto
+zstyle ':omz:update' frequency 13
 
-plugins=(branch git fzf zoxide)
+plugins=(
+  branch
+  git
+  fzf
+  ssh
+  sudo
+  systemd
+  tmux
+  toolbox
+  zoxide
+)
 
-# Initialize mise (version manager)
-if command -v mise >/dev/null; then
-  eval "$(mise activate zsh)"
-elif test -e "${HOME}/.local/bin/mise"; then
-  eval "$(~/.local/bin/mise activate zsh)"
+if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+  plugins+=(zsh-autosuggestions)
 fi
+
+if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+  plugins+=(zsh-syntax-highlighting)
+fi
+
+[[ -f "$HOME/.zsh/exports.zsh" ]] && source "$HOME/.zsh/exports.zsh"
+[[ -f "$HOME/.zsh/os-linux.zsh" ]] && source "$HOME/.zsh/os-linux.zsh"
+[[ -f "$HOME/.zsh/tools.zsh" ]] && source "$HOME/.zsh/tools.zsh"
 
 source $ZSH/oh-my-zsh.sh
 
-export VISUAL=nvim
-export EDITOR=nvim
+[[ -f "$HOME/.zsh/aliases.zsh" ]] && source "$HOME/.zsh/aliases.zsh"
+[[ -f "$HOME/.zsh/functions.zsh" ]] && source "$HOME/.zsh/functions.zsh"
+[[ -f "$HOME/.zsh/overrides.zsh" ]] && source "$HOME/.zsh/overrides.zsh"
 
 if [[ -f /run/.toolboxenv ]]; then
-    echo "You are inside a Toolbox container."
-    export TERM=xterm-256color
-    PROMPT="%F{#8aadf4}[⬢] %f$PROMPT"
+  export TERM=xterm-256color
 fi

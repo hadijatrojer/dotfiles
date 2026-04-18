@@ -55,11 +55,10 @@ Core shared values used elsewhere:
 - Uses the same Macchiato palette, but the semantic mapping is Btop-specific
   rather than a direct one-to-one copy of Hypr variable names.
 
-`zsh/.zshrc`
+`zsh/.zsh/tools.zsh`
 
-- Shell prompt theming is minimal.
-- `ZSH_THEME="robbyrussell"` controls the Oh My Zsh prompt theme.
-- Toolbox shells prepend a blue prompt segment using `#8aadf4`.
+- Shell startup is modular, but prompt colors are set from `zsh/.zsh/tools.zsh`.
+- The prompt uses Macchiato-aligned accent, error, and toolbox colors.
 
 `noctalia/.config/noctalia/plugins/`
 
@@ -82,7 +81,7 @@ When changing colors, keep the stack in sync in this order:
    - `alacritty/.config/alacritty/alacritty.toml`
    - `btop/.config/btop/themes/catppuccin-macchiato.theme`
    - `noctalia/.config/noctalia/plugins/` if a plugin has theme-specific UI
-   - `zsh/.zshrc` if the prompt accent should stay aligned
+   - `zsh/.zsh/tools.zsh` if the prompt accent should stay aligned
 4. Re-stow or reload the affected module and verify visually.
 5. Restart Noctalia if a new plugin or launcher entry point was added.
 
@@ -111,7 +110,6 @@ These paths are present in the repo but are not current palette sources:
 
 - `vscode/settings.json`
 - `fedora/setup-*.sh`
-- `fedora/flatpaks`
 - `scripts/rclone-mount.sh`
 - `scripts/toggle-workspace-layout.sh`
 - `containers/.config/containers/systemd/postgres.container`

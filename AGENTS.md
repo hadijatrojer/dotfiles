@@ -19,7 +19,7 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
 - Containers:
   `containers/.config/containers/systemd/postgres.container`
 - Bootstrap and helpers:
-  `fedora/setup-*.sh`, `fedora/flatpaks`, and scripts in `scripts/`
+  `fedora/setup-*.sh`, package-list helpers in `fedora/`, and scripts in `scripts/`
   (`open-hypr-shortcuts.sh`, `rclone-mount.sh`, `toggle-workspace-layout.sh`)
 
 Important: hidden-aware scans are required. Many important files live under
@@ -75,7 +75,7 @@ No formal automated suite exists. Validation is per-file and per-module.
   - `alacritty/.config/alacritty/alacritty.toml`
   - `btop/.config/btop/themes/catppuccin-macchiato.theme`
   - `noctalia/.config/noctalia/plugins/` when a plugin introduces theme-aware UI
-  - `zsh/.zshrc` when prompt accent colors change
+  - `zsh/.zsh/tools.zsh` when prompt accent colors change
 - If a visual change is semantic rather than purely palette-based, document it
   where it lives instead of forcing it into `theme.conf`.
 

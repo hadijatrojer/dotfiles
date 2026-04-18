@@ -1,19 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-packages=(
-  alacritty
-  fastfetch
-  fontawesome-fonts-all
-  grim
-  hypridle
-  hyprland
-  hyprland-guiutils
-  noctalia-shell
-  slurp
-  wlr-randr
-  xdg-desktop-portal-hyprland
-  xdg-terminal-exec
-)
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/hyprland-packages.sh"
 
-rpm-ostree install "${packages[@]}"
+rpm-ostree install "${hyprland_packages[@]}"

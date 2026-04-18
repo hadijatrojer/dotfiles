@@ -1,19 +1,7 @@
-dnf install -y \
-  7zip \
-  automake \
-  binutils \
-  btop \
-  fastfetch \
-  fd-find \
-  gcc \
-  gcc-c++ \
-  gdu \
-  git-lfs \
-  htop \
-  make \
-  rclone \
-  ripgrep \
-  stow \
-  tmux \
-  vim \
-  zsh
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/base-packages.sh"
+
+dnf install -y "${base_packages[@]}"
