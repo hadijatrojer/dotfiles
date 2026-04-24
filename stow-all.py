@@ -30,6 +30,7 @@ COMMON_PACKAGES = [
 
 FEDORA_PACKAGES = [
     Package("containers", REPO_ROOT),
+    Package("dms", REPO_ROOT),
     Package("systemd", REPO_ROOT),
 ]
 

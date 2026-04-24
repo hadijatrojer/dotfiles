@@ -5,6 +5,7 @@ set $term alacritty
 set $file_manager nautilus --new-window
 set $menu dms ipc launcher toggle
 set $browser google-chrome-stable
+set $quit ~/.config/sway/scripts/session-quit
 
 font pango:monospace 11
 
@@ -57,11 +58,12 @@ for_window [app_id="google-chrome" title="^Meet .+ - Google Chrome$"] sticky dis
 
 exec_always ~/.config/sway/scripts/session-start
 
-bindsym $mod+h exec dms ipc keybinds toggle sway
+bindsym $mod+Shift+slash exec dms ipc launcher toggleQuery '?'
 bindsym $mod+t exec $term
 bindsym $mod+f exec $file_manager
 bindsym $mod+b exec $browser
 bindsym $mod+v exec dms ipc clipboard toggle
+bindsym $mod+Tab exec dms ipc launcher toggleQuery ';'
 bindsym $mod+space exec $menu
 
 bindsym $mod+Shift+s exec sh -lc '$HOME/.cargo/bin/wayfreeze & PID=$!; sleep 0.1; (grim -g "$(slurp)" -; kill $PID) | flatpak run org.satty.Satty --filename - --output-filename "$(xdg-user-dir PICTURES)/Screenshots/$(date +'"'"'%Y-%m-%d-%H%M%S.png'"'"')" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command "wl-copy"'
@@ -72,6 +74,7 @@ bindsym $mod+Left focus left
 bindsym $mod+Right focus right
 bindsym $mod+Up focus up
 bindsym $mod+Down focus down
+bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
@@ -80,21 +83,40 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Right move right
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-bindsym $mod+c exec ~/.config/sway/scripts/preset-width
-bindsym $mod+Shift+c resize set width 100 ppt
+bindsym $mod+Ctrl+Home move workspace to output left
+bindsym $mod+Ctrl+End move workspace to output right
+
+bindsym $mod+Page_Down workspace next
+bindsym $mod+Page_Up workspace prev
+bindsym $mod+g workspace back_and_forth
+bindsym $mod+Ctrl+Page_Down move container to workspace next; workspace next
+bindsym $mod+Ctrl+Page_Up move container to workspace prev; workspace prev
+bindsym $mod+Shift+Page_Down move workspace to output right
+bindsym $mod+Shift+Page_Up move workspace to output left
+
+bindsym $mod+r exec ~/.config/sway/scripts/preset-width
+bindsym $mod+c focus parent
+bindsym $mod+Ctrl+c focus child
 bindsym $mod+minus resize shrink width 10 ppt
 bindsym $mod+equal resize grow width 10 ppt
 bindsym $mod+Shift+minus resize shrink height 10 ppt
 bindsym $mod+Shift+equal resize grow height 10 ppt
 
-bindsym $mod+bracketleft splith
-bindsym $mod+bracketright splitv
-bindsym $mod+period layout toggle split tabbed stacking
+bindsym $mod+bracketleft splitv
+bindsym $mod+bracketright splith
+bindsym $mod+period layout toggle split tabbed
 bindsym $mod+slash layout toggle split
+bindsym $mod+Shift+r reload
+bindsym $mod+Ctrl+r resize set 0 0
+bindsym $mod+a focus mode_toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+n move scratchpad
+bindsym $mod+n scratchpad show
 bindsym $mod+p sticky toggle
 bindsym $mod+Shift+f fullscreen toggle
 
@@ -129,4 +151,6 @@ bindsym XF86MonBrightnessDown exec brightnessctl -e4 -n2 set 5%-
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop
 bindsym XF86AudioPrev exec playerctl previous
+bindsym Ctrl+Alt+Delete exec $quit

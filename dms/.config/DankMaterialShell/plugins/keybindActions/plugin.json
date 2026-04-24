@@ -1,0 +1,14 @@
+{
+  "id": "keybindActions",
+  "name": "Keybind Actions",
+  "description": "Search and run actionable Sway keybinds from the DMS launcher",
+  "version": "1.0.0",
+  "author": "hadijatrojer",
+  "type": "launcher",
+  "capabilities": ["launcher"],
+  "component": "./KeybindActionsLauncher.qml",
+  "trigger": "?",
+  "icon": "keyboard_keys",
+  "requires_dms": ">=0.1.18",
+  "permissions": ["settings_read", "settings_write"]
+}

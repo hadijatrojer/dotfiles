@@ -1,0 +1,14 @@
+{
+  "id": "windowSwitcher",
+  "name": "Window Switcher",
+  "description": "Switch between Sway windows from the DMS launcher",
+  "version": "1.0.0",
+  "author": "hadijatrojer",
+  "type": "launcher",
+  "capabilities": ["launcher"],
+  "component": "./WindowSwitcherLauncher.qml",
+  "trigger": ";",
+  "icon": "select_window",
+  "requires_dms": ">=0.1.18",
+  "permissions": ["settings_read", "settings_write"]
+}
