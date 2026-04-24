@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 base_packages=(
-  automake
   binutils
   btop
   fd-find
@@ -9,7 +8,6 @@ base_packages=(
   gcc-c++
   gdu
   git
-  git-lfs
   make
   ripgrep
   stow

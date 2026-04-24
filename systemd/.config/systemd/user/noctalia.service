@@ -1,0 +1,14 @@
+[Unit]
+Description=Noctalia Shell
+PartOf=sway-session.target
+BindsTo=sway-session.target
+After=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/env qs -c noctalia-shell --no-duplicate
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=sway-session.target

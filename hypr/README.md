@@ -7,5 +7,7 @@ Macchiato palette source at `.config/hypr/theme.conf`.
 
 - `hyprland.conf` is the behavioral entry point and imports `theme.conf`.
 - Noctalia remains the primary launcher surface.
-- `hypridle.conf` defines the idle, lock, dim, and DPMS behavior started by
-  `hyprland.conf`.
+- `hyprland.conf` starts `~/.config/hypr/scripts/session-start`, which imports
+  the session environment and starts the user `sway-session.target`.
+- `~/.config/hypr/scripts/session-swayidle` defines the current idle, lock,
+  dim, and DPMS behavior through `swayidle`.

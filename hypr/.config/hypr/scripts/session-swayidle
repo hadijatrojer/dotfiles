@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+lock_cmd='qs -c noctalia-shell ipc call lockScreen lock'
+
+exec swayidle -w \
+  before-sleep "$lock_cmd" \
+  after-resume 'hyprctl dispatch dpms on' \
+  timeout 300 'brightnessctl -s set 10' \
+  resume 'brightnessctl -r' \
+  timeout 330 "$lock_cmd" \
+  timeout 350 'hyprctl dispatch dpms off' \
+  resume 'hyprctl dispatch dpms on'
