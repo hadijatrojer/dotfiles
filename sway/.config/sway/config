@@ -3,7 +3,7 @@ include ~/.config/sway/theme.conf
 set $mod Mod4
 set $term alacritty
 set $file_manager nautilus --new-window
-set $menu qs -c noctalia-shell ipc call launcher toggle
+set $menu dms ipc launcher toggle
 set $browser google-chrome-stable
 
 font pango:monospace 11
@@ -57,13 +57,11 @@ for_window [app_id="google-chrome" title="^Meet .+ - Google Chrome$"] sticky dis
 
 exec_always ~/.config/sway/scripts/session-start
 
-bindsym $mod+h exec qs -c noctalia-shell ipc call swayShortcuts toggle
+bindsym $mod+h exec dms ipc keybinds toggle sway
 bindsym $mod+t exec $term
 bindsym $mod+f exec $file_manager
 bindsym $mod+b exec $browser
-bindsym $mod+e exec qs -c noctalia-shell ipc call launcher emoji
-bindsym $mod+v exec qs -c noctalia-shell ipc call launcher clipboard
-bindsym $mod+Tab exec qs -c noctalia-shell ipc call launcher windows
+bindsym $mod+v exec dms ipc clipboard toggle
 bindsym $mod+space exec $menu
 
 bindsym $mod+Shift+s exec sh -lc '$HOME/.cargo/bin/wayfreeze & PID=$!; sleep 0.1; (grim -g "$(slurp)" -; kill $PID) | flatpak run org.satty.Satty --filename - --output-filename "$(xdg-user-dir PICTURES)/Screenshots/$(date +'"'"'%Y-%m-%d-%H%M%S.png'"'"')" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command "wl-copy"'

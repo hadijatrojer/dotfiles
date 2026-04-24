@@ -22,7 +22,6 @@ class Package:
 COMMON_PACKAGES = [
     Package("alacritty", REPO_ROOT),
     Package("btop", REPO_ROOT),
-    Package("noctalia", REPO_ROOT),
     Package("scripts", REPO_ROOT),
     Package("sway", REPO_ROOT),
     Package("vscode", REPO_ROOT),

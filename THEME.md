@@ -57,13 +57,12 @@ Core shared values used elsewhere:
 - Shell startup is modular, but prompt colors are set from `zsh/.zsh/tools.zsh`.
 - The prompt uses Macchiato-aligned accent, error, and toolbox colors.
 
-`noctalia/.config/noctalia/plugins/`
+DMS-managed shell surfaces
 
-- Repo-managed Noctalia plugins live here.
-- Plugin UIs may need to stay visually aligned with the main palette even when
-  the color values are not duplicated one-to-one.
-- The launcher surface itself is owned by Noctalia, so visual changes may come
-  from the shell theme and not only from files in this repo.
+- DMS owns the launcher, lock screen, bar, and control-center visuals at
+  runtime.
+- Those assets are not currently managed from this repo, so palette changes in
+  this repo should stay synchronized with the local DMS theme separately.
 
 ## Update Workflow
 
@@ -75,10 +74,9 @@ When changing colors, keep the stack in sync in this order:
 3. Mirror the palette changes into:
    - `alacritty/.config/alacritty/alacritty.toml`
    - `btop/.config/btop/themes/catppuccin-macchiato.theme`
-   - `noctalia/.config/noctalia/plugins/` if a plugin has theme-specific UI
    - `zsh/.zsh/tools.zsh` if the prompt accent should stay aligned
 4. Re-stow or reload the affected module and verify visually.
-5. Restart Noctalia if a new plugin or launcher entry point was added.
+5. Restart DMS if shell-managed surfaces need to pick up the new palette.
 
 ## Format Conversions
 
@@ -93,8 +91,8 @@ The same color appears in different syntaxes depending on the target:
 - Sway: reload config and confirm borders, gaps, floating rules, and surfaces match.
 - Alacritty: open a new terminal and verify background, cursor, and ANSI colors.
 - Btop: start `btop` and confirm the custom theme still loads as expected.
-- Noctalia: open the launcher or any repo-managed plugin UI and verify it still
-  fits the active palette.
+- DMS: open the launcher, lock screen, or bar surfaces and verify they still
+  fit the active palette.
 - Zsh: open a normal shell and a toolbox shell to confirm prompt styling.
 
 ## Non-Theme Files

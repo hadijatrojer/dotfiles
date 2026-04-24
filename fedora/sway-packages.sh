@@ -4,16 +4,15 @@ sway_packages=(
   alacritty
   brightnessctl
   distrobox
+  dms
   fastfetch
   fontawesome-fonts-all
   google-chrome-stable
   grim
-  noctalia-shell
   playerctl
   rclone
   slurp
   sway
-  swayidle
   wlr-randr
   xdg-desktop-portal-wlr
   xdg-terminal-exec

@@ -1,13 +1,13 @@
 # Dotfiles
 
-GNU Stow-based Linux dotfiles with a Sway + Noctalia desktop stack.
+GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 
 ## Repository Shape
 
 - Shared shell and terminal packages:
   `alacritty`, `btop`, `vscode`, `zsh`
 - Desktop behavior:
-  `sway`, `noctalia`
+  `sway`
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
@@ -33,14 +33,14 @@ Examples:
 The helper applies:
 
 - Common packages:
-  `alacritty`, `btop`, `noctalia`, `scripts`, `sway`, `vscode`, `zsh`
+  `alacritty`, `btop`, `scripts`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
   `containers`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
-stow -nv alacritty btop noctalia scripts sway vscode zsh
+stow -nv alacritty btop scripts sway vscode zsh
 stow -nv containers systemd
 ```
 
@@ -60,6 +60,9 @@ inside the toolbox.
 The base host package set is intentionally small. Daily-driver desktop and
 session packages live in `fedora/sway-packages.sh` instead of being bundled
 into the base system bootstrap.
+
+Screen sharing depends on the user session bringing up `graphical-session.target`
+and the portal backends, which are wired through `systemd/.config/systemd/user/`.
 
 ## Notes
 

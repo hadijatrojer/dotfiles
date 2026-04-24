@@ -34,7 +34,6 @@ There is no compiled build. Validate the changed module directly, then stow it.
 - `find . -path ./.git -prune -o -type f -print | sort`: full file scan
 - `find systemd/.config/systemd/user -type l -ls`: inspect user-unit symlinks
 - `bash -n fedora/setup-*.sh scripts/*.sh`: syntax check shell scripts
-- `find noctalia/.config/noctalia/plugins -type f -print | sort`: inspect repo-managed Noctalia plugins
 - `systemd-analyze --user verify systemd/.config/systemd/user/*.service`:
   validate user service files
 
@@ -56,12 +55,13 @@ No formal automated suite exists. Validation is per-file and per-module.
 - Run syntax checks for every touched shell or Python script.
 - For Sway changes, reload the config or restart the affected component and
   verify behavior manually.
-- For Alacritty or Noctalia changes, open the app and verify appearance or
-  behavior directly.
-- For Noctalia plugin changes, restart Noctalia once if a new plugin or entry
-  point was added.
+- For Alacritty changes, open the app and verify appearance or behavior
+  directly.
+- For DMS-related desktop changes, restart DMS once if the shell service,
+  launcher, lock screen, or bar behavior changed.
 - For theming work, read `THEME.md` first and keep palette changes synchronized
-  across Sway, Alacritty, Btop, Noctalia, and any shell prompt accents.
+  across Sway, Alacritty, Btop, DMS-managed surfaces, and any shell prompt
+  accents.
 - For systemd changes, run `systemctl --user daemon-reload` and test the
   relevant unit start or restart path.
 - For Stow-impacting changes, run `stow -nv <module>` before applying.
@@ -73,7 +73,6 @@ No formal automated suite exists. Validation is per-file and per-module.
   - `sway/.config/sway/theme.conf`
   - `alacritty/.config/alacritty/alacritty.toml`
   - `btop/.config/btop/themes/catppuccin-macchiato.theme`
-  - `noctalia/.config/noctalia/plugins/` when a plugin introduces theme-aware UI
   - `zsh/.zsh/tools.zsh` when prompt accent colors change
 - If a visual change is semantic rather than purely palette-based, document it
   where it lives instead of forcing it into `theme.conf`.

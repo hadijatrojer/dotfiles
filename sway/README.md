@@ -10,5 +10,5 @@ This package owns the Sway compositor configuration and session helper scripts.
 - `scripts/session-start` imports the compositor environment and starts the user
   `sway-session.target`.
 - `scripts/session-quit` stops `sway-session.target` before exiting Sway.
-- `scripts/session-swayidle` defines the current idle, lock, dim, and DPMS
-  behavior through `swayidle`, with Noctalia handling the lock screen UI.
+- Launcher, clipboard, lock, and keybinding browser integrations are handled
+  through DMS IPC calls from `config`.

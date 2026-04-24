@@ -1,3 +1,4 @@
 [Unit]
 Description=Desktop Session Services
-Wants=noctalia.service swayidle.service
+Wants=graphical-session.target dms.service xdg-desktop-portal-gtk.service xdg-desktop-portal-wlr.service
+After=graphical-session.target
