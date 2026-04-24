@@ -6,10 +6,9 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
 `.config/`.
 
 - Window manager and desktop behavior:
-  `hypr/.config/hypr/` (`hyprland.conf`, `hypridle.conf`, `theme.conf`)
+  `sway/.config/sway/` (`config`, `theme.conf`, `scripts/`)
 - Launcher and terminal:
-  `alacritty/.config/alacritty/alacritty.toml`,
-  `noctalia/.config/noctalia/plugins/hypr-shortcuts/`
+  `alacritty/.config/alacritty/alacritty.toml`
 - Shell and editor:
   `zsh/.zshrc`, `vscode/settings.json`
 - System monitor:
@@ -20,7 +19,7 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
   `containers/.config/containers/systemd/postgres.container`
 - Bootstrap and helpers:
   `fedora/setup-*.sh`, package-list helpers in `fedora/`, and scripts in `scripts/`
-  (`open-hypr-shortcuts.sh`, `rclone-mount.sh`, `toggle-workspace-layout.sh`)
+  (`rclone-mount.sh`)
 
 Important: hidden-aware scans are required. Many important files live under
 `.config/`, and symlink trees under `systemd/.config/systemd/user/*wants/`
@@ -47,7 +46,7 @@ There is no compiled build. Validate the changed module directly, then stow it.
   Use 2 spaces in shell, JSONC, and INI-style files when that is the local
   convention; use 4 spaces in Python.
 - File names: lowercase and descriptive; prefer hyphenated script names such as
-  `setup-hyprland.sh`.
+  `setup-sway.sh`.
 - Comments: keep them short and only where the config is otherwise hard to
   reason about.
 
@@ -55,23 +54,23 @@ There is no compiled build. Validate the changed module directly, then stow it.
 No formal automated suite exists. Validation is per-file and per-module.
 
 - Run syntax checks for every touched shell or Python script.
-- For Hyprland changes, reload the config or restart the affected component and
+- For Sway changes, reload the config or restart the affected component and
   verify behavior manually.
 - For Alacritty or Noctalia changes, open the app and verify appearance or
   behavior directly.
 - For Noctalia plugin changes, restart Noctalia once if a new plugin or entry
   point was added.
 - For theming work, read `THEME.md` first and keep palette changes synchronized
-  across Hypr, Alacritty, Btop, Noctalia, and any shell prompt accents.
+  across Sway, Alacritty, Btop, Noctalia, and any shell prompt accents.
 - For systemd changes, run `systemctl --user daemon-reload` and test the
   relevant unit start or restart path.
 - For Stow-impacting changes, run `stow -nv <module>` before applying.
 
 ## Theming & Visual Consistency
 - Start with `THEME.md` before editing colors, opacity, or typography.
-- Treat `hypr/.config/hypr/theme.conf` as the palette source of truth.
+- Treat `sway/.config/sway/theme.conf` as the palette source of truth.
 - Keep Catppuccin Macchiato values aligned across:
-  - `hypr/.config/hypr/theme.conf`
+  - `sway/.config/sway/theme.conf`
   - `alacritty/.config/alacritty/alacritty.toml`
   - `btop/.config/btop/themes/catppuccin-macchiato.theme`
   - `noctalia/.config/noctalia/plugins/` when a plugin introduces theme-aware UI
@@ -80,7 +79,7 @@ No formal automated suite exists. Validation is per-file and per-module.
   where it lives instead of forcing it into `theme.conf`.
 
 ## Commit & Pull Request Guidelines
-Recent commits use short, imperative subjects such as `hypr tweaks`,
+Recent commits use short, imperative subjects such as `sway tweaks`,
 `cleanup setup scripts`, and `macchiato`.
 
 - Keep commit subjects concise, roughly 2 to 6 words.

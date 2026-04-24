@@ -8,7 +8,7 @@ Item {
   property var pluginApi: null
 
   IpcHandler {
-    target: "hyprShortcuts"
+    target: "swayShortcuts"
 
     function open() {
       if (!root.pluginApi)

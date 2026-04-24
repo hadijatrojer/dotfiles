@@ -1,0 +1,134 @@
+include ~/.config/sway/theme.conf
+
+set $mod Mod4
+set $term alacritty
+set $file_manager nautilus --new-window
+set $menu qs -c noctalia-shell ipc call launcher toggle
+set $browser google-chrome-stable
+
+font pango:monospace 11
+
+output HDMI-A-1 scale 1.0 pos 0 0
+output HDMI-A-2 scale 1.875 pos 1920 0
+
+workspace 1 output HDMI-A-1
+workspace 2 output HDMI-A-1
+workspace 3 output HDMI-A-1
+workspace 4 output HDMI-A-1
+workspace 10 output HDMI-A-1
+workspace 5 output HDMI-A-2
+workspace 6 output HDMI-A-2
+workspace 7 output HDMI-A-2
+workspace 8 output HDMI-A-2
+workspace 9 output HDMI-A-2
+
+input type:keyboard {
+    xkb_layout gb
+    xkb_options caps:escape
+}
+
+input type:pointer {
+    accel_profile flat
+    pointer_accel -0.25
+    natural_scroll disabled
+}
+
+focus_follows_mouse yes
+mouse_warping none
+workspace_auto_back_and_forth no
+floating_modifier $mod normal
+
+gaps inner 2
+gaps outer 2
+default_border pixel 3
+default_floating_border pixel 3
+hide_edge_borders none
+
+client.focused          $lavender $base $text $overlay1 $lavender
+client.focused_inactive $mantle   $mantle $subtext1 $surface0 $mantle
+client.unfocused        $mantle   $mantle $subtext0 $mantle   $mantle
+client.urgent           $red      $mantle $text     $red      $red
+client.placeholder      $surface0 $surface0 $text   $surface0 $surface0
+client.background       $base
+
+for_window [title="(?i)^picture([ -])in([ -])picture$"] floating enable, sticky enable, resize set 25 ppt 25 ppt, move position 75 ppt 75 ppt
+for_window [app_id="google-chrome" title="^Meet .+$"] floating enable, sticky enable
+for_window [app_id="google-chrome" title="^Meet .+ - Google Chrome$"] sticky disable, floating disable
+
+exec_always ~/.config/sway/scripts/session-start
+
+bindsym $mod+h exec qs -c noctalia-shell ipc call swayShortcuts toggle
+bindsym $mod+t exec $term
+bindsym $mod+f exec $file_manager
+bindsym $mod+b exec $browser
+bindsym $mod+e exec qs -c noctalia-shell ipc call launcher emoji
+bindsym $mod+v exec qs -c noctalia-shell ipc call launcher clipboard
+bindsym $mod+Tab exec qs -c noctalia-shell ipc call launcher windows
+bindsym $mod+space exec $menu
+
+bindsym $mod+Shift+s exec sh -lc '$HOME/.cargo/bin/wayfreeze & PID=$!; sleep 0.1; (grim -g "$(slurp)" -; kill $PID) | flatpak run org.satty.Satty --filename - --output-filename "$(xdg-user-dir PICTURES)/Screenshots/$(date +'"'"'%Y-%m-%d-%H%M%S.png'"'"')" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command "wl-copy"'
+
+bindsym $mod+Shift+q kill
+
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+c exec ~/.config/sway/scripts/preset-width
+bindsym $mod+Shift+c resize set width 100 ppt
+bindsym $mod+minus resize shrink width 10 ppt
+bindsym $mod+equal resize grow width 10 ppt
+bindsym $mod+Shift+minus resize shrink height 10 ppt
+bindsym $mod+Shift+equal resize grow height 10 ppt
+
+bindsym $mod+bracketleft splith
+bindsym $mod+bracketright splitv
+bindsym $mod+period layout toggle split tabbed stacking
+bindsym $mod+slash layout toggle split
+bindsym $mod+p sticky toggle
+bindsym $mod+Shift+f fullscreen toggle
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl -e4 -n2 set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl -e4 -n2 set 5%-
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous

@@ -3,11 +3,10 @@ set -euo pipefail
 
 session_env=(
   DISPLAY
-  HYPRLAND_INSTANCE_SIGNATURE
   WAYLAND_DISPLAY
   XDG_CURRENT_DESKTOP
   XDG_SESSION_TYPE
-  XDG_RUNTIME_DIR
+  SWAYSOCK
 )
 
 systemctl --user import-environment "${session_env[@]}" || true

@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
-hyprland_packages=(
+sway_packages=(
   alacritty
+  brightnessctl
   distrobox
   fastfetch
   fontawesome-fonts-all
   google-chrome-stable
   grim
-  hyprland
-  hyprland-guiutils
   noctalia-shell
+  playerctl
   rclone
   slurp
   sway
   swayidle
   wlr-randr
-  xdg-desktop-portal-hyprland
+  xdg-desktop-portal-wlr
   xdg-terminal-exec
 )

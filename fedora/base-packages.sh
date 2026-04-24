@@ -7,7 +7,6 @@ base_packages=(
   gcc
   gcc-c++
   gdu
-  git
   make
   ripgrep
   stow

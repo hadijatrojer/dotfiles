@@ -1,11 +1,11 @@
 {
-  "id": "hypr-shortcuts",
-  "name": "Hypr Shortcuts",
+  "id": "sway-shortcuts",
+  "name": "Sway Shortcuts",
   "version": "1.0.0",
   "author": "hadijatrojer",
-  "description": "Browse and run Hyprland keybindings from the Noctalia launcher.",
+  "description": "Browse and run Sway keybindings from the Noctalia launcher.",
   "metadata": {
-    "commandPrefix": "hypr"
+    "commandPrefix": "sway"
   },
   "entryPoints": {
     "main": "Main.qml",

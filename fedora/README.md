@@ -8,7 +8,7 @@ for the host setup.
 Typical order:
 
 1. Run `fedora/setup-base.sh` on the host.
-2. Run `fedora/setup-hyprland.sh` on the host.
+2. Run `fedora/setup-sway.sh` on the host.
 3. Run `fedora/setup-mise.sh` to install userland tools.
 4. Optionally run `fedora/setup-toolbox.sh` inside a Fedora toolbox.
 5. Run `./stow-all.py --apply` from the repo root.
@@ -18,7 +18,7 @@ Typical order:
 The installer scripts are thin wrappers around shared package lists:
 
 - `base-packages.sh`: intentionally small host and toolbox CLI baseline
-- `hyprland-packages.sh`: desktop/session packages for this Hyprland setup
+- `sway-packages.sh`: desktop/session packages for this Sway setup
 
 That keeps package choices in one place while allowing different installers:
 

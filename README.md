@@ -1,13 +1,13 @@
 # Dotfiles
 
-GNU Stow-based Linux dotfiles with a Hyprland + Noctalia desktop stack.
+GNU Stow-based Linux dotfiles with a Sway + Noctalia desktop stack.
 
 ## Repository Shape
 
 - Shared shell and terminal packages:
   `alacritty`, `btop`, `vscode`, `zsh`
 - Desktop behavior:
-  `hypr`, `noctalia`
+  `sway`, `noctalia`
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
@@ -33,23 +33,23 @@ Examples:
 The helper applies:
 
 - Common packages:
-  `alacritty`, `btop`, `hypr`, `noctalia`, `scripts`, `vscode`, `zsh`
+  `alacritty`, `btop`, `noctalia`, `scripts`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
   `containers`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
-stow -nv alacritty btop hypr noctalia scripts vscode zsh
+stow -nv alacritty btop noctalia scripts sway vscode zsh
 stow -nv containers systemd
 ```
 
 ## Setup Order
 
-Typical Fedora + Hyprland flow:
+Typical Fedora + Sway flow:
 
 1. `fedora/setup-base.sh`
-2. `fedora/setup-hyprland.sh`
+2. `fedora/setup-sway.sh`
 3. `fedora/setup-mise.sh`
 4. `./stow-all.py --apply`
 5. `systemctl --user daemon-reload`
@@ -58,7 +58,7 @@ If you use a Fedora toolbox for development, also run `fedora/setup-toolbox.sh`
 inside the toolbox.
 
 The base host package set is intentionally small. Daily-driver desktop and
-session packages live in `fedora/hyprland-packages.sh` instead of being bundled
+session packages live in `fedora/sway-packages.sh` instead of being bundled
 into the base system bootstrap.
 
 ## Notes

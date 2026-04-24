@@ -13,7 +13,7 @@ systemctl --user daemon-reload
 ```
 
 - Desktop startup services are grouped under `sway-session.target`, which is
-  currently started from the Hyprland session and is named for the later Sway
-  migration.
+  started from the Sway session after importing compositor environment
+  variables.
 - After first install, enable the units you actually want rather than assuming
   every unit should be active on every machine.
