@@ -7,7 +7,7 @@ set $menu dms ipc launcher toggle
 set $browser google-chrome-stable
 set $quit ~/.config/sway/scripts/session-quit
 
-font pango:monospace 11
+font pango:GeistMono Nerd Font 11
 
 output HDMI-A-1 scale 1.0 pos 0 0
 output HDMI-A-2 scale 1.875 pos 1920 0
