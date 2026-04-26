@@ -7,11 +7,11 @@ fi
 autoload -Uz colors && colors
 setopt prompt_subst
 
-prompt_dir_color="%F{#b7bdf8}"
-prompt_accent_color="%F{#eed49f}"
-prompt_error_color="%F{#ed8796}"
-prompt_muted_color="%F{#6e738d}"
-prompt_toolbox_color="%F{#8bd5ca}"
+prompt_dir_color="%F{#7287fd}"
+prompt_accent_color="%F{#df8e1d}"
+prompt_error_color="%F{#d20f39}"
+prompt_muted_color="%F{#9ca0b0}"
+prompt_toolbox_color="%F{#179299}"
 prompt_reset="%f"
 prompt_context=""
 

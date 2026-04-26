@@ -69,11 +69,14 @@ No formal automated suite exists. Validation is per-file and per-module.
 ## Theming & Visual Consistency
 - Start with `THEME.md` before editing colors, opacity, or typography.
 - Treat `sway/.config/sway/theme.conf` as the palette source of truth.
-- Keep Catppuccin Macchiato values aligned across:
+- Keep Catppuccin Latte values aligned across:
   - `sway/.config/sway/theme.conf`
-  - `alacritty/.config/alacritty/alacritty.toml`
-  - `btop/.config/btop/themes/catppuccin-macchiato.theme`
   - `zsh/.zsh/tools.zsh` when prompt accent colors change
+- Treat `alacritty/.config/alacritty/alacritty.toml` as an explicit Catppuccin
+  Mocha exception unless you intend to change the terminal separately.
+- Treat `btop/.config/btop/btop.conf` and
+  `btop/.config/btop/themes/catppuccin-mocha.theme` as explicit Catppuccin
+  Mocha exceptions unless you intend to change Btop separately.
 - If a visual change is semantic rather than purely palette-based, document it
   where it lives instead of forcing it into `theme.conf`.
 

@@ -1,6 +1,7 @@
 # Theme Guide
 
-This repo currently uses a Catppuccin Macchiato palette across the desktop stack.
+This repo currently uses a Catppuccin Latte palette across the desktop stack,
+with Alacritty and Btop intentionally kept on Catppuccin Mocha.
 Treat `sway/.config/sway/theme.conf` as the palette source of truth and propagate
 changes outward from there.
 
@@ -12,11 +13,11 @@ changes outward from there.
 
 Core shared values used elsewhere:
 
-- Base background: `24273a`
-- Foreground text: `cad3f5`
-- Muted text: `a5adcb`, `b8c0e0`
-- Border and surface tones: `363a4f`, `494d64`, `6e738d`, `8087a2`
-- Primary accents: `8aadf4`, `b7bdf8`, `f5bde6`, `8bd5ca`, `91d7e3`
+- Base background: `eff1f5`
+- Foreground text: `4c4f69`
+- Muted text: `6c6f85`, `5c5f77`
+- Border and surface tones: `ccd0da`, `bcc0cc`, `9ca0b0`, `8c8fa1`
+- Primary accents: `1e66f5`, `7287fd`, `ea76cb`, `179299`, `04a5e5`
 
 ## Where Theme Values Live
 
@@ -29,8 +30,8 @@ Core shared values used elsewhere:
 
 `alacritty/.config/alacritty/alacritty.toml`
 
-- Duplicates the same palette in `#RRGGBB` form.
-- If you change the base palette, update:
+- Intentionally uses Catppuccin Mocha instead of the shared Latte desktop palette.
+- If you change the terminal palette, update:
   - `colors.primary`
   - `colors.cursor`
   - `colors.selection`
@@ -42,20 +43,20 @@ Core shared values used elsewhere:
 
 `btop/.config/btop/btop.conf`
 
-- Selects the active theme with `color_theme = "catppuccin-macchiato"`.
+- Intentionally uses Catppuccin Mocha instead of the shared Latte desktop palette.
 - Background transparency behavior is controlled separately by
   `theme_background`.
 
-`btop/.config/btop/themes/catppuccin-macchiato.theme`
+`btop/.config/btop/themes/catppuccin-mocha.theme`
 
 - Contains the actual Btop color mapping.
-- Uses the same Macchiato palette, but the semantic mapping is Btop-specific
+- Uses the same Mocha palette, but the semantic mapping is Btop-specific
   rather than a direct one-to-one copy of Sway variable names.
 
 `zsh/.zsh/tools.zsh`
 
 - Shell startup is modular, but prompt colors are set from `zsh/.zsh/tools.zsh`.
-- The prompt uses Macchiato-aligned accent, error, and toolbox colors.
+- The prompt uses Latte-aligned accent, error, and toolbox colors.
 
 DMS-managed shell surfaces
 
@@ -71,20 +72,21 @@ When changing colors, keep the stack in sync in this order:
 1. Update `sway/.config/sway/theme.conf`.
 2. Update compositor references in `sway/.config/sway/config` if the
    semantics changed, not just the underlying palette values.
-3. Mirror the palette changes into:
-   - `alacritty/.config/alacritty/alacritty.toml`
-   - `btop/.config/btop/themes/catppuccin-macchiato.theme`
+3. Mirror the Latte palette changes into:
    - `zsh/.zsh/tools.zsh` if the prompt accent should stay aligned
-4. Re-stow or reload the affected module and verify visually.
-5. Restart DMS if shell-managed surfaces need to pick up the new palette.
+4. Update `alacritty/.config/alacritty/alacritty.toml` and
+   `btop/.config/btop/themes/catppuccin-mocha.theme` separately if the Mocha
+   terminal exceptions should also change.
+5. Re-stow or reload the affected module and verify visually.
+6. Restart DMS if shell-managed surfaces need to pick up the new palette.
 
 ## Format Conversions
 
 The same color appears in different syntaxes depending on the target:
 
-- Sway variable: `#8aadf4`
-- Raw hex for alpha composition: `8aadf4`
-- Alacritty hex: `#8aadf4`
+- Sway variable: `#1e66f5`
+- Raw hex for alpha composition: `1e66f5`
+- Alacritty hex: `#89b4fa`
 
 ## Verification
 

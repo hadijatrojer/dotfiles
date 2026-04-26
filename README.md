@@ -66,7 +66,7 @@ and the portal backends, which are wired through `systemd/.config/systemd/user/`
 
 ## Notes
 
-- `THEME.md` documents the Catppuccin Macchiato palette and synchronization
-  points across the desktop stack.
+- `THEME.md` documents the Catppuccin Latte desktop palette, plus the Alacritty
+  and Btop Mocha exceptions, and the synchronization points across the desktop stack.
 - Package-specific setup notes live next to the package when the workflow is
   non-obvious.

@@ -1,4 +1,4 @@
 # Alacritty
 
-This package keeps the terminal configuration aligned with the Catppuccin
-Macchiato palette defined in `THEME.md` and `sway/.config/sway/theme.conf`.
+This package intentionally keeps the terminal on the Catppuccin Mocha palette
+documented in `THEME.md`, while the rest of the desktop uses Latte.

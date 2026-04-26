@@ -15,7 +15,7 @@ large `.zshrc`.
 
 ## Notes
 
-- The prompt uses Catppuccin Macchiato colors to stay aligned with `THEME.md`.
+- The prompt uses Catppuccin Latte colors to stay aligned with `THEME.md`.
 - Toolbox shells are detected and shown in the prompt.
 - The `tm` helper launches tmux directly when already inside tmux, attaches to
   an existing server outside tmux, and otherwise starts a fresh session.
