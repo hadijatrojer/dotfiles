@@ -171,23 +171,33 @@ Item {
     }
 
     function prettifyKey(key) {
-        return (key || "")
-            .replaceAll("Mod4", "Start")
-            .replaceAll("Mod1", "Alt")
-            .replaceAll("Control", "Ctrl")
-            .replaceAll("Page_Down", "PageDown")
-            .replaceAll("Page_Up", "PageUp")
-            .replaceAll("XF86AudioRaiseVolume", "AudioRaise")
-            .replaceAll("XF86AudioLowerVolume", "AudioLower")
-            .replaceAll("XF86AudioMute", "AudioMute")
-            .replaceAll("XF86AudioMicMute", "MicMute")
-            .replaceAll("XF86AudioPlay", "AudioPlay")
-            .replaceAll("XF86AudioPause", "AudioPause")
-            .replaceAll("XF86AudioStop", "AudioStop")
-            .replaceAll("XF86AudioNext", "AudioNext")
-            .replaceAll("XF86AudioPrev", "AudioPrev")
-            .replaceAll("XF86MonBrightnessUp", "BrightnessUp")
-            .replaceAll("XF86MonBrightnessDown", "BrightnessDown");
+        let pretty = (key || "");
+        const replacements = [
+            ["Mod4", "Start"],
+            ["Mod1", "Alt"],
+            ["Control", "Ctrl"],
+            ["Page_Down", "PageDown"],
+            ["Page_Up", "PageUp"],
+            ["XF86AudioRaiseVolume", "AudioRaise"],
+            ["XF86AudioLowerVolume", "AudioLower"],
+            ["XF86AudioMute", "AudioMute"],
+            ["XF86AudioMicMute", "MicMute"],
+            ["XF86AudioPlay", "AudioPlay"],
+            ["XF86AudioPause", "AudioPause"],
+            ["XF86AudioStop", "AudioStop"],
+            ["XF86AudioNext", "AudioNext"],
+            ["XF86AudioPrev", "AudioPrev"],
+            ["XF86MonBrightnessUp", "BrightnessUp"],
+            ["XF86MonBrightnessDown", "BrightnessDown"]
+        ];
+
+        for (let i = 0; i < replacements.length; i++) {
+            const from = replacements[i][0];
+            const to = replacements[i][1];
+            pretty = pretty.split(from).join(to);
+        }
+
+        return pretty;
     }
 
     onTriggerChanged: {
