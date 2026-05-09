@@ -62,8 +62,9 @@ DMS-managed shell surfaces
 
 - DMS owns the launcher, lock screen, bar, and control-center visuals at
   runtime.
-- Those assets are not currently managed from this repo, so palette changes in
-  this repo should stay synchronized with the local DMS theme separately.
+- This repo manages DMS plugins under `dms/.config/DankMaterialShell/plugins/`,
+  but not the global DMS theme. Palette changes in this repo should stay
+  synchronized with the local DMS theme separately.
 
 ## Update Workflow
 

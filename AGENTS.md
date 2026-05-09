@@ -1,13 +1,15 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
+
 This is a GNU Stow-style Linux dotfiles repo. Each top-level directory maps to
 files that end up under `$HOME`, usually inside nested hidden paths such as
 `.config/`.
 
 - Window manager and desktop behavior:
   `sway/.config/sway/` (`config`, `theme.conf`, `scripts/`)
-- Launcher and terminal:
+- Launcher, shell plugins, and terminal:
+  `dms/.config/DankMaterialShell/plugins/`,
   `alacritty/.config/alacritty/alacritty.toml`
 - Shell and editor:
   `zsh/.zshrc`, `vscode/settings.json`
@@ -26,6 +28,7 @@ Important: hidden-aware scans are required. Many important files live under
 matter just as much as the unit files themselves.
 
 ## Build, Test, and Development Commands
+
 There is no compiled build. Validate the changed module directly, then stow it.
 
 - `stow -nv <module>`: preview symlink changes for one module
@@ -34,10 +37,16 @@ There is no compiled build. Validate the changed module directly, then stow it.
 - `find . -path ./.git -prune -o -type f -print | sort`: full file scan
 - `find systemd/.config/systemd/user -type l -ls`: inspect user-unit symlinks
 - `bash -n fedora/setup-*.sh scripts/*.sh`: syntax check shell scripts
-- `systemd-analyze --user verify systemd/.config/systemd/user/*.service`:
+- `shellcheck -x -P fedora fedora/*.sh scripts/*.sh sway/.config/sway/scripts/*`:
+  lint shell scripts and sourced package-list helpers
+- `shfmt -i 2 -d fedora/*.sh scripts/*.sh sway/.config/sway/scripts/*`:
+  check shell formatting using the repo's two-space shell convention
+- `systemd-analyze verify systemd/.config/systemd/user/*.{service,timer,target}`:
   validate user service files
+- `sway -C -c sway/.config/sway/config`: validate the Sway configuration
 
 ## Coding Style & Naming Conventions
+
 - Shell scripts: use `#!/usr/bin/env bash` or `#!/bin/bash`; add
   `set -euo pipefail` for non-trivial scripts.
 - Python: follow PEP 8, prefer small functions, add type hints where useful.
@@ -50,6 +59,7 @@ There is no compiled build. Validate the changed module directly, then stow it.
   reason about.
 
 ## Testing Guidelines
+
 No formal automated suite exists. Validation is per-file and per-module.
 
 - Run syntax checks for every touched shell or Python script.
@@ -58,7 +68,7 @@ No formal automated suite exists. Validation is per-file and per-module.
 - For Alacritty changes, open the app and verify appearance or behavior
   directly.
 - For DMS-related desktop changes, restart DMS once if the shell service,
-  launcher, lock screen, or bar behavior changed.
+  launcher, lock screen, bar behavior, or repo-managed DMS plugins changed.
 - For theming work, read `THEME.md` first and keep palette changes synchronized
   across Sway, Alacritty, Btop, DMS-managed surfaces, and any shell prompt
   accents.
@@ -67,6 +77,7 @@ No formal automated suite exists. Validation is per-file and per-module.
 - For Stow-impacting changes, run `stow -nv <module>` before applying.
 
 ## Theming & Visual Consistency
+
 - Start with `THEME.md` before editing colors, opacity, or typography.
 - Treat `sway/.config/sway/theme.conf` as the palette source of truth.
 - Keep Catppuccin Latte values aligned across:
@@ -81,6 +92,7 @@ No formal automated suite exists. Validation is per-file and per-module.
   where it lives instead of forcing it into `theme.conf`.
 
 ## Commit & Pull Request Guidelines
+
 Recent commits use short, imperative subjects such as `sway tweaks`,
 `cleanup setup scripts`, and `macchiato`.
 
@@ -92,6 +104,7 @@ Recent commits use short, imperative subjects such as `sway tweaks`,
   and screenshots for visible UI or theme changes.
 
 ## Security & Configuration Tips
+
 - Never commit secrets, tokens, or machine-specific credentials.
 - Prefer parameterized or documented paths for wallpapers, output names, and
   host-specific resources.

@@ -7,11 +7,11 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 - Shared shell and terminal packages:
   `alacritty`, `btop`, `vscode`, `zsh`
 - Desktop behavior:
-  `sway`
+  `dms`, `sway`
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
-  `containers`, `systemd`
+  `containers`, `dms`, `systemd`
 
 Most top-level directories are Stow packages. The main exception is `fedora/`,
 which contains bootstrap scripts and package-list helpers rather than a Stow
@@ -35,13 +35,13 @@ The helper applies:
 - Common packages:
   `alacritty`, `btop`, `scripts`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
-  `containers`, `systemd`
+  `containers`, `dms`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
 stow -nv alacritty btop scripts sway vscode zsh
-stow -nv containers systemd
+stow -nv containers dms systemd
 ```
 
 ## Setup Order
@@ -63,6 +63,9 @@ into the base system bootstrap.
 
 Screen sharing depends on the user session bringing up `graphical-session.target`
 and the portal backends, which are wired through `systemd/.config/systemd/user/`.
+The DMS shell is started by `systemd/.config/systemd/user/dms.service` through
+`sway-session.target`; repo-managed DMS plugins live under
+`dms/.config/DankMaterialShell/plugins/`.
 
 ## Notes
 

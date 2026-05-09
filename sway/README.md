@@ -12,3 +12,5 @@ This package owns the Sway compositor configuration and session helper scripts.
 - `scripts/session-quit` stops `sway-session.target` before exiting Sway.
 - Launcher, clipboard, lock, and keybinding browser integrations are handled
   through DMS IPC calls from `config`.
+- DMS itself is started by the user unit in `systemd/.config/systemd/user/`,
+  not directly by Sway.

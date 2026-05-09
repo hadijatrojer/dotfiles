@@ -30,6 +30,7 @@ That keeps package choices in one place while allowing different installers:
 These packages are stowed only on Fedora:
 
 - `containers`
+- `dms`
 - `systemd`
 
 From the repo root, `./stow-all.py --apply` handles that automatically.
@@ -37,5 +38,5 @@ From the repo root, `./stow-all.py --apply` handles that automatically.
 If you need the raw command:
 
 ```bash
-stow -t ~ containers systemd
+stow -t ~ containers dms systemd
 ```
