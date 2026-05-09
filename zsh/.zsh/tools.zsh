@@ -18,7 +18,15 @@ prompt_context=""
 PROMPT="${prompt_dir_color}%3~${prompt_reset} ${prompt_accent_color}>${prompt_reset} "
 
 if [[ -f /run/.toolboxenv && -r /run/.containerenv ]]; then
-  prompt_toolbox_name="$(grep -E '^name=\"' /run/.containerenv 2>/dev/null | cut -d '\"' -f 2)"
+  prompt_toolbox_name=""
+  while IFS= read -r prompt_containerenv_line; do
+    if [[ "$prompt_containerenv_line" == name=* ]]; then
+      prompt_toolbox_name="${prompt_containerenv_line#name=}"
+      prompt_toolbox_name="${prompt_toolbox_name#\"}"
+      prompt_toolbox_name="${prompt_toolbox_name%\"}"
+      break
+    fi
+  done < /run/.containerenv
   prompt_context="${prompt_toolbox_color}${prompt_toolbox_name:-toolbox}${prompt_reset}"
 fi
 

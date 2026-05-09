@@ -1,20 +1,25 @@
 # Zsh
 
-This package keeps the interactive shell config modular instead of growing one
-large `.zshrc`.
+This package keeps the interactive shell config modular without depending on
+`oh-my-zsh`.
 
 ## Layout
 
-- `.zshrc`: plugin selection and startup order
+- `.zshrc`: native zsh startup, history, completion, and direct tool/plugin hooks
 - `.zsh/exports.zsh`: PATH and environment variables
 - `.zsh/tools.zsh`: tool bootstrap and prompt
 - `.zsh/aliases.zsh`: aliases and global aliases
-- `.zsh/functions.zsh`: small shell helpers
-- `.zsh/overrides.zsh`: aliases and helpers that intentionally override defaults
-- `.zsh/os-linux.zsh`: Linux-specific shell behavior
+- `.zsh/git-aliases.zsh`: small curated git alias set
 
 ## Notes
 
+- `fzf` and `zoxide` are initialized directly when installed.
+- `./stow-all.py --apply` clones `zsh-autosuggestions` and
+  `zsh-syntax-highlighting` into `~/.local/share/zsh-plugins/` at pinned
+  versions.
+- Those plugins are sourced directly if they exist under
+  `~/.local/share/zsh-plugins/` or the legacy `~/.oh-my-zsh/custom/plugins/`
+  path.
 - The prompt uses Catppuccin Latte colors to stay aligned with `THEME.md`.
 - Toolbox shells are detected and shown in the prompt.
 - The `tm` helper launches tmux directly when already inside tmux, attaches to

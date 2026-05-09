@@ -1,0 +1,16 @@
+# Cherry-picked from oh-my-zsh git plugin. Keep this small and usage-driven.
+
+alias g='git'
+alias ga='git add'
+alias gb='git branch'
+alias gc='git commit --verbose'
+alias gc!='git commit --verbose --amend'
+alias gco='git checkout'
+alias gd='git diff'
+alias gf='git fetch'
+alias gl='git pull'
+alias glg='git log --stat'
+alias gp='git push'
+alias grb='git rebase'
+alias gst='git status'
+alias lg='lazygit'

@@ -8,13 +8,17 @@ if [[ -z "$TMUX" ]] && ! infocmp "$TERM" >/dev/null 2>&1; then
   export TERM=xterm-256color
 fi
 
+if [[ -f /run/.toolboxenv ]]; then
+  export TERM=xterm-256color
+fi
+
 export CLICOLOR=1
 export EDITOR=nvim
 export VISUAL=nvim
 
 export HISTFILESIZE=1048576
 export HISTSIZE=1048576
-export GPG_TTY="$(tty)"
+[[ -n "${TTY:-}" ]] && export GPG_TTY="$TTY"
 export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 bat_cmd=""

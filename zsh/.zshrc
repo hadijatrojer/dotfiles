@@ -1,40 +1,45 @@
-export ZSH="$HOME/.oh-my-zsh"
+typeset -U path fpath
 
-ZSH_THEME=""
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1048576
+SAVEHIST=1048576
 
-zstyle ':omz:update' mode auto
-zstyle ':omz:update' frequency 13
+setopt auto_cd auto_pushd extended_history hist_ignore_dups hist_ignore_space
+setopt interactivecomments pushd_ignore_dups pushdminus share_history
 
-plugins=(
-  branch
-  git
-  fzf
-  ssh
-  sudo
-  systemd
-  tmux
-  toolbox
-  zoxide
-)
+mkdir -p "$HOME/.cache/zsh"
+autoload -Uz compinit
+compinit -i -d "$HOME/.cache/zsh/zcompdump"
 
-if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
-  plugins+=(zsh-autosuggestions)
-fi
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
 
-if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
-  plugins+=(zsh-syntax-highlighting)
-fi
+bindkey -e
 
 [[ -f "$HOME/.zsh/exports.zsh" ]] && source "$HOME/.zsh/exports.zsh"
-[[ -f "$HOME/.zsh/os-linux.zsh" ]] && source "$HOME/.zsh/os-linux.zsh"
 [[ -f "$HOME/.zsh/tools.zsh" ]] && source "$HOME/.zsh/tools.zsh"
-
-source $ZSH/oh-my-zsh.sh
-
 [[ -f "$HOME/.zsh/aliases.zsh" ]] && source "$HOME/.zsh/aliases.zsh"
-[[ -f "$HOME/.zsh/functions.zsh" ]] && source "$HOME/.zsh/functions.zsh"
-[[ -f "$HOME/.zsh/overrides.zsh" ]] && source "$HOME/.zsh/overrides.zsh"
+[[ -f "$HOME/.zsh/git-aliases.zsh" ]] && source "$HOME/.zsh/git-aliases.zsh"
 
-if [[ -f /run/.toolboxenv ]]; then
-  export TERM=xterm-256color
-fi
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+
+for plugin_file in \
+  "$HOME/.local/share/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+do
+  if [[ -f "$plugin_file" ]]; then
+    source "$plugin_file"
+    break
+  fi
+done
+
+for plugin_file in \
+  "$HOME/.local/share/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+do
+  if [[ -f "$plugin_file" ]]; then
+    source "$plugin_file"
+    break
+  fi
+done

@@ -34,6 +34,20 @@ FEDORA_PACKAGES = [
     Package("systemd", REPO_ROOT),
 ]
 
+ZSH_PLUGINS_DEST = Path(".local/share/zsh-plugins")
+ZSH_PLUGINS = [
+    (
+        "zsh-autosuggestions",
+        "https://github.com/zsh-users/zsh-autosuggestions",
+        "v0.7.1",
+    ),
+    (
+        "zsh-syntax-highlighting",
+        "https://github.com/zsh-users/zsh-syntax-highlighting",
+        "0.8.0",
+    ),
+]
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -96,6 +110,67 @@ def run_stow(package: Package, target: str, apply: bool, verbose: bool) -> int:
     return result.returncode
 
 
+def run_git(command: list[str], verbose: bool) -> subprocess.CompletedProcess[str]:
+    if verbose:
+        print("+", " ".join(command))
+
+    return subprocess.run(
+        command,
+        cwd=REPO_ROOT,
+        check=False,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+
+def clone_or_update_plugin(
+    name: str,
+    url: str,
+    ref: str,
+    dest: Path,
+    verbose: bool,
+) -> int:
+    if not dest.exists():
+        result = run_git(["git", "clone", "--quiet", url, str(dest)], verbose)
+        if result.returncode != 0:
+            print(f"Failed to clone {name}: {result.stderr}", file=sys.stderr)
+            return result.returncode
+
+    fetch = run_git(
+        ["git", "-C", str(dest), "fetch", "--quiet", "--tags", "origin"],
+        verbose,
+    )
+    if fetch.returncode != 0:
+        print(f"Failed to fetch {name}: {fetch.stderr}", file=sys.stderr)
+        return fetch.returncode
+
+    checkout = run_git(["git", "-C", str(dest), "checkout", "--quiet", ref], verbose)
+    if checkout.returncode != 0:
+        print(f"Failed to pin {name} to {ref}: {checkout.stderr}", file=sys.stderr)
+        return checkout.returncode
+
+    print(f"PINNED: {name} @ {ref}")
+    return 0
+
+
+def run_zsh_plugins(target: str, apply: bool, verbose: bool) -> int:
+    plugins_dir = Path(target) / ZSH_PLUGINS_DEST
+
+    print("\n[zsh-plugins]")
+    if not apply:
+        for name, _url, ref in ZSH_PLUGINS:
+            print(f"Would pin {name} @ {ref}")
+        return 0
+
+    plugins_dir.mkdir(parents=True, exist_ok=True)
+
+    failures = 0
+    for name, url, ref in ZSH_PLUGINS:
+        failures += clone_or_update_plugin(name, url, ref, plugins_dir / name, verbose)
+    return failures
+
+
 def main() -> int:
     args = parse_args()
     target = os.path.abspath(os.path.expanduser(args.target))
@@ -103,12 +178,14 @@ def main() -> int:
     packages = selected_packages()
 
     action = "Applying" if args.apply else "Checking"
-    print(f"{action} packages into {target}")
+    print(f"{action} packages into {target}", flush=True)
 
     failures = 0
     for package in packages:
-        print(f"\n[{package.name}]")
+        print(f"\n[{package.name}]", flush=True)
         failures += run_stow(package, target, args.apply, args.verbose)
+
+    failures += run_zsh_plugins(target, args.apply, args.verbose)
 
     if failures:
         print(f"\nCompleted with {failures} failing stow command(s).", file=sys.stderr)
