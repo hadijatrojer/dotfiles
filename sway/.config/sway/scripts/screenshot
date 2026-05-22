@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+target_dir="$(xdg-user-dir PICTURES)/Screenshots"
+target="${target_dir}/$(date +'%Y-%m-%d-%H%M%S.png')"
+wayfreeze="${HOME}/.cargo/bin/wayfreeze"
+
+mkdir -p "$target_dir"
+
+freeze_pid=""
+stop_freeze() {
+  if [[ -n "$freeze_pid" ]]; then
+    kill "$freeze_pid" >/dev/null 2>&1 || true
+    freeze_pid=""
+  fi
+}
+
+cleanup() {
+  stop_freeze
+}
+trap cleanup EXIT
+
+clamp_satty_window() {
+  local criteria
+  local _i
+
+  for _i in {1..20}; do
+    for criteria in '[app_id="com.gabm.satty"]' '[app_id="org.satty.Satty"]'; do
+      swaymsg "$criteria floating enable, resize set 90 ppt 90 ppt, move position center" >/dev/null 2>&1 || true
+    done
+    sleep 0.1
+  done
+}
+
+if [[ -x "$wayfreeze" ]]; then
+  "$wayfreeze" &
+  freeze_pid="$!"
+  sleep 0.1
+fi
+
+geom="$(slurp)" || exit 0
+[[ -z "$geom" ]] && exit 0
+
+clamp_satty_window &
+
+{
+  grim -g "$geom" -
+  stop_freeze
+} | flatpak run org.satty.Satty \
+  --filename - \
+  --output-filename "$target" \
+  --early-exit \
+  --actions-on-enter save-to-clipboard \
+  --save-after-copy \
+  --copy-command "wl-copy"

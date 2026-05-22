@@ -65,6 +65,7 @@ for_window [app_id="org.gnome.Yelp"] border pixel 3
 for_window [app_id="google-chrome" title="^Meet .+$"] floating enable, sticky enable
 for_window [app_id="google-chrome" title="^Meet .+ - Google Chrome$"] sticky disable, floating disable
 for_window [app_id="com.gabm.satty"] floating enable, resize set 90 ppt 90 ppt, move position center
+for_window [app_id="org.satty.Satty"] floating enable, resize set 90 ppt 90 ppt, move position center
 
 exec_always ~/.config/sway/scripts/session-start
 
@@ -76,7 +77,7 @@ bindsym $mod+v exec dms ipc clipboard toggle
 bindsym $mod+Tab exec dms ipc launcher toggleQuery ';'
 bindsym $mod+space exec $menu
 
-bindsym $mod+Shift+s exec sh -lc '$HOME/.cargo/bin/wayfreeze & PID=$!; sleep 0.1; (grim -g "$(slurp)" -; kill $PID) | flatpak run org.satty.Satty --filename - --output-filename "$(xdg-user-dir PICTURES)/Screenshots/$(date +'"'"'%Y-%m-%d-%H%M%S.png'"'"')" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command "wl-copy"'
+bindsym $mod+Shift+s exec ~/.config/sway/scripts/screenshot
 
 bindsym $mod+Shift+q kill
 
@@ -98,16 +99,13 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-bindsym $mod+Ctrl+Home move workspace to output left
-bindsym $mod+Ctrl+End move workspace to output right
-
 bindsym $mod+Page_Down workspace next
 bindsym $mod+Page_Up workspace prev
 bindsym $mod+g workspace back_and_forth
 bindsym $mod+Ctrl+Page_Down move container to workspace next; workspace next
 bindsym $mod+Ctrl+Page_Up move container to workspace prev; workspace prev
-bindsym $mod+Shift+Page_Down move workspace to output right
-bindsym $mod+Shift+Page_Up move workspace to output left
+bindsym $mod+Shift+u move workspace to output left
+bindsym $mod+Shift+i move workspace to output right
 
 bindsym $mod+r exec ~/.config/sway/scripts/preset-width
 bindsym $mod+c focus parent
@@ -122,7 +120,6 @@ bindsym $mod+bracketright splith
 bindsym $mod+period layout toggle split tabbed
 bindsym $mod+slash layout toggle split
 bindsym $mod+Shift+r reload
-bindsym $mod+Ctrl+r resize set 0 0
 bindsym $mod+a focus mode_toggle
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+Shift+n move scratchpad
