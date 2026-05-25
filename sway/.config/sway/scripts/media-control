@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+action="${1:-}"
+
+case "$action" in
+next | play-pause | previous | stop) ;;
+*)
+  printf 'usage: %s {next|play-pause|previous|stop}\n' "${0##*/}" >&2
+  exit 64
+  ;;
+esac
+
+cider_player="$(
+  busctl --user list --no-legend 2>/dev/null |
+    awk '
+      BEGIN { prefix = "org.mpris.MediaPlayer2." }
+      index($1, prefix) == 1 && tolower($3) == "cider" {
+        sub(prefix, "", $1)
+        print $1
+        exit
+      }
+    '
+)"
+
+if [[ -z "$cider_player" ]]; then
+  cider_player="$(
+    playerctl -l 2>/dev/null |
+      awk 'BEGIN { IGNORECASE = 1 } /cider/ { print; exit }'
+  )"
+fi
+
+if [[ -n "$cider_player" ]]; then
+  exec playerctl --player="$cider_player" "$action"
+fi
+
+exec playerctl "$action"

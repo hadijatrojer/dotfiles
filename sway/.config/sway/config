@@ -6,6 +6,7 @@ set $file_manager nautilus --new-window
 set $menu dms ipc launcher toggle
 set $browser google-chrome-stable
 set $quit ~/.config/sway/scripts/session-quit
+set $media ~/.config/sway/scripts/media-control
 
 font pango:GeistMono Nerd Font 11
 
@@ -25,7 +26,6 @@ workspace 9 output HDMI-A-2
 
 input type:keyboard {
     xkb_layout gb
-    xkb_options caps:escape
 }
 
 input type:pointer {
@@ -78,6 +78,7 @@ bindsym $mod+v exec dms ipc clipboard toggle
 bindsym $mod+Tab exec dms ipc launcher toggleQuery ';'
 bindsym $mod+space exec $menu
 
+bindsym Print exec ~/.config/sway/scripts/screenshot
 bindsym $mod+Shift+s exec ~/.config/sway/scripts/screenshot
 
 bindsym $mod+Shift+q kill
@@ -156,9 +157,9 @@ bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindsym XF86MonBrightnessUp exec brightnessctl -e4 -n2 set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl -e4 -n2 set 5%-
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioNext exec $media next
+bindsym XF86AudioPause exec $media play-pause
+bindsym XF86AudioPlay exec $media play-pause
+bindsym XF86AudioStop exec $media stop
+bindsym XF86AudioPrev exec $media previous
 bindsym Ctrl+Alt+Delete exec $quit
