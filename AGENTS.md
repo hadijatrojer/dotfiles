@@ -10,7 +10,7 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
   `sway/.config/sway/` (`config`, `theme.conf`, `scripts/`)
 - Launcher, shell plugins, and terminal:
   `dms/.config/DankMaterialShell/plugins/`,
-  `alacritty/.config/alacritty/alacritty.toml`
+  `foot/.config/foot/foot.ini`
 - Shell and editor:
   `zsh/.zshrc`, `vscode/settings.json`
 - System monitor:
@@ -65,12 +65,12 @@ No formal automated suite exists. Validation is per-file and per-module.
 - Run syntax checks for every touched shell or Python script.
 - For Sway changes, reload the config or restart the affected component and
   verify behavior manually.
-- For Alacritty changes, open the app and verify appearance or behavior
+- For Foot changes, open the app and verify appearance or behavior
   directly.
 - For DMS-related desktop changes, restart DMS once if the shell service,
   launcher, lock screen, bar behavior, or repo-managed DMS plugins changed.
 - For theming work, read `THEME.md` first and keep palette changes synchronized
-  across Sway, Alacritty, Btop, DMS-managed surfaces, and any shell prompt
+  across Sway, Foot, Btop, DMS-managed surfaces, and any shell prompt
   accents.
 - For systemd changes, run `systemctl --user daemon-reload` and test the
   relevant unit start or restart path.
@@ -83,7 +83,7 @@ No formal automated suite exists. Validation is per-file and per-module.
 - Keep Catppuccin Latte values aligned across:
   - `sway/.config/sway/theme.conf`
   - `zsh/.zsh/tools.zsh` when prompt accent colors change
-- Treat `alacritty/.config/alacritty/alacritty.toml` as an explicit Catppuccin
+- Treat `foot/.config/foot/foot.ini` as an explicit Catppuccin
   Mocha exception unless you intend to change the terminal separately.
 - Treat `btop/.config/btop/btop.conf` and
   `btop/.config/btop/themes/catppuccin-mocha.theme` as explicit Catppuccin

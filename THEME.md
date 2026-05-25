@@ -1,7 +1,7 @@
 # Theme Guide
 
 This repo currently uses a Catppuccin Latte palette across the desktop stack,
-with Alacritty and Btop intentionally kept on Catppuccin Mocha.
+with Foot and Btop intentionally kept on Catppuccin Mocha.
 Treat `sway/.config/sway/theme.conf` as the palette source of truth and propagate
 changes outward from there.
 
@@ -28,16 +28,13 @@ Core shared values used elsewhere:
 - Also contains non-palette visual behavior such as gaps, border widths, output
   layout, and window rules.
 
-`alacritty/.config/alacritty/alacritty.toml`
+`foot/.config/foot/foot.ini`
 
 - Intentionally uses Catppuccin Mocha instead of the shared Latte desktop palette.
 - If you change the terminal palette, update:
-  - `colors.primary`
-  - `colors.cursor`
-  - `colors.selection`
-  - `colors.normal`
-  - `colors.bright`
-  - `colors.dim`
+  - `[colors-dark]` foreground/background and alpha
+  - normal and bright ANSI mappings
+  - selection and cursor colors
 - Typography and window opacity also live here, so visual changes are not
   limited to colors.
 
@@ -75,7 +72,7 @@ When changing colors, keep the stack in sync in this order:
    semantics changed, not just the underlying palette values.
 3. Mirror the Latte palette changes into:
    - `zsh/.zsh/tools.zsh` if the prompt accent should stay aligned
-4. Update `alacritty/.config/alacritty/alacritty.toml` and
+4. Update `foot/.config/foot/foot.ini` and
    `btop/.config/btop/themes/catppuccin-mocha.theme` separately if the Mocha
    terminal exceptions should also change.
 5. Re-stow or reload the affected module and verify visually.
@@ -87,12 +84,12 @@ The same color appears in different syntaxes depending on the target:
 
 - Sway variable: `#1e66f5`
 - Raw hex for alpha composition: `1e66f5`
-- Alacritty hex: `#89b4fa`
+- Foot hex: `89b4fa`
 
 ## Verification
 
 - Sway: reload config and confirm borders, gaps, floating rules, and surfaces match.
-- Alacritty: open a new terminal and verify background, cursor, and ANSI colors.
+- Foot: open a new terminal and verify background, cursor, and ANSI colors.
 - Btop: start `btop` and confirm the custom theme still loads as expected.
 - DMS: open the launcher, lock screen, or bar surfaces and verify they still
   fit the active palette.

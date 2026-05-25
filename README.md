@@ -5,7 +5,7 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 ## Repository Shape
 
 - Shared shell and terminal packages:
-  `alacritty`, `btop`, `vscode`, `zsh`
+  `btop`, `foot`, `vscode`, `zsh`
 - Desktop behavior:
   `dms`, `sway`
 - Helper scripts:
@@ -33,14 +33,14 @@ Examples:
 The helper applies:
 
 - Common packages:
-  `alacritty`, `btop`, `scripts`, `sway`, `vscode`, `zsh`
+  `btop`, `foot`, `scripts`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
   `containers`, `dms`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
-stow -nv alacritty btop scripts sway vscode zsh
+stow -nv btop foot scripts sway vscode zsh
 stow -nv containers dms systemd
 ```
 
@@ -69,7 +69,7 @@ The DMS shell is started by `systemd/.config/systemd/user/dms.service` through
 
 ## Notes
 
-- `THEME.md` documents the Catppuccin Latte desktop palette, plus the Alacritty
+- `THEME.md` documents the Catppuccin Latte desktop palette, plus the Foot
   and Btop Mocha exceptions, and the synchronization points across the desktop stack.
 - Package-specific setup notes live next to the package when the workflow is
   non-obvious.
