@@ -17,13 +17,26 @@ Typical order:
 
 The installer scripts are thin wrappers around shared package lists:
 
-- `base-packages.sh`: intentionally small host and toolbox CLI baseline
+- `base-packages.sh`: intentionally small host and toolbox bootstrap baseline
 - `sway-packages.sh`: desktop/session packages for this Sway setup
+- `setup-mise.sh`: portable userland and development CLIs that do not need to
+  be host-layered
 
 That keeps package choices in one place while allowing different installers:
 
 - `rpm-ostree install` on the host
 - `dnf install -y` inside a toolbox
+
+## Package Split
+
+- Keep the host base small: native build tools, `git`, `git-lfs`, `rclone`,
+  `stow`, `tmux`, and `zsh`.
+- Install comfort and developer tools with `mise` where practical, including
+  `bat`, `btop`, `eza`, `fd`, `fastfetch`, `fzf`, `gdu`, `glow`, `jj`,
+  `lazygit`, basic `neovim`, `node@24`, `ripgrep`, shell formatting/linting
+  tools, `uv`, `yazi`, and `zoxide`.
+- Keep Sway packages focused on desktop/session pieces that are launched by
+  the compositor or DMS workflow.
 
 ## Fedora Stow Packages
 

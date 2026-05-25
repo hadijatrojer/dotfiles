@@ -23,22 +23,3 @@ alias serve='python3 -m http.server 8081'
 alias lees='less'
 alias elss='less'
 alias sless='less'
-
-tm() {
-  if [[ -n "$TMUX" ]]; then
-    command tmux "$@"
-    return
-  fi
-
-  if [[ $# -gt 0 ]]; then
-    command tmux "$@"
-    return
-  fi
-
-  if command tmux has-session 2>/dev/null; then
-    command tmux attach
-    return
-  fi
-
-  command tmux new-session
-}

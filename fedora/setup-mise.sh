@@ -11,17 +11,22 @@ fi
 eval "$(mise activate bash)"
 
 # Install tools via mise
-mise use \
+mise use --global \
   bat@latest \
+  btop@latest \
   eza@latest \
+  fd@latest \
+  fastfetch@latest \
   fzf@latest \
+  gdu@latest \
   glow@latest \
+  jj@latest \
   lazygit@latest \
   neovim@latest \
-  node@latest \
-  rust@latest \
-  tree-sitter@latest \
+  node@24 \
+  ripgrep@latest \
+  shellcheck@latest \
+  shfmt@latest \
   uv@latest \
   yazi@latest \
-  github:zk-org/zk@latest \
   zoxide@latest
