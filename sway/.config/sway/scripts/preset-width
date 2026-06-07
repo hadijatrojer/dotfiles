@@ -1,24 +1,118 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env python3
+"""Cycle preset sizes for the focused Sway window.
 
-state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/sway"
-state_file="${state_dir}/preset-width"
-presets=(33 50 67)
+Tiled windows cycle width through 33, 50, and 67 ppt.
+Floating windows cycle through useful centered rectangles.
+Tiled and floating state are tracked independently.
+"""
 
-mkdir -p "$state_dir"
+from __future__ import annotations
 
-current="50"
-if [[ -r "$state_file" ]]; then
-  current="$(<"$state_file")"
-fi
+import json
+import os
+import subprocess
+from pathlib import Path
+from typing import Any
 
-next="${presets[0]}"
-for i in "${!presets[@]}"; do
-  if [[ "${presets[$i]}" == "$current" ]]; then
-    next="${presets[$(((i + 1) % ${#presets[@]}))]}"
-    break
-  fi
-done
 
-printf '%s\n' "$next" >"$state_file"
-exec swaymsg "resize set width ${next} ppt"
+TILED_PRESETS = [33, 50, 67]
+
+# x, y, width, height as fractions of the current workspace rectangle.
+FLOAT_PRESETS = [
+    (0.25, 0.20, 0.50, 0.60),
+    (0.05, 0.05, 0.90, 0.90),
+    (0.15, 0.00, 0.70, 1.00),
+]
+
+
+def swaymsg(*args: str) -> str:
+    return subprocess.check_output(["swaymsg", *args], text=True)
+
+
+def find_focused() -> tuple[dict[str, Any], dict[str, Any]] | None:
+    tree = json.loads(swaymsg("-t", "get_tree"))
+
+    def walk(
+        node: dict[str, Any],
+        workspace: dict[str, Any] | None = None,
+    ) -> tuple[dict[str, Any], dict[str, Any]] | None:
+        if node.get("type") == "workspace" and node.get("name") != "__i3_scratch":
+            workspace = node
+
+        if node.get("focused") and workspace is not None:
+            return workspace, node
+
+        for child in node.get("nodes", []) + node.get("floating_nodes", []):
+            result = walk(child, workspace)
+            if result is not None:
+                return result
+
+        return None
+
+    return walk(tree)
+
+
+def is_floating(container: dict[str, Any]) -> bool:
+    floating = container.get("floating")
+    return container.get("type") == "floating_con" or (
+        isinstance(floating, str) and floating.startswith("user_")
+    )
+
+
+def state_path(name: str) -> Path:
+    state_home = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state"))
+    directory = state_home / "sway"
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory / name
+
+
+def read_index(path: Path) -> int:
+    try:
+        return int(path.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return 0
+
+
+def write_index(path: Path, index: int) -> None:
+    path.write_text(f"{index}\n", encoding="utf-8")
+
+
+def cycle_floating(workspace: dict[str, Any]) -> None:
+    path = state_path("preset-float")
+    index = (read_index(path) + 1) % len(FLOAT_PRESETS)
+    write_index(path, index)
+
+    rect = workspace["rect"]
+    x_factor, y_factor, width_factor, height_factor = FLOAT_PRESETS[index]
+    x = int(rect["x"] + rect["width"] * x_factor)
+    y = int(rect["y"] + rect["height"] * y_factor)
+    width = int(rect["width"] * width_factor)
+    height = int(rect["height"] * height_factor)
+
+    swaymsg(
+        f"resize set {width} px {height} px, "
+        f"move absolute position {x} px {y} px"
+    )
+
+
+def cycle_tiled() -> None:
+    path = state_path("preset-width")
+    index = (read_index(path) + 1) % len(TILED_PRESETS)
+    write_index(path, index)
+    swaymsg(f"resize set width {TILED_PRESETS[index]} ppt")
+
+
+def main() -> None:
+    focused = find_focused()
+    if focused is None:
+        return
+
+    workspace, container = focused
+    if is_floating(container):
+        cycle_floating(workspace)
+    else:
+        cycle_tiled()
+
+
+if __name__ == "__main__":
+    main()
