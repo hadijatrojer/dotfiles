@@ -73,7 +73,7 @@ for_window [app_id="org.satty.Satty"] floating enable, resize set 90 ppt 90 ppt,
 
 exec_always ~/.config/sway/scripts/session-start
 
-bindsym $mod+Shift+slash exec dms ipc launcher toggleQuery '?'
+bindsym XF86Tools exec dms ipc launcher toggleQuery '?'
 bindsym $mod+t exec $term
 bindsym $mod+f exec $file_manager
 bindsym $mod+b exec $browser
@@ -85,6 +85,8 @@ bindsym Print exec ~/.config/sway/scripts/screenshot
 bindsym $mod+Shift+s exec ~/.config/sway/scripts/screenshot
 
 bindsym $mod+Shift+q kill
+bindsym Ctrl+Alt+l exec dms ipc lock lock
+bindsym Ctrl+Alt+m exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
 bindsym $mod+Left focus left
 bindsym $mod+Right focus right
