@@ -87,6 +87,8 @@ bindsym $mod+Shift+s exec ~/.config/sway/scripts/screenshot
 bindsym $mod+Shift+q kill
 bindsym Ctrl+Alt+l exec dms ipc lock lock
 bindsym Ctrl+Alt+m exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86Launch5 exec ~/.config/sway/scripts/set-audio-output --sink smsl
+bindsym XF86Launch6 exec ~/.config/sway/scripts/set-audio-output --sink echo
 
 bindsym $mod+Left focus left
 bindsym $mod+Right focus right

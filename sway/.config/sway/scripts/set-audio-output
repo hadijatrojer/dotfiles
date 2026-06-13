@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+import argparse
+import shutil
+import subprocess
+import sys
+import time
+
+
+SINKS = {
+    "smsl": "SMSL USB AUDIO",
+    "echo": "Echo-4D0",
+}
+
+
+def run(command: list[str], check: bool = True) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        command,
+        check=check,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+
+def sink_blocks() -> list[dict[str, str]]:
+    result = run(["pactl", "list", "sinks"])
+    blocks = []
+
+    for block in result.stdout.split("\n\n"):
+        sink: dict[str, str] = {}
+        for line in block.splitlines():
+            stripped = line.strip()
+            if stripped.startswith("Name: "):
+                sink["name"] = stripped.removeprefix("Name: ")
+            elif stripped.startswith("Description: "):
+                sink["description"] = stripped.removeprefix("Description: ")
+
+        if sink:
+            blocks.append(sink)
+
+    return blocks
+
+
+def find_sink(pattern: str) -> str | None:
+    lower_pattern = pattern.lower()
+
+    for sink in sink_blocks():
+        name = sink.get("name", "")
+        description = sink.get("description", "")
+        if lower_pattern in name.lower() or lower_pattern in description.lower():
+            return name
+
+    return None
+
+
+def find_paired_bluetooth_device(pattern: str) -> str | None:
+    if shutil.which("bluetoothctl") is None:
+        return None
+
+    result = run(["bluetoothctl", "devices", "Paired"], check=False)
+    lower_pattern = pattern.lower()
+
+    for line in result.stdout.splitlines():
+        parts = line.split(maxsplit=2)
+        if len(parts) == 3 and lower_pattern in parts[2].lower():
+            return parts[1]
+
+    return None
+
+
+def bluetooth_device_connected(device: str) -> bool:
+    result = run(["bluetoothctl", "info", device], check=False)
+    return "Connected: yes" in result.stdout
+
+
+def bluetooth_card_name(device: str) -> str:
+    return f"bluez_card.{device.replace(':', '_')}"
+
+
+def disconnect_bluetooth_device(device: str) -> None:
+    run(["bluetoothctl", "disconnect", device], check=False)
+
+
+def set_bluetooth_output_profile(device: str) -> None:
+    run(["pactl", "set-card-profile", bluetooth_card_name(device), "a2dp-sink"], check=False)
+
+
+def connect_echo() -> str | None:
+    device = find_paired_bluetooth_device(SINKS["echo"])
+    if device is None:
+        return None
+
+    if bluetooth_device_connected(device):
+        disconnect_bluetooth_device(device)
+        time.sleep(0.5)
+
+    run(["bluetoothctl", "connect", device], check=False)
+
+    for _ in range(12):
+        set_bluetooth_output_profile(device)
+        sink = find_sink(SINKS["echo"])
+        if sink is not None:
+            return sink
+        time.sleep(0.5)
+
+    disconnect_bluetooth_device(device)
+    return None
+
+
+def move_sink_inputs(target_sink: str) -> None:
+    result = run(["pactl", "list", "short", "sink-inputs"], check=False)
+
+    for line in result.stdout.splitlines():
+        sink_input = line.split("\t", maxsplit=1)[0]
+        if sink_input:
+            run(["pactl", "move-sink-input", sink_input, target_sink], check=False)
+
+
+def notify(label: str) -> None:
+    if shutil.which("notify-send") is None:
+        return
+
+    run(
+        [
+            "notify-send",
+            "--urgency=low",
+            "--expire-time=1500",
+            "Audio output",
+            label,
+        ],
+        check=False,
+    )
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--sink", choices=sorted(SINKS), required=True)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    label = SINKS[args.sink]
+    target_sink = find_sink(label)
+
+    if args.sink == "echo" and target_sink is None:
+        target_sink = connect_echo()
+
+    if target_sink is None:
+        print(f'Could not find target sink: "{label}"', file=sys.stderr)
+        return 1
+
+    run(["pactl", "set-default-sink", target_sink])
+    move_sink_inputs(target_sink)
+    notify(label)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
