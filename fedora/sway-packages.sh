@@ -14,6 +14,8 @@ sway_packages=(
   playerctl
   slurp
   sway
+  # Host udev rules for Steam Input virtual gamepads and controller access.
+  steam-devices
   wlr-randr
   xdg-desktop-portal-wlr
   xdg-terminal-exec
