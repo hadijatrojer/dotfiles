@@ -19,6 +19,11 @@ User units managed by this repo live under `.config/systemd/user/`.
   systemd startup and repeats it every 15 minutes.
 - `flatpak-update.service`: oneshot Flatpak update with desktop notifications.
 - `flatpak-update.timer`: daily timer for `flatpak-update.service`.
+- `sensor-logger.service`: oneshot that runs `scripts/sensor-logger.py` to log
+  hardware sensor readings (CPU/GPU/DDR/SSD temps, power, voltages) into a
+  SQLite DB at `~/.local/state/sensor-logger/sensors.db`. See
+  `scripts/SENSOR-LOGGER.md`.
+- `sensor-logger.timer`: runs the logger every 5 minutes.
 - `toolbox-dev.service`: starts the `dev` Podman container and stays active
   after the start command exits.
 
@@ -30,8 +35,8 @@ Repo-managed `*.wants/` symlinks opt units into user targets:
   session.
 - `default.target.wants/`: startup services that should run outside the Sway
   session target, including the cloud mounts and `toolbox-dev.service`.
-- `timers.target.wants/`: enabled user timers such as
-  `rclone-warm-gdrive.timer`.
+- `timers.target.wants/`: enabled user timers, currently
+  `rclone-warm-gdrive.timer` and `sensor-logger.timer`.
 - `sockets.target.wants/`: socket units supplied by the OS, such as
   `podman.socket`.
 

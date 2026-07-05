@@ -1,0 +1,7 @@
+[Unit]
+Description=Log sensor readings to SQLite
+
+[Service]
+Type=oneshot
+ExecStart=%h/dotfiles/scripts/sensor-logger.py
+Nice=10

@@ -67,6 +67,18 @@ The DMS shell is started by `systemd/.config/systemd/user/dms.service` through
 `sway-session.target`; repo-managed DMS plugins live under
 `dms/.config/DankMaterialShell/plugins/`.
 
+## User Services
+
+A few background user units run via `systemd/.config/systemd/user/` (timers
+wired into `timers.target.wants/`):
+
+- `sensor-logger.timer` (every 5 min) runs `scripts/sensor-logger.py` to log
+  hardware sensor readings (CPU/GPU/DDR/SSD temps, power, voltages) into a
+  SQLite DB at `~/.local/state/sensor-logger/sensors.db`. Old data is
+  progressively downsampled rather than dropped, and hot temperatures raise
+  tiered `notify-send` alerts (warning/critical/recovery); see
+  [`scripts/SENSOR-LOGGER.md`](scripts/SENSOR-LOGGER.md).
+
 ## Notes
 
 - `THEME.md` documents the Catppuccin Latte desktop palette, plus the Foot
