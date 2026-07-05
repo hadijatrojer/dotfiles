@@ -1,0 +1,10 @@
+[Unit]
+Description=Warm GDrive rclone mount directory cache
+Wants=gdrive.service
+After=gdrive.service
+ConditionPathIsMountPoint=%h/GDrive
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/timeout 25s /usr/bin/ls -A %h/GDrive
+StandardOutput=null

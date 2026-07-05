@@ -1,0 +1,11 @@
+[Unit]
+Description=Keep GDrive rclone mount warm
+
+[Timer]
+OnStartupSec=30s
+OnUnitActiveSec=15min
+AccuracySec=1min
+Unit=rclone-warm-gdrive.service
+
+[Install]
+WantedBy=timers.target
