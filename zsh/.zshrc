@@ -21,6 +21,8 @@ bindkey -e
 [[ -f "$HOME/.zsh/aliases.zsh" ]] && source "$HOME/.zsh/aliases.zsh"
 [[ -f "$HOME/.zsh/git-aliases.zsh" ]] && source "$HOME/.zsh/git-aliases.zsh"
 
+[[ -f "$HOME/.zsh/zz-local-env.zsh" ]] && source "$HOME/.zsh/zz-local-env.zsh"
+
 command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 
