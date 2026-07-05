@@ -25,6 +25,38 @@ prefix into a `kind`/`unit`:
 
 Non-finite values (NaN/inf from sensor glitches) are dropped before insert.
 
+### No fan data on this host (GEEKOM A6)
+
+The logger already classifies any `fan*_input` subfeature as `kind=fan,
+unit=RPM`, but on this machine there is nothing for it to read: **no fan
+channel is exposed to lm_sensors, so no `fan` rows are ever inserted.**
+
+Investigated 2026-07-05:
+
+- `sensors -j` reports no `fan*`/`pwm*` inputs; `find /sys -name 'fan*_input'`
+  is empty across all `hwmon` devices.
+- `sensors-detect` finds the super-I/O chip only after Secure Boot is disabled
+  (Secure Boot forces kernel `integrity` lockdown, which blocks the `/dev/port`
+  raw I/O the super-I/O probe needs). With lockdown off it reports:
+  `Found unknown chip with ID 0x5571` at `0x4e/0x4f`.
+- **0x5571 = ITE IT5571**, an embedded controller (same one in ZOTAC ZBOX and
+  various mini PCs). There is **no Linux hwmon driver for it** — not `it87`,
+  not `nct6775` (hence `modprobe nct6775` → `No such device`), and ITE does not
+  release the datasheet. See lm-sensors#400 and frankcrawford/it87#8.
+- I2C/SMBus probing finds only the DDR SPD chips (`spd5118`); no fan controller
+  on any bus a standard driver can read.
+- The ACPI EC (`PNP0C09:00`) is present, so the fan is driven by the IT5571 EC
+  autonomously, exposed only through vendor-private registers.
+
+Conclusion: fan RPM is **not obtainable through supported means** on the A6. No
+code change is warranted — the logger will capture fan data automatically if a
+driver ever exposes it. The only theoretical route is blind reverse-engineering
+of raw EC bytes via `/sys/kernel/debug/ec/ec0/io`, which is undocumented,
+fragile across BIOS updates, and deliberately not wired into the service.
+
+(Secure Boot was only disabled to run the probe; it can be re-enabled since the
+result is a dead end.)
+
 ### Storage tiers
 
 Instead of a hard TTL, older data is progressively downsampled so long-term
