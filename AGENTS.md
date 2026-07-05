@@ -13,6 +13,9 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
   `foot/.config/foot/foot.ini`
 - Shell and editor:
   `zsh/.zshrc`, `vscode/settings.json`
+- Agent tooling:
+  pi coding-agent extensions in `pi/.pi/agent/extensions/*.ts`, portable agent
+  skills in `skills/.agents/skills/<name>/`
 - System monitor:
   `btop/.config/btop/btop.conf`, `btop/.config/btop/themes/`
 - User services:

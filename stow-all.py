@@ -22,7 +22,9 @@ class Package:
 COMMON_PACKAGES = [
     Package("btop", REPO_ROOT),
     Package("foot", REPO_ROOT),
+    Package("pi", REPO_ROOT),
     Package("scripts", REPO_ROOT),
+    Package("skills", REPO_ROOT),
     Package("sway", REPO_ROOT),
     Package("vscode", REPO_ROOT),
     Package("zsh", REPO_ROOT),

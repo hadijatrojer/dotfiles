@@ -6,6 +6,8 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 
 - Shared shell and terminal packages:
   `btop`, `foot`, `vscode`, `zsh`
+- Agent tooling:
+  `pi` (pi coding-agent extensions), `skills` (portable agent skills)
 - Desktop behavior:
   `dms`, `sway`
 - Helper scripts:
@@ -33,14 +35,14 @@ Examples:
 The helper applies:
 
 - Common packages:
-  `btop`, `foot`, `scripts`, `sway`, `vscode`, `zsh`
+  `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
   `containers`, `dms`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
-stow -nv btop foot scripts sway vscode zsh
+stow -nv btop foot pi scripts skills sway vscode zsh
 stow -nv containers dms systemd
 ```
 
@@ -78,6 +80,15 @@ wired into `timers.target.wants/`):
   progressively downsampled rather than dropped, and hot temperatures raise
   tiered `notify-send` alerts (warning/critical/recovery); see
   [`scripts/SENSOR-LOGGER.md`](scripts/SENSOR-LOGGER.md).
+
+## Agent Tooling
+
+- `pi` symlinks pi coding-agent extensions into `~/.pi/agent/extensions/`, where
+  pi auto-discovers them (with `/reload`). See [`pi/README.md`](pi/README.md).
+  Set `BRAVE_SEARCH_API_KEY` in the shell profile to enable the `brave_search`
+  tools.
+- `skills` symlinks portable agent skills into `~/.agents/skills/`, read
+  natively by pi and other Agent Skills-compatible agents.
 
 ## Notes
 
