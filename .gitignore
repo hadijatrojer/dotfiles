@@ -1,3 +1,6 @@
 __pycache__/
 .codex
 zsh/.zsh/zz-local-env.zsh
+
+# agent skill manager lock (machine-local)
+skills/.agents/.skill-lock.json
