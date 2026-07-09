@@ -11,7 +11,17 @@ Typical order:
 2. Run `fedora/setup-sway.sh` on the host.
 3. Run `fedora/setup-mise.sh` to install userland tools.
 4. Optionally run `fedora/setup-toolbox.sh` inside a Fedora toolbox.
-5. Run `./stow-all.py --apply` from the repo root.
+5. Optionally run `fedora/setup-network.sh` to apply host network tweaks.
+6. Run `./stow-all.py --apply` from the repo root.
+
+## Host `/etc` Config
+
+`/etc` is outside the Stow (`$HOME`) tree, so system files live under
+`fedora/etc/` and are installed by dedicated setup scripts:
+
+- `setup-network.sh`: installs `etc/NetworkManager/conf.d/wifi-powersave.conf`
+  (disables Wi-Fi power save to stop Google Meet / call stutter) and restarts
+  NetworkManager. Verify with `iw dev wlp2s0 get power_save`.
 
 ## Package Lists
 
