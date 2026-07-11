@@ -2,7 +2,7 @@
 Description=Periodically log sensor readings to SQLite
 
 [Timer]
-OnBootSec=2min
+OnStartupSec=2min
 OnUnitActiveSec=5min
 AccuracySec=30s
 Persistent=true
