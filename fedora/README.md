@@ -25,6 +25,9 @@ Typical order:
 
 ## Package Lists
 
+For per-app Flatpak setup, including the user-scoped Cider Apple Music client,
+see [`flatpak/README.md`](./flatpak/README.md).
+
 The installer scripts are thin wrappers around shared package lists:
 
 - `base-packages.sh`: intentionally small host and toolbox bootstrap baseline

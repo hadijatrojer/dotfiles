@@ -66,7 +66,7 @@ for_window [app_id="google-chrome"] border pixel 3
 for_window [app_id="google-chrome" title="^Meet .+$"] floating enable, sticky enable
 for_window [app_id="google-chrome" title="^Meet .+ - Google Chrome$"] sticky disable, floating disable
 for_window [app_id="^(code|vscode)$"] border pixel 3
-for_window [app_id="Cider"] border pixel 3
+for_window [app_id="cider"] border pixel 3
 for_window [app_id="org.quickshell" title="^Authentication$"] floating enable, resize set 760 420, move position center
 for_window [app_id="com.gabm.satty"] floating enable, resize set 90 ppt 90 ppt, move position center
 for_window [app_id="org.satty.Satty"] floating enable, resize set 90 ppt 90 ppt, move position center
