@@ -9,10 +9,11 @@ Typical order:
 
 1. Run `fedora/setup-base.sh` on the host.
 2. Run `fedora/setup-sway.sh` on the host.
-3. Run `fedora/setup-mise.sh` to install userland tools.
-4. Optionally run `fedora/setup-toolbox.sh` inside a Fedora toolbox.
-5. Optionally run `fedora/setup-network.sh` to apply host network tweaks.
-6. Run `./stow-all.py --apply` from the repo root.
+3. Run `fedora/setup-memory.sh` to configure zram and its VM policy.
+4. Run `fedora/setup-mise.sh` to install userland tools.
+5. Optionally run `fedora/setup-toolbox.sh` inside a Fedora toolbox.
+6. Optionally run `fedora/setup-network.sh` to apply host network tweaks.
+7. Run `./stow-all.py --apply` from the repo root.
 
 ## Host `/etc` Config
 
@@ -22,6 +23,9 @@ Typical order:
 - `setup-network.sh`: installs `etc/NetworkManager/conf.d/wifi-powersave.conf`
   (disables Wi-Fi power save to stop Google Meet / call stutter) and restarts
   NetworkManager. Verify with `iw dev wlp2s0 get power_save`.
+- `setup-memory.sh`: installs `etc/systemd/zram-generator.conf` and
+  `etc/sysctl.d/99-zram.conf`. It applies the VM settings immediately; reboot
+  once to recreate the zram device with the generator configuration.
 
 ## Package Lists
 
