@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly RPM_URL="https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
+readonly OPENAI_KEY_ID="4a3b4a566c4660e4"
+
+usage() {
+  cat <<'EOF'
+Usage: chatgpt-rpm install|update|status
+
+Manage OpenAI's official ChatGPT RPM on Fedora Atomic desktops.
+Install and update stage a new rpm-ostree deployment; reboot to activate it.
+EOF
+}
+
+require_rpm_ostree() {
+  command -v rpm-ostree >/dev/null 2>&1 || {
+    echo "chatgpt-rpm requires an rpm-ostree based Fedora system." >&2
+    exit 1
+  }
+}
+
+install_chatgpt() {
+  local rpm_path signature
+  rpm_path="$(mktemp --suffix=.chatgpt.rpm)"
+  trap 'rm -f "$rpm_path"' RETURN
+
+  curl -fL --retry 3 --output "$rpm_path" "$RPM_URL"
+  signature="$(rpm -Kv "$rpm_path" 2>&1)"
+  printf '%s\n' "$signature"
+  grep -Fqi "key ID $OPENAI_KEY_ID" <<<"$signature" || {
+    echo "The downloaded RPM is not signed with the expected OpenAI key." >&2
+    exit 1
+  }
+
+  sudo rpm-ostree install "$rpm_path"
+  echo "ChatGPT is staged. Reboot to activate the new deployment."
+}
+
+update_chatgpt() {
+  sudo rpm-ostree upgrade
+  echo "Updates are staged. Reboot if rpm-ostree created a new deployment."
+}
+
+show_status() {
+  rpm-ostree status
+  rpm -q chatgpt 2>/dev/null || true
+}
+
+require_rpm_ostree
+case "${1:-}" in
+  install) install_chatgpt ;;
+  update) update_chatgpt ;;
+  status) show_status ;;
+  *) usage >&2; exit 2 ;;
+esac

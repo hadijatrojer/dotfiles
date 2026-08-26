@@ -31,6 +31,7 @@ COMMON_PACKAGES = [
 ]
 
 FEDORA_PACKAGES = [
+    Package("chatgpt", REPO_ROOT),
     Package("containers", REPO_ROOT),
     Package("dms", REPO_ROOT),
     Package("systemd", REPO_ROOT),

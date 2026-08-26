@@ -13,7 +13,7 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
-  `containers`, `dms`, `systemd`
+  `chatgpt`, `containers`, `dms`, `systemd`
 
 Most top-level directories are Stow packages. The main exception is `fedora/`,
 which contains bootstrap scripts and package-list helpers rather than a Stow
@@ -37,13 +37,13 @@ The helper applies:
 - Common packages:
   `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
-  `containers`, `dms`, `systemd`
+  `chatgpt`, `containers`, `dms`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
 stow -nv btop foot pi scripts skills sway vscode zsh
-stow -nv containers dms systemd
+stow -nv chatgpt containers dms systemd
 ```
 
 ## Setup Order
@@ -62,6 +62,20 @@ inside the toolbox.
 The base host package set is intentionally small. Daily-driver desktop and
 session packages live in `fedora/sway-packages.sh` instead of being bundled
 into the base system bootstrap.
+
+### ChatGPT desktop app
+
+The `chatgpt` Stow package installs `~/.local/bin/chatgpt-rpm`, which manages
+OpenAI's official ChatGPT RPM on Fedora Atomic desktops. Install it with:
+
+```bash
+chatgpt-rpm install
+```
+
+The RPM adds OpenAI's signed package repository. Use `chatgpt-rpm update` to
+stage subsequent ChatGPT and system updates through `rpm-ostree`, then reboot
+when a new deployment is created. See [`chatgpt/README.md`](chatgpt/README.md)
+for details.
 
 Screen sharing depends on the user session bringing up `graphical-session.target`
 and the portal backends, which are wired through `systemd/.config/systemd/user/`.
