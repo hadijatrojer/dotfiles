@@ -54,7 +54,7 @@ ZSH_PLUGINS = [
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Preview or apply the dotfile packages relevant to this host."
+        description="Check, apply, or update the dotfiles relevant to this host."
     )
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument(
@@ -69,7 +69,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Apply the selected packages with GNU Stow.",
     )
-    parser.set_defaults(apply=False)
+    mode.add_argument(
+        "--update",
+        action="store_true",
+        help="Apply dotfiles and plugins, then update the Fedora Atomic deployment.",
+    )
+    parser.set_defaults(apply=False, update=False)
     parser.add_argument(
         "--target",
         default=str(Path.home()),
@@ -174,21 +179,42 @@ def run_zsh_plugins(target: str, apply: bool, verbose: bool) -> int:
     return failures
 
 
+def run_system_update(verbose: bool) -> int:
+    if platform.system().lower() != "linux" or not is_fedora():
+        print("\n[system-update]\nSkipped: this is not a Fedora Linux host.")
+        return 0
+
+    if not Path("/usr/bin/rpm-ostree").exists():
+        print("\n[system-update]\nSkipped: rpm-ostree is not installed.")
+        return 0
+
+    command = ["sudo", "rpm-ostree", "upgrade"]
+    if verbose:
+        print("+", " ".join(command))
+
+    print("\n[system-update]", flush=True)
+    return subprocess.run(command, cwd=REPO_ROOT, check=False).returncode
+
+
 def main() -> int:
     args = parse_args()
+    apply = args.apply or args.update
     target = os.path.abspath(os.path.expanduser(args.target))
     Path(target).mkdir(parents=True, exist_ok=True)
     packages = selected_packages()
 
-    action = "Applying" if args.apply else "Checking"
+    action = "Updating" if args.update else "Applying" if apply else "Checking"
     print(f"{action} packages into {target}", flush=True)
 
     failures = 0
     for package in packages:
         print(f"\n[{package.name}]", flush=True)
-        failures += run_stow(package, target, args.apply, args.verbose)
+        failures += run_stow(package, target, apply, args.verbose)
 
-    failures += run_zsh_plugins(target, args.apply, args.verbose)
+    failures += run_zsh_plugins(target, apply, args.verbose)
+
+    if not failures and args.update:
+        failures += run_system_update(args.verbose)
 
     if failures:
         print(f"\nCompleted with {failures} failing stow command(s).", file=sys.stderr)

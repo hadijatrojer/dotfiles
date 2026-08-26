@@ -29,6 +29,7 @@ Examples:
 ```bash
 ./stow-all.py --check
 ./stow-all.py --apply
+./stow-all.py --update
 ./stow-all.py --apply --target "$HOME/test-home"
 ```
 
@@ -72,10 +73,11 @@ OpenAI's official ChatGPT RPM on Fedora Atomic desktops. Install it with:
 chatgpt-rpm install
 ```
 
-The RPM adds OpenAI's signed package repository. Use `chatgpt-rpm update` to
-stage subsequent ChatGPT and system updates through `rpm-ostree`, then reboot
-when a new deployment is created. See [`chatgpt/README.md`](chatgpt/README.md)
-for details.
+The RPM adds OpenAI's signed package repository. For ongoing maintenance, use
+`./stow-all.py --update`; it reapplies the dotfiles, refreshes pinned plugins,
+and stages Fedora Atomic system updates—including ChatGPT—through `rpm-ostree`.
+Reboot when a new deployment is created. See
+[`chatgpt/README.md`](chatgpt/README.md) for details.
 
 Screen sharing depends on the user session bringing up `graphical-session.target`
 and the portal backends, which are wired through `systemd/.config/systemd/user/`.

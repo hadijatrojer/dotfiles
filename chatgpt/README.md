@@ -1,18 +1,24 @@
 # ChatGPT RPM
 
-This Stow module installs `chatgpt-rpm` under `~/.local/bin`. The helper manages
-OpenAI's official ChatGPT RPM on Fedora Atomic systems.
+This Fedora Stow module installs `chatgpt-rpm` under `~/.local/bin`. It is
+included automatically by the repository-level Stow helper:
 
 ```bash
-stow chatgpt
+./stow-all.py --apply
 chatgpt-rpm install
 ```
 
-The RPM configures OpenAI's signed package repository. Later system upgrades
-update ChatGPT along with the rest of the rpm-ostree deployment:
+`chatgpt-rpm install` downloads OpenAI's current x64 RPM, checks its signing-key
+ID, and stages it with `rpm-ostree`. Use it only for first installation or
+reinstallation; `chatgpt-rpm status` reports the current deployment and package.
+
+The RPM configures OpenAI's signed package repository. Ongoing updates belong
+to the repository's general maintenance command:
 
 ```bash
-chatgpt-rpm update
+./stow-all.py --update
 ```
 
-Both operations may stage a deployment that requires a reboot.
+That command reapplies all relevant Stow packages, refreshes pinned plugins,
+and runs `sudo rpm-ostree upgrade`, updating ChatGPT with the rest of the Fedora
+Atomic deployment. Installation and updates may require a reboot.
