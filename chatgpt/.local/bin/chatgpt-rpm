@@ -26,14 +26,16 @@ install_chatgpt() {
   trap 'rm -f "$rpm_path"' RETURN
 
   curl -fL --retry 3 --output "$rpm_path" "$RPM_URL"
-  signature="$(rpm -Kv "$rpm_path" 2>&1)"
+  # rpm exits nonzero when the signing key is not imported, even though its
+  # output still contains the key ID needed for the explicit check below.
+  signature="$(rpm -Kv "$rpm_path" 2>&1)" || true
   printf '%s\n' "$signature"
   grep -Fqi "key ID $OPENAI_KEY_ID" <<<"$signature" || {
     echo "The downloaded RPM is not signed with the expected OpenAI key." >&2
     exit 1
   }
 
-  sudo rpm-ostree install "$rpm_path"
+  rpm-ostree install "$rpm_path"
   echo "ChatGPT is staged. Reboot to activate the new deployment."
 }
 
