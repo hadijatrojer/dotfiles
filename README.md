@@ -9,11 +9,11 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 - Agent tooling:
   `pi` (pi coding-agent extensions), `skills` (portable agent skills)
 - Desktop behavior:
-  `dms`, `sway`
+  `dms`, `nautilus`, `sway`
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
-  `chatgpt`, `containers`, `dms`, `systemd`
+  `chatgpt`, `containers`, `dms`, `nautilus`, `systemd`
 
 Most top-level directories are Stow packages. The main exception is `fedora/`,
 which contains bootstrap scripts and package-list helpers rather than a Stow
@@ -44,7 +44,7 @@ If you prefer raw GNU Stow commands:
 
 ```bash
 stow -nv btop foot pi scripts skills sway vscode zsh
-stow -nv chatgpt containers dms systemd
+stow -nv chatgpt containers dms nautilus systemd
 ```
 
 ## Setup Order

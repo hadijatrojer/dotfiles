@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (($# != 1)); then
+  notify-send -a Nautilus "Copy image contents" "Select exactly one image."
+  exit 2
+fi
+
+path="$1"
+mime="$(file -bL --mime-type -- "$path")"
+
+if [[ "$mime" != image/* ]]; then
+  notify-send -a Nautilus "Copy image contents" "The selected file is not an image."
+  exit 2
+fi
+
+# Chrome and Google Docs accept PNG clipboard offers more reliably than other
+# raster MIME types. DMS owns the clipboard and records the normalized offer.
+if [[ "$mime" == "image/png" ]]; then
+  dms clipboard copy --type image/png <"$path"
+else
+  magick "$path" png:- | dms clipboard copy --type image/png
+fi
+
+notify-send -a Nautilus "Image copied" "Ready to paste as PNG."

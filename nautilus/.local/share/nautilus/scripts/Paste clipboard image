@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+current_uri="${NAUTILUS_SCRIPT_CURRENT_URI:-}"
+if [[ "$current_uri" != file://* ]]; then
+  notify-send -a Nautilus "Paste clipboard image" \
+    "This action only supports local folders."
+  exit 2
+fi
+
+destination="$(
+  python3 - "$current_uri" <<'PY'
+import sys
+import urllib.parse
+
+print(urllib.parse.unquote(urllib.parse.urlparse(sys.argv[1]).path))
+PY
+)"
+
+if [[ ! -d "$destination" || ! -w "$destination" ]]; then
+  notify-send -a Nautilus "Paste clipboard image" \
+    "The current folder is not writable."
+  exit 2
+fi
+
+clipboard_types="$(wl-paste --list-types)"
+if grep -qx image/png <<<"$clipboard_types"; then
+  mime="image/png"
+else
+  mime="$(awk '/^image\// { print; exit }' <<<"$clipboard_types")"
+fi
+if [[ -z "$mime" ]]; then
+  notify-send -a Nautilus "Paste clipboard image" \
+    "The clipboard does not contain an image."
+  exit 1
+fi
+
+stamp="$(date +%Y-%m-%d_%H-%M-%S)"
+output="$destination/clipboard-image-$stamp.png"
+counter=1
+while [[ -e "$output" ]]; do
+  output="$destination/clipboard-image-$stamp-$counter.png"
+  ((counter += 1))
+done
+
+temporary="$(mktemp --tmpdir="$destination" .clipboard-image.XXXXXX.png)"
+trap 'rm -f -- "$temporary"' EXIT
+
+if [[ "$mime" == "image/png" ]]; then
+  wl-paste --type image/png >"$temporary"
+else
+  wl-paste --type "$mime" | magick - png:- >"$temporary"
+fi
+
+mv -- "$temporary" "$output"
+trap - EXIT
+notify-send -a Nautilus "Clipboard image saved" "$(basename -- "$output")"
