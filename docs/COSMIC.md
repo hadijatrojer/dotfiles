@@ -351,6 +351,191 @@ Return to Sway for now when any of the following recur:
 If the blockers are COSMIC maturity rather than a fundamental workflow
 mismatch, keep this document and reassess after later Fedora/COSMIC releases.
 
+## Cleanup Plan After Choosing COSMIC
+
+Cleanup should happen in stages. A pinned OSTree deployment preserves the old
+base image, but both deployments still share the home directory, Flatpaks,
+containers, and user services. Removing Sway/DMS configuration too early would
+therefore weaken the Silverblue fallback.
+
+### Stage 0: preserve the real fallback
+
+For the full evaluation period:
+
+- Keep the Silverblue deployment pinned.
+- Keep the `sway`, `dms`, and Sway-specific systemd files in the repository and
+  stowed into the home directory.
+- Do not disable or remove anything merely because it is inactive in COSMIC.
+- Record `rpm-ostree status -v`, the Flatpak inventory, and enabled user units
+  before each cleanup stage.
+- Let COSMIC survive real Google Meet calls, screenshot-heavy work, suspend,
+  display reconnects, and at least one system update before proceeding.
+
+The current COSMIC deployment already has the intended minimal layers:
+
+```text
+binutils gcc gcc-c++ make
+git git-lfs
+google-chrome-stable
+lm_sensors smartmontools
+rclone steam-devices stow tmux zsh
+```
+
+These packages have explicit host-level purposes. Do not pursue zero layers as
+an end in itself.
+
+### Stage 1: remove clearly obsolete Flatpaks
+
+Flatpaks are shared with the pinned deployment, but removing an application
+does not affect whether Silverblue can boot. Start with applications that are
+strictly tied to the retired workflow or confirmed unused.
+
+Likely removals after COSMIC passes its hard gates:
+
+```text
+org.gnome.Extensions          GNOME Shell extension manager
+org.satty.Satty               old annotation path, if COSMIC Screenshot wins
+org.gnome.NautilusPreviewer   only if Nautilus/Sushi is no longer used
+```
+
+Do not use `--delete-data` during the first pass. Remove only the application
+so its state remains recoverable:
+
+```bash
+flatpak uninstall --system <application-id>
+flatpak uninstall --user <application-id>
+```
+
+Use the installation shown by `flatpak list`; do not run both commands
+blindly. After all intentional application removals:
+
+```bash
+flatpak uninstall --unused
+```
+
+Allow Flatpak to determine unused runtimes. Do not manually remove Fedora,
+GNOME, KDE, or Freedesktop runtimes while installed applications still depend
+on them.
+
+### Stage 2: review inherited GNOME applications by function
+
+Do not treat every `org.gnome.*` Flatpak as desktop baggage. GNOME applications
+run normally under COSMIC, and several still cover functionality without a
+mature COSMIC equivalent.
+
+Replace only after the COSMIC application has proved sufficient:
+
+- `org.gnome.TextEditor` after COSMIC Edit is satisfactory
+- `org.gnome.Loupe` after COSMIC's image viewer is satisfactory
+- `org.gnome.Papers` only after PDF viewing, printing, forms, and links work in
+  the chosen replacement
+- Nautilus and Sushi only after COSMIC Files handles rclone, GVfs, removable
+  devices, MTP, search, drag and drop, and file properties satisfactorily
+
+Remove if unused, independently of desktop choice:
+
+- Calculator, Calendar, Characters, Clocks, Contacts, Maps, Weather
+- Connections, Logs, Camera, Sound Recorder, Fonts, Disk Usage Analyzer
+- Déjà Dup, Fedora Media Writer, and LibreOffice
+
+This is an application preference audit, not a requirement to make the system
+visually pure. Keep useful GNOME applications without apology.
+
+### Stage 3: simplify update ownership
+
+The existing `flatpak-update.timer` remains valid under COSMIC. If COSMIC Store
+reliably checks and applies Flatpak updates, choose one owner to avoid duplicate
+notifications and concurrent update attempts:
+
+```bash
+systemctl --user disable --now flatpak-update.timer
+```
+
+Remove the timer and service from the repository only after the COSMIC Store
+path has worked consistently. Decide separately whether rpm-ostree updates
+should remain manual; automatic rpm-ostree updates are currently disabled.
+
+### Stage 4: remove unused software repositories
+
+The PyCharm COPR is currently enabled even though no PyCharm package is layered
+in the COSMIC deployment. Remove it once confirmed unused. Keep repositories
+that still own intentional packages, including Google Chrome and the ChatGPT
+repository when ChatGPT is installed.
+
+Before removing any repository, identify its file and query installed packages
+from that source. Do not delete repository files based only on their name.
+
+The end state should contain Fedora repositories plus only deliberate vendor
+repositories. RPM Fusion may remain when required for `steam-devices` or other
+hardware/media integration.
+
+### Stage 5: retire the Sway desktop layer
+
+Do this only after COSMIC has been accepted and the pinned Silverblue fallback
+is no longer expected to work as an immediately usable daily desktop.
+
+1. Create a final Git tag or branch for the known-good Sway/DMS state.
+2. Confirm the working tree is clean and pushed/backed up.
+3. Remove `sway` and `dms` from `stow-all.py` package selection.
+4. Unstow those packages so their home-directory links are removed cleanly.
+5. Remove or archive:
+   - `sway/`
+   - `dms/`
+   - `fedora/setup-sway.sh`
+   - `fedora/sway-packages.sh`
+   - `systemd/.config/systemd/user/sway-session.target`
+   - `systemd/.config/systemd/user/dms.service`
+6. Run `systemctl --user daemon-reload` and verify no dangling Sway/DMS unit
+   links remain.
+7. Remove stale `~/.config/sway`, DMS, and Foot configuration only after
+   confirming each path is a repo-managed symlink or otherwise backed up.
+
+The Sway-only packages are already absent from the active COSMIC deployment,
+so no additional rpm-ostree package removal should be necessary there.
+
+### Stage 6: trim small compatibility leftovers
+
+After the major cleanup:
+
+- Remove the Foot Stow package if COSMIC Terminal has fully replaced it.
+- Revisit the named audio-output script only after COSMIC's audio UI and custom
+  shortcuts have proved sufficient.
+- Remove Satty/Wayfreeze installation instructions and screenshot rules.
+- Remove Nautilus-specific configuration only if Nautilus itself is retired.
+- Keep PostgreSQL, rclone mounts, sensor logging, Podman, Toolbx, mise, shell,
+  editor, and agent configuration; these are independent of the desktop.
+- Keep COSMIC configuration minimal and repo-manage only settings that are
+  intentional, stable, and difficult to reproduce through defaults.
+
+### Stage 7: release the pinned deployment
+
+Unpin Silverblue last, after COSMIC has survived the evaluation period and a
+Fedora/COSMIC update cycle. Verify the exact deployment index immediately
+before unpinning; indices can change as deployments are created.
+
+Do not copy a stale numeric index from this document. Use:
+
+```bash
+rpm-ostree status -v
+sudo ostree admin pin --unpin <confirmed-silverblue-index>
+rpm-ostree status -v
+```
+
+The desired final ownership model is:
+
+```text
+COSMIC Atomic     operating system, hardware, and desktop
+Flatpak           graphical applications
+mise              portable host-visible CLI tools
+Toolbx            mutable development environments
+Podman/Quadlet    persistent services
+dotfiles          small, intentional user configuration
+```
+
+Cleanup is complete when this repository no longer defines the desktop
+session, while screenshots, Meet sharing, mounts, PostgreSQL, telemetry, and
+the daily command-line environment continue to work without special handling.
+
 ## References
 
 - [Fedora COSMIC Atomic](https://fedoraproject.org/atomic-desktops/cosmic/)
