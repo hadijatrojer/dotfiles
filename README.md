@@ -57,6 +57,11 @@ Typical Fedora + Sway flow:
 4. `./stow-all.py --apply`
 5. `systemctl --user daemon-reload`
 
+For Fedora COSMIC Atomic, replace step 2 with
+`fedora/setup-cosmic.sh`. COSMIC supplies its own terminal, shell, portals,
+screenshot tool, and settings in the base image; the setup script adds only
+the small set of required host integrations.
+
 If you use a Fedora toolbox for development, also run `fedora/setup-toolbox.sh`
 inside the toolbox.
 

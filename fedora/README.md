@@ -8,7 +8,9 @@ for the host setup.
 Typical order:
 
 1. Run `fedora/setup-base.sh` on the host.
-2. Run `fedora/setup-sway.sh` on the host.
+2. Run the desktop setup for the active Fedora Atomic image:
+   - `fedora/setup-sway.sh` for Silverblue with Sway and DMS
+   - `fedora/setup-cosmic.sh` for COSMIC Atomic
 3. Run `fedora/setup-memory.sh` to configure zram and its VM policy.
 4. Run `fedora/setup-mise.sh` to install userland tools.
 5. Optionally run `fedora/setup-toolbox.sh` inside a Fedora toolbox.
@@ -36,6 +38,7 @@ The installer scripts are thin wrappers around shared package lists:
 
 - `base-packages.sh`: intentionally small host and toolbox bootstrap baseline
 - `sway-packages.sh`: desktop/session packages for this Sway setup
+- `cosmic-packages.sh`: minimal host additions for Fedora COSMIC Atomic
 - `setup-mise.sh`: portable userland and development CLIs that do not need to
   be host-layered
 
@@ -54,6 +57,9 @@ That keeps package choices in one place while allowing different installers:
   tools, `uv`, `yazi`, and `zoxide`.
 - Keep Sway packages focused on desktop/session pieces that are launched by
   the compositor or DMS workflow.
+- Let the COSMIC Atomic base image provide the desktop, terminal, portals,
+  screenshot tool, and settings. Its package list retains only native Chrome
+  for Google Meet, sensor dependencies, and Steam device rules.
 
 ## Fedora Stow Packages
 
