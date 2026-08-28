@@ -35,7 +35,13 @@ install_chatgpt() {
     exit 1
   }
 
-  rpm-ostree install "$rpm_path"
+  if rpm -q chatgpt >/dev/null 2>&1; then
+    # Local RPM overlays are pinned to their original NEVRA. Replace the old
+    # request in the same transaction so a newer downloaded RPM can depsolve.
+    rpm-ostree install --uninstall=chatgpt "$rpm_path"
+  else
+    rpm-ostree install "$rpm_path"
+  fi
   echo "ChatGPT is staged. Reboot to activate the new deployment."
 }
 

@@ -9,8 +9,9 @@ chatgpt-rpm install
 ```
 
 `chatgpt-rpm install` downloads OpenAI's current x64 RPM, checks its signing-key
-ID, and stages it with `rpm-ostree`. Use it only for first installation or
-reinstallation; `chatgpt-rpm status` reports the current deployment and package.
+ID, and stages it with `rpm-ostree`. If a local ChatGPT RPM is already layered,
+the helper atomically replaces that package request with the downloaded version.
+`chatgpt-rpm status` reports the current deployment and package.
 
 The RPM configures OpenAI's signed package repository. Ongoing updates belong
 to the repository's general maintenance command:
