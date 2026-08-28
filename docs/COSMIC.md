@@ -11,6 +11,46 @@ window queries, and scripted placement. The useful question is whether
 COSMIC's integrated desktop replaces enough of Sway plus DMS to justify the
 loss of that control.
 
+## Evaluation Result
+
+The August 2026 evaluation ended after one day. COSMIC was promising as an
+almost configuration-free replacement: the integrated desktop was pleasant,
+per-workspace tiling was a particularly good fit, and the stock applications
+looked capable of replacing several parts of the Sway/DMS setup. The atomic
+rebase and pinned-deployment fallback worked as intended.
+
+The blocking result was GPU reliability during Google Meet. On Fedora COSMIC
+Atomic 44 with kernel `7.1.10-200.fc44.x86_64`, Mesa `26.1.8-1.fc44`, COSMIC
+1.6.0, and Chrome 152, the AMD Radeon 680M experienced two
+`ring gfx_0.1.0 timeout` events. The ring reset failed, a full MODE2 GPU reset
+followed, and COSMIC session components crashed. One event also terminated
+Chrome's GPU process. This made Meet and screen sharing impossible to trust.
+
+The evidence does not establish COSMIC as the root cause. The same machine has
+previously produced the same AMDGPU ring timeout under Sway and GNOME when
+Google Meet background blur was enabled. During the COSMIC failures, Meet
+background blur was disabled but COSMIC's frosted-glass effects were enabled.
+Accelerated blur is therefore a plausible trigger or load amplifier, not a
+confirmed cause. The kernel also repeatedly logged
+`dcn31_program_compbuf_size` display-controller timeouts across desktops.
+
+The practical decision is to return to the pinned Fedora Silverblue/Sway
+deployment and keep Meet background effects disabled. COSMIC is not being
+adopted or cleaned up at this time. Re-evaluate only if the AMDGPU failure is
+fixed or a later kernel, Mesa, Chrome, and COSMIC combination can complete
+repeated real Meet calls and screen-sharing sessions without a GPU reset.
+
+The COSMIC deployments were retained rather than deleted, so the experiment
+remains reversible. The pinned Silverblue deployment, version
+`44.20260826.0`, was restored as the default boot entry with:
+
+```bash
+sudo ostree admin set-default 2
+```
+
+Deployment indices are not stable; inspect `ostree admin status` before using
+that command again.
+
 Two workflows are hard requirements:
 
 - Fast, reliable region screenshots with a frozen selection surface and a
