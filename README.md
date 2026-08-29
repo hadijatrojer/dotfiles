@@ -13,7 +13,7 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
-  `chatgpt`, `containers`, `dms`, `nautilus`, `systemd`
+  `containers`, `dms`, `nautilus`, `systemd`
 
 Most top-level directories are Stow packages. The main exception is `fedora/`,
 which contains bootstrap scripts and package-list helpers rather than a Stow
@@ -38,13 +38,13 @@ The helper applies:
 - Common packages:
   `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `vscode`, `zsh`
 - Fedora-only packages when running on Fedora:
-  `chatgpt`, `containers`, `dms`, `systemd`
+  `containers`, `dms`, `nautilus`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
 stow -nv btop foot pi scripts skills sway vscode zsh
-stow -nv chatgpt containers dms nautilus systemd
+stow -nv containers dms nautilus systemd
 ```
 
 ## Setup Order
@@ -71,18 +71,18 @@ into the base system bootstrap.
 
 ### ChatGPT desktop app
 
-The `chatgpt` Stow package installs `~/.local/bin/chatgpt-rpm`, which manages
-OpenAI's official ChatGPT RPM on Fedora Atomic desktops. Install it with:
+OpenAI's official RPM bootstraps its signed `openai-chatgpt` repository and
+signing key during the initial installation:
 
 ```bash
-chatgpt-rpm install
+sudo rpm-ostree install \
+  https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm
 ```
 
-The RPM adds OpenAI's signed package repository. For ongoing maintenance, use
-`./stow-all.py --update`; it reapplies the dotfiles, refreshes pinned plugins,
-and stages Fedora Atomic system updates—including ChatGPT—through `rpm-ostree`.
-Reboot when a new deployment is created. See
-[`chatgpt/README.md`](chatgpt/README.md) for details.
+After rebooting into that deployment, `stow-all.py` verifies that the package,
+repository, and key are present. For ongoing maintenance, `./stow-all.py
+--update` stages Fedora Atomic system updates—including ChatGPT—through the
+normal `rpm-ostree upgrade` path. Reboot when a new deployment is created.
 
 Screen sharing depends on the user session bringing up `graphical-session.target`
 and the portal backends, which are wired through `systemd/.config/systemd/user/`.

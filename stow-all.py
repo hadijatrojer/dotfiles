@@ -31,7 +31,6 @@ COMMON_PACKAGES = [
 ]
 
 FEDORA_PACKAGES = [
-    Package("chatgpt", REPO_ROOT),
     Package("containers", REPO_ROOT),
     Package("dms", REPO_ROOT),
     Package("nautilus", REPO_ROOT),
@@ -51,6 +50,14 @@ ZSH_PLUGINS = [
         "0.8.0",
     ),
 ]
+
+CHATGPT_REPO = Path("/etc/yum.repos.d/chatgpt.repo")
+CHATGPT_KEY = Path("/etc/pki/rpm-gpg/RPM-GPG-KEY-chatgpt")
+CHATGPT_REPO_URL = "https://persistent.oaistatic.com/codex-app-prod/linux/rpm/$basearch"
+CHATGPT_BOOTSTRAP_URL = (
+    "https://persistent.oaistatic.com/"
+    "codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -197,6 +204,67 @@ def run_system_update(verbose: bool) -> int:
     return subprocess.run(command, cwd=REPO_ROOT, check=False).returncode
 
 
+def check_chatgpt() -> int:
+    if platform.system().lower() != "linux" or not is_fedora():
+        return 0
+
+    if not Path("/usr/bin/rpm-ostree").exists():
+        return 0
+
+    print("\n[chatgpt]")
+    errors = []
+
+    if not CHATGPT_REPO.exists():
+        errors.append(f"missing repository: {CHATGPT_REPO}")
+    else:
+        repo = CHATGPT_REPO.read_text(encoding="utf-8", errors="ignore")
+        expected_lines = {
+            "[openai-chatgpt]",
+            f"baseurl={CHATGPT_REPO_URL}",
+            "enabled=1",
+            "gpgcheck=1",
+            "repo_gpgcheck=1",
+            f"gpgkey=file://{CHATGPT_KEY}",
+        }
+        for line in sorted(expected_lines):
+            if line not in repo.splitlines():
+                errors.append(f"unexpected repository config: missing {line}")
+
+    if not CHATGPT_KEY.is_file():
+        errors.append(f"missing signing key: {CHATGPT_KEY}")
+
+    package = subprocess.run(
+        ["rpm", "-q", "chatgpt"],
+        check=False,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    package_installed = package.returncode == 0
+    if not package_installed:
+        errors.append("chatgpt package is not installed")
+
+    if errors:
+        for error in errors:
+            print(f"ERROR: {error}", file=sys.stderr)
+        bootstrap_command = "sudo rpm-ostree install "
+        if package_installed:
+            bootstrap_command += "--uninstall=chatgpt "
+        bootstrap_command += CHATGPT_BOOTSTRAP_URL
+        print(
+            "\nOpenAI creates the repository file and signing key from its "
+            "signed RPM.\n"
+            "Bootstrap or repair them with:\n\n"
+            f"  {bootstrap_command}\n\n"
+            "Then reboot and run ./stow-all.py --check again.",
+            file=sys.stderr,
+        )
+        return len(errors)
+
+    print(f"OK: {package.stdout.strip()} from openai-chatgpt")
+    return 0
+
+
 def main() -> int:
     args = parse_args()
     apply = args.apply or args.update
@@ -213,12 +281,13 @@ def main() -> int:
         failures += run_stow(package, target, apply, args.verbose)
 
     failures += run_zsh_plugins(target, apply, args.verbose)
+    failures += check_chatgpt()
 
     if not failures and args.update:
         failures += run_system_update(args.verbose)
 
     if failures:
-        print(f"\nCompleted with {failures} failing stow command(s).", file=sys.stderr)
+        print(f"\nCompleted with {failures} failed check(s).", file=sys.stderr)
         return 1
 
     print("\nAll selected packages completed successfully.")
