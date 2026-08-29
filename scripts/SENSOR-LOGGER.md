@@ -239,3 +239,51 @@ Unified view across raw + rollups (approximate, for whole-history charts): query
 DB=~/.local/state/sensor-logger/sensors.db
 sqlite3 "$DB" -header -column "SELECT DISTINCT chip, feature FROM readings;"
 ```
+
+## Refreshing the HTML health report
+
+`sensor-analysis-report.html` is a generated, self-contained report, and
+`sensor-analysis-artifact.json` is its editable Data Analytics source artifact.
+Both live in `scripts/` when generated, but are machine-local outputs and are
+ignored by Git (and by Stow).
+
+Always analyze a consistent SQLite snapshot. The live database uses WAL mode,
+so do not copy only `sensors.db` with `cp`: recent rows may still be in its
+`-wal` file. Create and verify a snapshot with SQLite's backup command:
+
+```sh
+SENSOR_DB="${XDG_STATE_HOME:-$HOME/.local/state}/sensor-logger/sensors.db"
+SENSOR_SNAPSHOT="$(mktemp --suffix=-sensor-logger.db)"
+sqlite3 "$SENSOR_DB" ".backup '$SENSOR_SNAPSHOT'"
+sqlite3 "$SENSOR_SNAPSHOT" "PRAGMA integrity_check;"
+```
+
+The integrity check must print `ok`. Then ask Codex to use the Data Analytics
+workflow on `$SENSOR_SNAPSHOT` and regenerate the report. A suitable prompt is:
+
+> Analyze the sensor-logger SQLite snapshot at `<snapshot path>`. Validate data
+> quality, compare recent raw readings with older hourly/daily rollups, and
+> update `scripts/sensor-analysis-artifact.json` and the self-contained
+> `scripts/sensor-analysis-report.html`. Preserve the existing report's purpose
+> and structure, but replace stale dates, metrics, charts, findings, caveats,
+> and recommendations with conclusions supported by the new snapshot. Use the
+> logger's configured 85 C warning and 95 C critical thresholds. Treat the
+> fixed 20 C ACPI channel as non-informative and the lack of fan rows as the
+> documented hardware limitation. Include the SQL used as report sources and
+> verify the final HTML visually.
+
+For whole-history averages, combine raw and rollup data without giving each
+rollup bucket equal weight: raw rows have `cnt = 1`, while a rollup's average is
+`sm / cnt` and must retain its stored `cnt` as the weight. Use `mn` and `mx` for
+the envelope. Avoid double-counting overlapping tiers; normally use raw data
+for its retained time range, hourly data only before the earliest raw row, and
+daily data only before the earliest hourly bucket.
+
+After the report is generated, open it in a browser and check that the latest
+timestamp, sample counts, threshold counts, tables, charts, and narrative agree
+with direct queries against the snapshot. Delete the temporary snapshot when
+finished:
+
+```sh
+rm -- "$SENSOR_SNAPSHOT"
+```

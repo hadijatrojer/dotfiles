@@ -4,3 +4,7 @@ zsh/.zsh/zz-local-env.zsh
 
 # agent skill manager lock (machine-local)
 skills/.agents/.skill-lock.json
+
+# Generated sensor-analysis report artifacts
+scripts/sensor-analysis-artifact.json
+scripts/sensor-analysis-report.html
