@@ -17,19 +17,10 @@ Item {
         if (pluginService) {
             trigger = pluginService.loadPluginData("windowSwitcher", "trigger", ";");
         }
-        refreshWindows();
-    }
-
-    Timer {
-        id: refreshTimer
-        interval: 1500
-        repeat: true
-        running: true
-        onTriggered: root.refreshWindows()
     }
 
     function getItems(query) {
-        if (!windows.length && !refreshInFlight) {
+        if (!refreshInFlight) {
             refreshWindows();
         }
 

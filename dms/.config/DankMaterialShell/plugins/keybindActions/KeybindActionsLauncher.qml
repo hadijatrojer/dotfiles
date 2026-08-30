@@ -17,19 +17,10 @@ Item {
         if (pluginService) {
             trigger = pluginService.loadPluginData("keybindActions", "trigger", "?");
         }
-        refreshEntries();
-    }
-
-    Timer {
-        id: refreshTimer
-        interval: 4000
-        repeat: true
-        running: true
-        onTriggered: root.refreshEntries()
     }
 
     function getItems(query) {
-        if (!entries.length && !refreshInFlight) {
+        if (!refreshInFlight) {
             refreshEntries();
         }
 
