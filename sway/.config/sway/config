@@ -45,9 +45,9 @@ default_border pixel 3
 default_floating_border pixel 3
 hide_edge_borders none
 
-client.focused          $blue     $base $text $overlay1 $blue
-client.focused_inactive $mantle   $mantle $subtext1 $surface0 $mantle
-client.unfocused        $mantle   $mantle $subtext0 $mantle   $mantle
+client.focused          $blue     $base $text $blue     $blue
+client.focused_inactive $overlay0 $mantle $subtext1 $surface0 $overlay0
+client.unfocused        $overlay0 $mantle $subtext0 $mantle   $overlay0
 client.urgent           $red      $mantle $text     $red      $red
 client.placeholder      $surface0 $surface0 $text   $surface0 $surface0
 client.background       $base
