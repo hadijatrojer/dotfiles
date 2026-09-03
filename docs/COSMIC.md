@@ -499,8 +499,8 @@ should remain manual; automatic rpm-ostree updates are currently disabled.
 
 The PyCharm COPR is currently enabled even though no PyCharm package is layered
 in the COSMIC deployment. Remove it once confirmed unused. Keep repositories
-that still own intentional packages, including Google Chrome and the ChatGPT
-repository when ChatGPT is installed.
+that still own intentional host packages, including Google Chrome. ChatGPT runs
+from its dedicated Distrobox and does not require a host repository.
 
 Before removing any repository, identify its file and query installed packages
 from that source. Do not delete repository files based only on their name.

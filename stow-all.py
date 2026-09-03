@@ -51,13 +51,8 @@ ZSH_PLUGINS = [
     ),
 ]
 
-CHATGPT_REPO = Path("/etc/yum.repos.d/chatgpt.repo")
-CHATGPT_KEY = Path("/etc/pki/rpm-gpg/RPM-GPG-KEY-chatgpt")
-CHATGPT_REPO_URL = "https://persistent.oaistatic.com/codex-app-prod/linux/rpm/$basearch"
-CHATGPT_BOOTSTRAP_URL = (
-    "https://persistent.oaistatic.com/"
-    "codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
-)
+CHATGPT_BOX = "chatgpt"
+CHATGPT_DESKTOP = Path.home() / ".local/share/applications/chatgpt-chatgpt.desktop"
 
 
 def parse_args() -> argparse.Namespace:
@@ -212,56 +207,39 @@ def check_chatgpt() -> int:
         return 0
 
     print("\n[chatgpt]")
-    errors = []
+    errors: list[str] = []
 
-    if not CHATGPT_REPO.exists():
-        errors.append(f"missing repository: {CHATGPT_REPO}")
-    else:
-        repo = CHATGPT_REPO.read_text(encoding="utf-8", errors="ignore")
-        expected_lines = {
-            "[openai-chatgpt]",
-            f"baseurl={CHATGPT_REPO_URL}",
-            "enabled=1",
-            "gpgcheck=1",
-            "repo_gpgcheck=1",
-            f"gpgkey=file://{CHATGPT_KEY}",
-        }
-        for line in sorted(expected_lines):
-            if line not in repo.splitlines():
-                errors.append(f"unexpected repository config: missing {line}")
-
-    if not CHATGPT_KEY.is_file():
-        errors.append(f"missing signing key: {CHATGPT_KEY}")
-
-    package = subprocess.run(
-        ["rpm", "-q", "chatgpt"],
+    box = subprocess.run(
+        ["podman", "container", "exists", CHATGPT_BOX],
         check=False,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
-    package_installed = package.returncode == 0
-    if not package_installed:
-        errors.append("chatgpt package is not installed")
+    if box.returncode:
+        errors.append(f"distrobox container is missing: {CHATGPT_BOX}")
+
+    if not CHATGPT_DESKTOP.is_file():
+        errors.append(f"exported desktop launcher is missing: {CHATGPT_DESKTOP}")
+
+    package = None
+    if not box.returncode:
+        package = subprocess.run(
+            ["distrobox", "enter", CHATGPT_BOX, "--", "rpm", "-q", "chatgpt"],
+            check=False,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+    if package is None or package.returncode:
+        errors.append("chatgpt package is not installed in its distrobox")
 
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
-        bootstrap_command = "sudo rpm-ostree install "
-        if package_installed:
-            bootstrap_command += "--uninstall=chatgpt "
-        bootstrap_command += CHATGPT_BOOTSTRAP_URL
-        print(
-            "\nOpenAI creates the repository file and signing key from its "
-            "signed RPM.\n"
-            "Bootstrap or repair them with:\n\n"
-            f"  {bootstrap_command}\n\n"
-            "Then reboot and run ./stow-all.py --check again.",
-            file=sys.stderr,
-        )
+        print("\nCreate or repair it with:\n\n  chatgpt-update", file=sys.stderr)
         return len(errors)
 
-    print(f"OK: {package.stdout.strip()} from openai-chatgpt")
+    print(f"OK: {package.stdout.strip()} in distrobox {CHATGPT_BOX}")
     return 0
 
 

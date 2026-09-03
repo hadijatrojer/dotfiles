@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly box_name="chatgpt"
+readonly box_image="registry.fedoraproject.org/fedora:44"
+readonly rpm_url="https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
+readonly signing_key="$HOME/.local/share/chatgpt/RPM-GPG-KEY-chatgpt"
+readonly exported_desktop="$HOME/.local/share/applications/chatgpt-chatgpt.desktop"
+
+command -v distrobox >/dev/null 2>&1 || {
+  echo "chatgpt-update requires distrobox." >&2
+  exit 1
+}
+
+if ! podman container exists "$box_name"; then
+  distrobox create --name "$box_name" --image "$box_image" --yes
+fi
+
+if distrobox enter "$box_name" -- rpm -q chatgpt >/dev/null 2>&1; then
+  distrobox enter "$box_name" -- sudo dnf upgrade -y chatgpt
+else
+  distrobox enter "$box_name" -- sudo rpm --import "$signing_key"
+  distrobox enter "$box_name" -- sudo dnf install -y \
+    --setopt=localpkg_gpgcheck=1 "$rpm_url"
+fi
+
+(
+  cd /tmp
+  distrobox enter "$box_name" -- distrobox-export \
+    --app /usr/share/applications/chatgpt.desktop --export-label none
+)
+
+# Distrobox 1.8.2.5 substitutes the absolute desktop-file path here.
+sed -i 's|^StartupWMClass=.*|StartupWMClass=chatgpt|' "$exported_desktop"
+sed -i 's|^Categories=.*|Categories=Utility;|' "$exported_desktop"
+
+distrobox enter "$box_name" -- rpm -q chatgpt
+echo "ChatGPT is ready in the application launcher."

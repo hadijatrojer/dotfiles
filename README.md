@@ -55,7 +55,8 @@ Typical Fedora + Sway flow:
 2. `fedora/setup-sway.sh`
 3. `fedora/setup-mise.sh`
 4. `./stow-all.py --apply`
-5. `systemctl --user daemon-reload`
+5. `chatgpt-update`
+6. `systemctl --user daemon-reload`
 
 For Fedora COSMIC Atomic, replace step 2 with
 `fedora/setup-cosmic.sh`. COSMIC supplies its own terminal, shell, portals,
@@ -71,18 +72,22 @@ into the base system bootstrap.
 
 ### ChatGPT desktop app
 
-OpenAI's official RPM bootstraps its signed `openai-chatgpt` repository and
-signing key during the initial installation:
+Install or update OpenAI's official ChatGPT RPM with the dotfiles helper:
 
 ```bash
-sudo rpm-ostree install \
-  https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm
+chatgpt-update
 ```
 
-After rebooting into that deployment, `stow-all.py` verifies that the package,
-repository, and key are present. For ongoing maintenance, `./stow-all.py
---update` stages Fedora Atomic system updates—including ChatGPT—through the
-normal `rpm-ostree upgrade` path. Reboot when a new deployment is created.
+The helper creates a dedicated Fedora Distrobox, installs the RPM there, and
+exports its desktop launcher. Later runs update the package through OpenAI's
+repository inside the container. This works around the RPM's current
+`/var/lib/chatgpt` scriptlet, which is incompatible with rpm-ostree's read-only
+`/var` sandbox. The container setup does not require a host reboot.
+
+The exported launcher starts the container on demand; no user service is
+needed. Commands launched by the ChatGPT app run inside its Distrobox. Run host
+maintenance from a normal terminal, or prefix it with `distrobox-host-exec`, for
+example `distrobox-host-exec ./stow-all.py --check`.
 
 Screen sharing depends on the user session bringing up `graphical-session.target`
 and the portal backends, which are wired through `systemd/.config/systemd/user/`.
