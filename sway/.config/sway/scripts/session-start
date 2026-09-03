@@ -1,6 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+remove_stale_chrome_lock() {
+  local profile_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/google-chrome"
+  local lock_path="${profile_dir}/SingletonLock"
+  local lock_target lock_host lock_pid process_cmdline
+
+  [[ -L "${lock_path}" ]] || return 0
+
+  lock_target="$(readlink "${lock_path}")"
+  lock_host="${lock_target%-*}"
+  lock_pid="${lock_target##*-}"
+
+  # A lock from another host may still be active on a shared home directory.
+  [[ "${lock_host}" == "$(hostname)" ]] || return 0
+  [[ "${lock_pid}" =~ ^[0-9]+$ ]] || return 0
+
+  if [[ -r "/proc/${lock_pid}/cmdline" ]]; then
+    process_cmdline="$(tr '\0' ' ' < "/proc/${lock_pid}/cmdline")"
+    [[ "${process_cmdline}" == *chrome* ]] && return 0
+  fi
+
+  rm -f -- \
+    "${profile_dir}/SingletonLock" \
+    "${profile_dir}/SingletonCookie" \
+    "${profile_dir}/SingletonSocket"
+}
+
+remove_stale_chrome_lock
+
 session_env=(
   DISPLAY
   WAYLAND_DISPLAY
