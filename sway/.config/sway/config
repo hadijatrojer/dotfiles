@@ -8,7 +8,7 @@ set $browser google-chrome-stable
 set $quit ~/.config/sway/scripts/session-quit
 set $media ~/.config/sway/scripts/media-control
 
-font pango:GeistMono Nerd Font 11
+font pango:GeistMono Nerd Font 10
 
 output HDMI-A-1 scale 1.0 pos 0 0
 output HDMI-A-2 scale 1.875 pos 1920 0
@@ -44,10 +44,11 @@ gaps outer 2
 default_border pixel 3
 default_floating_border pixel 3
 hide_edge_borders none
+titlebar_padding 2 1
 
-client.focused          $blue     $base $text $blue     $blue
-client.focused_inactive $overlay0 $overlay0 $base $surface0 $overlay0
-client.unfocused        $overlay0 $overlay0 $base $mantle   $overlay0
+client.focused          $blue     $blue $base $blue     $blue
+client.focused_inactive $overlay0 $overlay0 $text $surface0 $overlay0
+client.unfocused        $overlay0 $overlay0 $text $mantle   $overlay0
 client.urgent           $red      $mantle $text     $red      $red
 client.placeholder      $surface0 $surface0 $text   $surface0 $surface0
 client.background       $base
