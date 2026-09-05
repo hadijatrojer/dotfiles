@@ -25,6 +25,10 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
 - Bootstrap and helpers:
   `fedora/setup-*.sh`, package-list helpers in `fedora/`, and scripts in `scripts/`
   (`rclone-mount.sh`)
+- Hardware telemetry:
+  `scripts/sensor-logger.py`, its operational reference in
+  `scripts/SENSOR-LOGGER.md`, and the user timer/service in
+  `systemd/.config/systemd/user/sensor-logger.{service,timer}`
 
 Important: hidden-aware scans are required. Many important files live under
 `.config/`, and symlink trees under `systemd/.config/systemd/user/*wants/`
@@ -47,6 +51,39 @@ There is no compiled build. Validate the changed module directly, then stow it.
 - `systemd-analyze verify systemd/.config/systemd/user/*.{service,timer,target}`:
   validate user service files
 - `sway -C -c sway/.config/sway/config`: validate the Sway configuration
+
+### Mise-managed tools
+
+Some development tools are provided through `mise` rather than system
+packages. Before concluding that a command is unavailable, check `mise ls`,
+`mise which <tool>`, and `mise registry <tool>`. Run configured tools with
+`mise exec -- <command>`; run an unconfigured registry tool temporarily with
+`mise x <tool>@latest -- <command>`. In particular, SQLite is available as the
+`sqlite` mise tool, so use:
+
+```sh
+mise x sqlite@latest -- sqlite3 <database> '<query>'
+```
+
+Do not add a tool to the global mise configuration merely to perform a
+one-off repository check.
+
+### Sensor logger data
+
+The sensor logger runs from a systemd user timer every five minutes and writes
+to `${XDG_STATE_HOME:-$HOME/.local/state}/sensor-logger/sensors.db`. Read
+`scripts/SENSOR-LOGGER.md` before changing the logger or interpreting its
+data; it documents the schema, retention tiers, sensor mappings, alerts, and
+example queries.
+
+Use read-only queries for investigations. Raw readings normally cover the
+latest 14 days; older data is progressively rolled up hourly and daily.
+Rollup averages must be calculated as `sm / cnt` rather than treating `sm` as
+an average. Timestamps are stored as Unix seconds in UTC; add SQLite's
+`'localtime'` modifier when correlating readings with local desktop events.
+The database records hardware measurements, not process attribution, so a
+temperature or power change can support a process diagnosis but cannot prove
+causation by itself.
 
 ## Coding Style & Naming Conventions
 
