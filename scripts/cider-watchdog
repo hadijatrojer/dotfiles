@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Kill a runaway Cider instance only while the desktop is locked/idle.
+cpu_threshold="${CIDER_WATCHDOG_CPU_PERCENT:-100}"
+required_hits="${CIDER_WATCHDOG_REQUIRED_HITS:-2}"
+sample_seconds="${CIDER_WATCHDOG_SAMPLE_SECONDS:-10}"
+state_dir="${XDG_STATE_HOME:-${HOME}/.local/state}/cider-watchdog"
+hits_file="${state_dir}/high-cpu-hits"
+
+log() {
+  printf 'cider-watchdog: %s\n' "$*"
+}
+
+reset_hits() {
+  rm -f "${hits_file}"
+}
+
+screensaver_active() {
+  local result
+  result="$(busctl --user call org.freedesktop.ScreenSaver /ScreenSaver \
+    org.freedesktop.ScreenSaver GetActive 2>/dev/null || true)"
+  [[ "${result}" == "b true" ]]
+}
+
+cider_pids() {
+  local proc cmdline
+  for proc in /proc/[0-9]*; do
+    [[ -r "${proc}/cmdline" ]] || continue
+    cmdline="$(tr '\0' ' ' < "${proc}/cmdline" 2>/dev/null || true)"
+    [[ "${cmdline}" == /app/cider/Cider* ]] || continue
+    printf '%s\n' "${proc##*/}"
+  done
+}
+
+total_ticks() {
+  local pid stat ticks=0
+  local -a fields
+  while IFS= read -r pid; do
+    [[ -r "/proc/${pid}/stat" ]] || continue
+    stat="$(<"/proc/${pid}/stat")"
+    stat="${stat#*) }"
+    read -r -a fields <<< "${stat}"
+    ticks=$((ticks + fields[11] + fields[12]))
+  done < <(cider_pids)
+  printf '%s\n' "${ticks}"
+}
+
+if ! screensaver_active; then
+  reset_hits
+  exit 0
+fi
+
+start_ticks="$(total_ticks)"
+if ((start_ticks == 0)); then
+  reset_hits
+  exit 0
+fi
+
+start_time="$(date +%s%N)"
+sleep "${sample_seconds}"
+end_ticks="$(total_ticks)"
+end_time="$(date +%s%N)"
+
+clock_ticks="$(getconf CLK_TCK)"
+elapsed_ns=$((end_time - start_time))
+used_ticks=$((end_ticks - start_ticks))
+((used_ticks >= 0)) || used_ticks=0
+cpu_percent=$((used_ticks * 100000000000 / clock_ticks / elapsed_ns))
+
+if ((cpu_percent < cpu_threshold)); then
+  reset_hits
+  exit 0
+fi
+
+mkdir -p "${state_dir}"
+hits=0
+[[ -r "${hits_file}" ]] && read -r hits < "${hits_file}"
+[[ "${hits}" =~ ^[0-9]+$ ]] || hits=0
+hits=$((hits + 1))
+printf '%s\n' "${hits}" > "${hits_file}"
+log "Cider used ${cpu_percent}% CPU while idle (hit ${hits}/${required_hits})"
+
+if ((hits < required_hits)); then
+  exit 0
+fi
+
+if screensaver_active && cider_pids | grep -q .; then
+  log "stopping runaway Cider instance"
+  flatpak kill sh.cider.Cider
+fi
+reset_hits

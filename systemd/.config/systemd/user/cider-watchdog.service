@@ -1,0 +1,6 @@
+[Unit]
+Description=Stop runaway Cider while the desktop is idle
+
+[Service]
+Type=oneshot
+ExecStart=%h/dotfiles/scripts/cider-watchdog
