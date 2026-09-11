@@ -33,6 +33,8 @@ fi
 # Distrobox 1.8.2.5 substitutes the absolute desktop-file path here.
 sed -i 's|^StartupWMClass=.*|StartupWMClass=chatgpt|' "$exported_desktop"
 sed -i 's|^Categories=.*|Categories=Utility;|' "$exported_desktop"
+sed -i '/^Exec=/ s|  chatgpt  %U|  chatgpt --ozone-platform=wayland --enable-features=WaylandWindowDecorations %U|' \
+  "$exported_desktop"
 
 distrobox enter "$box_name" -- rpm -q chatgpt
 echo "ChatGPT is ready in the application launcher."
