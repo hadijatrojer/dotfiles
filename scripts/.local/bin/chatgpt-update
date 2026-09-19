@@ -6,6 +6,7 @@ readonly box_image="registry.fedoraproject.org/fedora:44"
 readonly rpm_url="https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
 readonly signing_key="$HOME/.local/share/chatgpt/RPM-GPG-KEY-chatgpt"
 readonly exported_desktop="$HOME/.local/share/applications/chatgpt-chatgpt.desktop"
+readonly exported_icon="$HOME/.local/share/icons/chatgpt.png"
 
 command -v distrobox >/dev/null 2>&1 || {
   echo "chatgpt-update requires distrobox." >&2
@@ -31,7 +32,13 @@ fi
 )
 
 # Distrobox 1.8.2.5 substitutes the absolute desktop-file path here.
+if [[ ! -s "$exported_icon" ]]; then
+  echo "ChatGPT icon is missing: $exported_icon" >&2
+  exit 1
+fi
+
 sed -i 's|^StartupWMClass=.*|StartupWMClass=chatgpt|' "$exported_desktop"
+sed -i "s|^Icon=.*|Icon=$exported_icon|" "$exported_desktop"
 sed -i 's|^Categories=.*|Categories=Utility;|' "$exported_desktop"
 sed -i '/^Exec=/ s|  chatgpt  %U|  chatgpt --ozone-platform=wayland --enable-features=WaylandWindowDecorations %U|' \
   "$exported_desktop"
