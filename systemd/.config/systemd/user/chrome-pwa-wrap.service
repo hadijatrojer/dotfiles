@@ -1,0 +1,6 @@
+[Unit]
+Description=Route Chrome web-app launchers through chrome-launch
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/chrome-pwa-wrap

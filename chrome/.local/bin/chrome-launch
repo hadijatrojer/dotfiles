@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Launch Chrome with flags from ~/.config/chrome-flags.conf, like Arch's
+# wrapper does. Flags only apply when this starts the first Chrome process.
+set -euo pipefail
+
+flags_file="${XDG_CONFIG_HOME:-$HOME/.config}/chrome-flags.conf"
+flags=()
+if [[ -r $flags_file ]]; then
+  while IFS= read -r line || [[ -n $line ]]; do
+    line="${line%%#*}"
+    line="${line#"${line%%[![:space:]]*}"}"
+    line="${line%"${line##*[![:space:]]}"}"
+    [[ -n $line ]] && flags+=("$line")
+  done <"$flags_file"
+fi
+
+exec /usr/bin/google-chrome-stable "${flags[@]}" "$@"

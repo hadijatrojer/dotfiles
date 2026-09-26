@@ -4,7 +4,7 @@ set $mod Mod4
 set $term foot
 set $file_manager nautilus --new-window
 set $menu dms ipc launcher toggle
-set $browser google-chrome-stable
+set $browser ~/.local/bin/chrome-launch
 set $quit ~/.config/sway/scripts/session-quit
 set $media ~/.config/sway/scripts/media-control
 

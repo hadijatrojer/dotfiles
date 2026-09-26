@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Point Chrome-generated web-app launchers (chrome-*.desktop) at chrome-launch
+# so they pick up ~/.config/chrome-flags.conf. Chrome rewrites these files on
+# install and update, so chrome-pwa-wrap.path reruns this on every change.
+# Idempotent: files already using the wrapper are left untouched.
+set -euo pipefail
+
+apps_dir="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+wrapper="$HOME/.local/bin/chrome-launch"
+chrome_bin='(/usr/lib/opt/google/chrome/google-chrome|/opt/google/chrome/google-chrome|/usr/bin/google-chrome-stable|/usr/bin/google-chrome)'
+
+shopt -s nullglob
+for file in "$apps_dir"/chrome-*.desktop; do
+  [[ -f $file && ! -L $file ]] || continue
+  if grep -Eq "^Exec=$chrome_bin( |\$)" "$file"; then
+    sed -E -i "s#^Exec=$chrome_bin( |\$)#Exec=$wrapper\\2#" "$file"
+    echo "wrapped $(basename "$file")"
+  fi
+done

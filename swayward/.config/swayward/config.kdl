@@ -225,7 +225,7 @@ binds {
     // Launchers
     Super+t       { command "exec foot"; }
     Super+f       { command "exec nautilus --new-window"; }
-    Super+b       { command "exec google-chrome-stable"; }
+    Super+b       { command "exec ~/.local/bin/chrome-launch"; }
     Super+space   { command "exec dms ipc launcher toggle"; }
     XF86Tools     { command "exec dms ipc launcher toggleQuery '?'"; }
     Super+v       { command "exec dms ipc clipboard toggle"; }

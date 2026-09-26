@@ -17,6 +17,10 @@ REPO_ROOT = Path(__file__).resolve().parent
 class Package:
     name: str
     stow_dir: Path
+    # Link files individually instead of folding whole directories into one
+    # symlink. Needed when apps write into the target dirs (e.g. Chrome
+    # creating launchers in ~/.local/share/applications).
+    no_folding: bool = False
 
 
 COMMON_PACKAGES = [
@@ -33,6 +37,7 @@ COMMON_PACKAGES = [
 ]
 
 FEDORA_PACKAGES = [
+    Package("chrome", REPO_ROOT, no_folding=True),
     Package("containers", REPO_ROOT),
     Package("dms", REPO_ROOT),
     Package("nautilus", REPO_ROOT),
@@ -114,6 +119,8 @@ def selected_packages() -> list[Package]:
 def run_stow(package: Package, target: str, apply: bool, verbose: bool) -> int:
     command = ["stow", "-d", str(package.stow_dir), "-t", target]
     command.append("-v" if apply else "-nv")
+    if package.no_folding:
+        command.append("--no-folding")
     command.append(package.name)
 
     if verbose:

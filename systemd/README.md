@@ -26,6 +26,10 @@ User units managed by this repo live under `.config/systemd/user/`.
 - `sensor-logger.timer`: runs the logger every 5 minutes.
 - `toolbox-dev.service`: starts the `dev` Podman container and stays active
   after the start command exits.
+- `chrome-pwa-wrap.path`: watches `~/.local/share/applications` and starts
+  `chrome-pwa-wrap.service`, which points Chrome web-app launchers at
+  `~/.local/bin/chrome-launch` (from the `chrome` package). See the Chrome
+  GPU Hangs section in `fedora/README.md`.
 
 ## Enabled Links
 
@@ -34,7 +38,8 @@ Repo-managed `*.wants/` symlinks opt units into user targets:
 - `graphical-session.target.wants/`: rclone cloud mounts for the graphical
   session.
 - `default.target.wants/`: startup services that should run outside the Sway
-  session target, including the cloud mounts and `toolbox-dev.service`.
+  session target, including the cloud mounts, `toolbox-dev.service`, and
+  `chrome-pwa-wrap.path`.
 - `timers.target.wants/`: enabled user timers, currently
   `rclone-warm-gdrive.timer` and `sensor-logger.timer`.
 - `sockets.target.wants/`: socket units supplied by the OS, such as

@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Chrome web-app launchers for rewrites
+
+[Path]
+PathChanged=%h/.local/share/applications
+Unit=chrome-pwa-wrap.service
+
+[Install]
+WantedBy=default.target

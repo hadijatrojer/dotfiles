@@ -65,6 +65,7 @@ That keeps package choices in one place while allowing different installers:
 
 These packages are stowed only on Fedora:
 
+- `chrome`
 - `containers`
 - `dms`
 - `systemd`
@@ -74,5 +75,39 @@ From the repo root, `./stow-all.py --apply` handles that automatically.
 If you need the raw command:
 
 ```bash
-stow -t ~ containers dms systemd
+stow -t ~ chrome containers dms systemd
 ```
+
+## Chrome GPU Hangs
+
+On the Rembrandt iGPU (`1002:1681`), Chrome's default GL backend (radeonsi)
+repeatedly hangs the GPU, especially during Google Meet with the camera on.
+The kernel log shows `ring gfx_0.0.0 timeout ... Process chrome` followed by
+a ring reset. Each reset restarts Chrome's GPU process, so video flickers or
+stops.
+
+The `chrome` package works around it:
+
+- `.config/chrome-flags.conf` sets `--use-angle=vulkan` (ANGLE on RADV).
+- `.local/bin/chrome-launch` reads that file, because the Fedora RPM ignores
+  it.
+- The `.local/share/applications/google-chrome.desktop` override and the
+  Sway/swayward `Super+b` bindings launch Chrome through the wrapper. DMS's
+  launcher reads the same override.
+- `.local/bin/chrome-pwa-wrap` rewrites Chrome-generated web-app launchers
+  (`chrome-*.desktop`: Meet, Chat, YouTube, ...) to use the wrapper. Chrome
+  owns and rewrites those files, so they are not stowed. Instead,
+  `chrome-pwa-wrap.path` in the `systemd` package reruns the script whenever
+  `~/.local/share/applications` changes.
+
+Flags only apply when the wrapper starts the first Chrome process, so quit
+Chrome fully after changing them. Verify in `chrome://gpu`:
+`GL implementation parts` should read `(gl=egl-angle,angle=vulkan)`.
+Count hangs per boot with:
+
+```bash
+journalctl -k -b | grep 'ring gfx.*timeout'
+```
+
+If hangs continue, turn off Settings -> System -> "Use graphics acceleration
+when available".
