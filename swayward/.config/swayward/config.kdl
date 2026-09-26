@@ -113,7 +113,7 @@ blur {
 
 // Rounded corners on every window; the focus ring follows the radius.
 window-rule {
-    geometry-corner-radius 8
+    geometry-corner-radius 6
     clip-to-geometry true
 }
 
@@ -187,7 +187,7 @@ recent-windows {
     highlight {
         active-color "#1e66f5"
         urgent-color "#d20f39"
-        corner-radius 8
+        corner-radius 6
     }
 
     binds {
