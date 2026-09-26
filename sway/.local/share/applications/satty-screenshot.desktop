@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Satty
+GenericName=Screenshot & Annotate
+Comment=Select an area, then annotate it in Satty
+Exec=bash -c "~/.config/sway/scripts/screenshot"
+Icon=org.satty.Satty
+Terminal=false
+Categories=Graphics;
+Keywords=screenshot;snapshot;annotation;capture;wayland;
+StartupWMClass=com.gabm.satty
