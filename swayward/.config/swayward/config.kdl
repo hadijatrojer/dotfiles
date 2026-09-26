@@ -183,6 +183,10 @@ hotkey-overlay {
     skip-at-startup
 }
 
+gestures {
+    hot-corners { off; } // no overview on top-left corner
+}
+
 // ─── Animations ─────────────────────────────────────────────────────────────
 // Stiffer springs with a coarser settle threshold than the defaults
 // (stiffness 800, epsilon 0.0001), which feel sluggish.
