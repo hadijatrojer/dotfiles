@@ -43,4 +43,26 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
   dbus-update-activation-environment --systemd "${session_env[@]}" >/dev/null 2>&1 || true
 fi
 
+# Stop session services when the compositor exits, whichever way it exits
+# (DMS logout, session-quit, crash). Both sway and swayward emit the i3 IPC
+# shutdown event, and swaymsg also returns when the socket closes. Sway runs
+# this script on every reload, so the lock keeps one watcher per compositor.
+start_session_watch() {
+  [[ -n "${SWAYSOCK:-}" ]] || return 0
+  local lock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/session-watch.${SWAYSOCK##*/}.lock"
+
+  # shellcheck disable=SC2016 # expanded by the inner shell
+  setsid -f bash -c '
+    exec 9>"$1"
+    flock -n 9 || exit 0
+    swaymsg -t subscribe "[\"shutdown\"]" >/dev/null 2>&1 || true
+    systemctl --user stop sway-session.target
+    systemctl --user unset-environment WAYLAND_DISPLAY DISPLAY SWAYSOCK I3SOCK
+    rm -f -- "$1"
+  ' session-watch "${lock}" </dev/null >/dev/null 2>&1
+}
+
+# A previous session may have left DMS failed or rate-limited.
+systemctl --user reset-failed dms.service 2>/dev/null || true
 systemctl --user start sway-session.target
+start_session_watch

@@ -3,6 +3,10 @@ Description=Dank Material Shell (DMS)
 PartOf=sway-session.target
 BindsTo=sway-session.target
 After=sway-session.target
+# Each failed start takes ~1s plus RestartSec, so the default 5-in-10s limit
+# never trips and DMS loops forever once the compositor is gone.
+StartLimitIntervalSec=60
+StartLimitBurst=5
 
 [Service]
 Type=dbus
