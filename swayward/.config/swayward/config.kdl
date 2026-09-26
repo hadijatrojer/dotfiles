@@ -77,6 +77,17 @@ layout {
         urgent-color "#d20f39"
     }
 
+    // Faint shadow on tiled windows; floating windows get a stronger one
+    // (window rule below). geometry-corner-radius keeps it matched to the
+    // rounded corners, so it doesn't need to draw behind the window.
+    shadow {
+        on
+        softness 20
+        spread 2
+        offset x=0 y=3
+        color "#00000030"
+    }
+
     // Titlebars show on tabbed/stacked containers.
     titlebar {
         font "GeistMono Nerd Font 10"
@@ -119,6 +130,18 @@ blur {
 window-rule {
     geometry-corner-radius 6
     clip-to-geometry true
+}
+
+// Floating windows: deeper shadow so they lift off the tiles below.
+window-rule {
+    match is-floating=true
+    shadow {
+        on
+        softness 40
+        spread 6
+        offset x=0 y=10
+        color "#00000060"
+    }
 }
 
 // Foot: blur behind its translucent background (alpha=0.85 in foot.ini).
