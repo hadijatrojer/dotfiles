@@ -88,6 +88,24 @@ repository inside the container. This works around the RPM's current
 `/var/lib/chatgpt` scriptlet, which is incompatible with rpm-ostree's read-only
 `/var` sandbox. The container setup does not require a host reboot.
 
+> **Version pinned (2026-09-26):** `chatgpt` is held at `26.917.71314-1` with
+> `dnf versionlock` inside the Distrobox. Upstream `26.924.20706` never sends
+> `thread/resume` on Linux, so existing chats sit on a loading spinner
+> ([openai/codex#48362](https://github.com/openai/codex/issues/48362),
+> [#48345](https://github.com/openai/codex/issues/48345)). `chatgpt-update`
+> warns while the lock is active. Once a fixed release ships, remove the lock
+> and update:
+>
+> ```bash
+> distrobox enter chatgpt -- sudo dnf versionlock delete chatgpt
+> chatgpt-update
+> ```
+>
+> To roll back to a specific build, the repo serves old RPMs at
+> `https://persistent.oaistatic.com/codex-app-prod/linux/rpm/x86_64/chatgpt-<version>-1.x86_64.rpm`
+> (`sudo dnf downgrade -y <url>` inside the box). Back up `~/.codex/state_5.sqlite*`
+> and `~/.codex/.codex-global-state.json` first.
+
 The exported launcher starts the container on demand; no user service is
 needed. Commands launched by the ChatGPT app run inside its Distrobox. Run host
 maintenance from a normal terminal, or prefix it with `distrobox-host-exec`, for

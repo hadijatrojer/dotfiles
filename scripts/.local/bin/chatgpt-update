@@ -18,6 +18,13 @@ if ! podman container exists "$box_name"; then
 fi
 
 if distrobox enter "$box_name" -- rpm -q chatgpt >/dev/null 2>&1; then
+  # A versionlock silently turns the upgrade into a no-op; say so.
+  # See "Version pinned" in the dotfiles README.
+  if distrobox enter "$box_name" -- sudo dnf versionlock list 2>/dev/null \
+      | grep -q '^Package name: chatgpt$'; then
+    echo "WARNING: chatgpt is version-locked; the upgrade below will not change it." >&2
+    echo "         Remove with: distrobox enter $box_name -- sudo dnf versionlock delete chatgpt" >&2
+  fi
   distrobox enter "$box_name" -- sudo dnf upgrade -y chatgpt
 else
   distrobox enter "$box_name" -- sudo rpm --import "$signing_key"
