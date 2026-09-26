@@ -7,7 +7,9 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
 `.config/`.
 
 - Window manager and desktop behavior:
-  `sway/.config/sway/` (`config`, `theme.conf`, `scripts/`)
+  `sway/.config/sway/` (`config`, `theme.conf`, `scripts/`);
+  `swayward/.config/swayward/config.kdl` (KDL port of the Sway config; it
+  calls `sway/.config/sway/scripts/`, so stow both)
 - Launcher, shell plugins, and terminal:
   `dms/.config/DankMaterialShell/plugins/`,
   `foot/.config/foot/foot.ini`
@@ -51,6 +53,8 @@ There is no compiled build. Validate the changed module directly, then stow it.
 - `systemd-analyze verify systemd/.config/systemd/user/*.{service,timer,target}`:
   validate user service files
 - `sway -C -c sway/.config/sway/config`: validate the Sway configuration
+- `swayward validate -c swayward/.config/swayward/config.kdl`: validate the
+  swayward configuration
 
 ### Mise-managed tools
 
@@ -122,6 +126,8 @@ No formal automated suite exists. Validation is per-file and per-module.
 - Treat `sway/.config/sway/theme.conf` as the palette source of truth.
 - Keep Catppuccin Latte values aligned across:
   - `sway/.config/sway/theme.conf`
+  - `swayward/.config/swayward/config.kdl` (hex values inline; KDL has no
+    variables)
   - `zsh/.zsh/tools.zsh` when prompt accent colors change
 - Treat `foot/.config/foot/foot.ini` as an explicit Catppuccin
   Mocha exception unless you intend to change the terminal separately.

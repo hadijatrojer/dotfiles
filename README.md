@@ -9,7 +9,7 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 - Agent tooling:
   `pi` (pi coding-agent extensions), `skills` (portable agent skills)
 - Desktop behavior:
-  `dms`, `nautilus`, `sway`
+  `dms`, `nautilus`, `sway`, `swayward`
 - Helper scripts:
   `scripts`
 - Fedora-only user assets:
@@ -36,14 +36,14 @@ Examples:
 The helper applies:
 
 - Common packages:
-  `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `zsh`
+  `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `swayward`, `zsh`
 - Fedora-only packages when running on Fedora:
   `containers`, `dms`, `nautilus`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
-stow -nv btop foot pi scripts skills sway zsh
+stow -nv btop foot pi scripts skills sway swayward zsh
 stow -nv containers dms nautilus systemd
 ```
 

@@ -1,0 +1,316 @@
+// swayward config, converted from ~/.config/sway/config with contrib/sway-to-kdl.
+// Differences from sway:
+// - niri's focus ring replaces sway pixel borders
+// - `exec_always` becomes a startup-only spawn
+// - client.placeholder/background dropped (sway ignores them too)
+
+// ─── Outputs ────────────────────────────────────────────────────────────────
+
+output "HDMI-A-1" {
+    scale 1.0
+    position x=0 y=0
+}
+
+output "HDMI-A-2" {
+    scale 1.875
+    position x=1920 y=0
+}
+
+// ─── Workspaces ─────────────────────────────────────────────────────────────
+// 1-4 and 10 on the left monitor, 5-9 on the right.
+
+workspace "1"  { sway-output-assignment "HDMI-A-1"; }
+workspace "2"  { sway-output-assignment "HDMI-A-1"; }
+workspace "3"  { sway-output-assignment "HDMI-A-1"; }
+workspace "4"  { sway-output-assignment "HDMI-A-1"; }
+workspace "10" { sway-output-assignment "HDMI-A-1"; }
+workspace "5"  { sway-output-assignment "HDMI-A-2"; }
+workspace "6"  { sway-output-assignment "HDMI-A-2"; }
+workspace "7"  { sway-output-assignment "HDMI-A-2"; }
+workspace "8"  { sway-output-assignment "HDMI-A-2"; }
+workspace "9"  { sway-output-assignment "HDMI-A-2"; }
+
+// ─── Input ──────────────────────────────────────────────────────────────────
+
+input {
+    focus-follows-mouse
+    workspace-auto-back-and-forth false
+    floating-modifier "Super" // Super+drag moves/resizes floating windows
+
+    keyboard {
+        xkb {
+            layout "gb"
+        }
+    }
+
+    mouse {
+        accel-profile "flat"
+        accel-speed -0.25
+        // natural-scroll is off when omitted
+    }
+}
+
+// ─── Appearance ─────────────────────────────────────────────────────────────
+// Catppuccin Latte: blue #1e66f5, overlay0 #9ca0b0, red #d20f39,
+// text #4c4f69, base #eff1f5, mantle #e6e9ef.
+
+layout {
+    gaps 8 // between windows and at screen edges
+    // outer-gaps { left 0; right 0; top 0; bottom 0; } // extra space at screen edges only
+
+    // No sway borders; the focus ring marks the focused window.
+    default-border "none"
+    default-floating-border "none"
+    hide-edge-borders "none"
+    border {
+        off
+    }
+    focus-ring {
+        on
+        width 3
+        active-color "#1e66f5"
+        inactive-color "#9ca0b0"
+        urgent-color "#d20f39"
+    }
+
+    // Titlebars show on tabbed/stacked containers.
+    titlebar {
+        font "GeistMono Nerd Font 10"
+        pango-markup true // sway turns this on for `font pango:`
+        horizontal-padding 2
+        vertical-padding 1
+
+        focused {
+            border-color "#1e66f5"
+            background-color "#1e66f5"
+            text-color "#eff1f5"
+        }
+        focused-inactive {
+            border-color "#9ca0b0"
+            background-color "#9ca0b0"
+            text-color "#4c4f69"
+        }
+        unfocused {
+            border-color "#9ca0b0"
+            background-color "#9ca0b0"
+            text-color "#4c4f69"
+        }
+        urgent {
+            border-color "#d20f39"
+            background-color "#e6e9ef"
+            text-color "#4c4f69"
+        }
+    }
+}
+
+// Softer than the default (passes 3, offset 3). Raise offset first for more blur.
+blur {
+    passes 2
+    offset 2
+}
+
+// ─── Window rules ───────────────────────────────────────────────────────────
+
+// Rounded corners on every window; the focus ring follows the radius.
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+}
+
+// Foot: blur behind its translucent background (alpha=0.85 in foot.ini).
+window-rule {
+    match app-id="^foot(client)?$"
+    background-effect {
+        blur true
+        xray false // blur the windows underneath, not just the wallpaper
+    }
+    draw-border-with-background false // keep the focus ring from tinting it
+}
+
+// Picture-in-picture: small, floating, sticky, bottom-right.
+window-rule {
+    match title="(?i)^picture([ -])in([ -])picture$"
+    open-floating true
+    default-column-width { proportion 0.25; }
+    default-window-height { proportion 0.25; }
+    sway-for-window-command "sticky enable"
+    sway-for-window-command "move position 75 ppt 75 ppt"
+}
+
+// Google Meet pop-outs float and stick...
+window-rule {
+    match app-id="google-chrome" title="^Meet .+$"
+    open-floating true
+    sway-for-window-command "sticky enable"
+}
+
+// ...but the main Meet tab stays tiled. Keep this after the rule above.
+window-rule {
+    match app-id="google-chrome" title="^Meet .+ - Google Chrome$"
+    open-floating false
+    sway-for-window-command "sticky disable"
+}
+
+// Polkit prompt from the DMS shell.
+window-rule {
+    match app-id="org.quickshell" title="^Authentication$"
+    open-floating true
+    default-column-width { fixed 760; }
+    default-window-height { fixed 420; }
+    sway-for-window-command "move position center"
+}
+
+// Satty screenshot annotator (both app-id spellings).
+window-rule {
+    match app-id="com.gabm.satty"
+    match app-id="org.satty.Satty"
+    open-floating true
+    default-column-width { proportion 0.9; }
+    default-window-height { proportion 0.9; }
+    sway-for-window-command "move position center"
+}
+
+// ─── Startup ────────────────────────────────────────────────────────────────
+
+// Imports the session env and starts sway-session.target. Runs once, not on reload.
+spawn-sh-at-startup "~/.config/sway/scripts/session-start"
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+// ─── Window switcher ────────────────────────────────────────────────────────
+// Built-in MRU switcher; hold Super, tap Tab. Esc cancels, S cycles scope.
+// These binds replace the defaults (no Alt+Tab).
+
+recent-windows {
+    highlight {
+        active-color "#1e66f5"
+        urgent-color "#d20f39"
+        corner-radius 8
+    }
+
+    binds {
+        Super+Tab         { next-window; }
+        Super+Shift+Tab   { previous-window; }
+        Super+grave       { next-window     filter="app-id"; } // same app only
+        Super+Shift+grave { previous-window filter="app-id"; }
+    }
+}
+
+// ─── Key bindings ───────────────────────────────────────────────────────────
+
+binds {
+    // Launchers
+    Super+t       { command "exec foot"; }
+    Super+f       { command "exec nautilus --new-window"; }
+    Super+b       { command "exec google-chrome-stable"; }
+    Super+space   { command "exec dms ipc launcher toggle"; }
+    XF86Tools     { command "exec dms ipc launcher toggleQuery '?'"; }
+    Super+v       { command "exec dms ipc clipboard toggle"; }
+    Print         { command "exec ~/.config/sway/scripts/screenshot"; }
+    Super+Shift+s { command "exec ~/.config/sway/scripts/screenshot"; }
+
+    // Session
+    Ctrl+Alt+l      { command "exec dms ipc lock lock"; }
+    Ctrl+Alt+Delete { command "exec ~/.config/sway/scripts/session-quit"; }
+    Super+Shift+r   { command "reload"; }
+
+    // Windows
+    Super+Shift+q     { command "kill"; }
+    Super+Shift+f     { command "fullscreen toggle"; }
+    Super+Shift+space { command "floating toggle"; }
+    Super+a           { command "focus mode_toggle"; } // tiling <-> floating
+    Super+p           { command "sticky toggle"; }
+    Super+Shift+n     { command "move scratchpad"; }
+    Super+n           { command "scratchpad show"; }
+    Super+o           repeat=false { toggle-overview; } // zoomed-out view of all workspaces
+
+    // Focus
+    Super+h     { command "focus left"; }
+    Super+j     { command "focus down"; }
+    Super+k     { command "focus up"; }
+    Super+l     { command "focus right"; }
+    Super+Left  { command "focus left"; }
+    Super+Down  { command "focus down"; }
+    Super+Up    { command "focus up"; }
+    Super+Right { command "focus right"; }
+    Super+c      { command "focus parent"; }
+    Super+Ctrl+c { command "focus child"; }
+
+    // Move
+    Super+Shift+h     { command "move left"; }
+    Super+Shift+j     { command "move down"; }
+    Super+Shift+k     { command "move up"; }
+    Super+Shift+l     { command "move right"; }
+    Super+Shift+Left  { command "move left"; }
+    Super+Shift+Down  { command "move down"; }
+    Super+Shift+Up    { command "move up"; }
+    Super+Shift+Right { command "move right"; }
+
+    // Layout
+    Super+bracketleft  { command "split v"; }
+    Super+bracketright { command "split h"; }
+    Super+period       { command "layout toggle split tabbed"; }
+    Super+slash        { command "layout toggle split"; }
+
+    // Resize
+    Super+r           { command "exec ~/.config/sway/scripts/preset-width"; } // cycle 25/50/75%
+    Super+minus       { command "resize shrink width 10 ppt"; }
+    Super+equal       { command "resize grow width 10 ppt"; }
+    Super+Shift+minus { command "resize shrink height 10 ppt"; }
+    Super+Shift+equal { command "resize grow height 10 ppt"; }
+
+    // Workspaces: navigate
+    Super+Page_Down { command "workspace next"; }
+    Super+Page_Up   { command "workspace prev"; }
+    Super+g         { command "workspace back_and_forth"; }
+    Super+1 { command "workspace number 1"; }
+    Super+2 { command "workspace number 2"; }
+    Super+3 { command "workspace number 3"; }
+    Super+4 { command "workspace number 4"; }
+    Super+5 { command "workspace number 5"; }
+    Super+6 { command "workspace number 6"; }
+    Super+7 { command "workspace number 7"; }
+    Super+8 { command "workspace number 8"; }
+    Super+9 { command "workspace number 9"; }
+    Super+0 { command "workspace number 10"; }
+
+    // Workspaces: move the window there and follow it
+    Super+Ctrl+Page_Down { command "move to workspace next; workspace next"; }
+    Super+Ctrl+Page_Up   { command "move to workspace prev; workspace prev"; }
+    Super+Shift+1 { command "move to workspace number 1; workspace number 1"; }
+    Super+Shift+2 { command "move to workspace number 2; workspace number 2"; }
+    Super+Shift+3 { command "move to workspace number 3; workspace number 3"; }
+    Super+Shift+4 { command "move to workspace number 4; workspace number 4"; }
+    Super+Shift+5 { command "move to workspace number 5; workspace number 5"; }
+    Super+Shift+6 { command "move to workspace number 6; workspace number 6"; }
+    Super+Shift+7 { command "move to workspace number 7; workspace number 7"; }
+    Super+Shift+8 { command "move to workspace number 8; workspace number 8"; }
+    Super+Shift+9 { command "move to workspace number 9; workspace number 9"; }
+    Super+Shift+0 { command "move to workspace number 10; workspace number 10"; }
+
+    // Workspaces: move to the other monitor
+    Super+Shift+u { command "move workspace to output left"; }
+    Super+Shift+i { command "move workspace to output right"; }
+
+    // Audio
+    XF86AudioRaiseVolume { command "exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume { command "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute        { command "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     { command "exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    Ctrl+Alt+m           { command "exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86Launch5          { command "exec ~/.config/sway/scripts/set-audio-output --sink smsl"; }
+    XF86Launch6          { command "exec ~/.config/sway/scripts/set-audio-output --sink echo"; }
+
+    // Media
+    XF86AudioPlay  { command "exec ~/.config/sway/scripts/media-control play-pause"; }
+    XF86AudioPause { command "exec ~/.config/sway/scripts/media-control play-pause"; }
+    XF86AudioStop  { command "exec ~/.config/sway/scripts/media-control stop"; }
+    XF86AudioNext  { command "exec ~/.config/sway/scripts/media-control next"; }
+    XF86AudioPrev  { command "exec ~/.config/sway/scripts/media-control previous"; }
+
+    // Brightness
+    XF86MonBrightnessUp   { command "exec brightnessctl -e4 -n2 set 5%+"; }
+    XF86MonBrightnessDown { command "exec brightnessctl -e4 -n2 set 5%-"; }
+}
