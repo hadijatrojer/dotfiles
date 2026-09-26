@@ -183,11 +183,24 @@ hotkey-overlay {
     skip-at-startup
 }
 
+// ─── Animations ─────────────────────────────────────────────────────────────
+// Stiffer springs with a coarser settle threshold than the defaults
+// (stiffness 800, epsilon 0.0001), which feel sluggish.
+
+animations {
+    overview-open-close  { spring damping-ratio=1.0 stiffness=1400 epsilon=0.001; }
+    recent-windows-close { spring damping-ratio=1.0 stiffness=1400 epsilon=0.001; }
+}
+
 // ─── Window switcher ────────────────────────────────────────────────────────
 // Built-in MRU switcher; hold Super, tap Tab. Esc cancels, S cycles scope.
 // These binds replace the defaults (no Alt+Tab).
 
 recent-windows {
+    // Default 150. Short enough to feel instant, long enough that a quick
+    // Super+Tab tap flips windows without flashing the switcher.
+    open-delay-ms 60
+
     highlight {
         active-color "#1e66f5"
         urgent-color "#d20f39"
