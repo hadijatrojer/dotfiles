@@ -55,7 +55,7 @@ input {
 // text #4c4f69, base #eff1f5, mantle #e6e9ef.
 
 layout {
-    gaps 8 // between windows and at screen edges
+    gaps 6 // between windows and at screen edges
     // outer-gaps { left 0; right 0; top 0; bottom 0; } // extra space at screen edges only
 
     // No sway borders; the focus ring marks the focused window.
