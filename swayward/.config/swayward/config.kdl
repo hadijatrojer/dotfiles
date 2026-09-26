@@ -4,6 +4,10 @@
 // - `exec_always` becomes a startup-only spawn
 // - client.placeholder/background dropped (sway ignores them too)
 
+// GTK4/libadwaita ignores xdg-decoration; the tiled state is what squares its
+// corners, so the window-rule radius below applies cleanly.
+prefer-no-csd
+
 // ─── Outputs ────────────────────────────────────────────────────────────────
 
 output "HDMI-A-1" {
