@@ -11,7 +11,7 @@ files that end up under `$HOME`, usually inside nested hidden paths such as
   `swayward/.config/swayward/config.kdl` (KDL port of the Sway config; it
   calls `sway/.config/sway/scripts/`, so stow both)
 - Launcher, shell plugins, and terminal:
-  `dms/.config/DankMaterialShell/plugins/`,
+  `dms/.config/DankMaterialShell/` (settings, theme, plugins),
   `foot/.config/foot/foot.ini`
 - Shell and editor:
   `zsh/.zshrc`, `vscode/settings.json`

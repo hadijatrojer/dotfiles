@@ -1,0 +1,14 @@
+{
+  "windowSwitcher": {
+    "enabled": true
+  },
+  "keybindActions": {
+    "enabled": true
+  },
+  "customRunningApps": {
+    "enabled": true
+  },
+  "unifiedTaskbar": {
+    "enabled": true
+  }
+}

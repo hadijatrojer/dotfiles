@@ -59,9 +59,11 @@ DMS-managed shell surfaces
 
 - DMS owns the launcher, lock screen, bar, and control-center visuals at
   runtime.
-- This repo manages DMS plugins under `dms/.config/DankMaterialShell/plugins/`,
-  but not the global DMS theme. Palette changes in this repo should stay
-  synchronized with the local DMS theme separately.
+- This repo manages DMS plugins, `settings.json`, `plugin_settings.json`, and
+  the Catppuccin theme under `dms/.config/DankMaterialShell/`. DMS writes
+  settings changes from its UI straight into the repo through the symlinks.
+- DMS `cornerRadius` in `settings.json` should match swayward's
+  `geometry-corner-radius` in `swayward/.config/swayward/config.kdl`.
 
 ## Update Workflow
 
