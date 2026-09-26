@@ -2,3 +2,8 @@ README.md
 __pycache__
 sensor-analysis-artifact.json
 sensor-analysis-report.html
+# Called by systemd units via %h/dotfiles/scripts/...; don't link into $HOME
+^/cider-watchdog$
+^/rclone-mount\.sh$
+^/sensor-logger\.py$
+^/SENSOR-LOGGER\.md$

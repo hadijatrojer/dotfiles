@@ -26,7 +26,8 @@ COMMON_PACKAGES = [
     Package("scripts", REPO_ROOT),
     Package("skills", REPO_ROOT),
     Package("sway", REPO_ROOT),
-    Package("vscode", REPO_ROOT),
+    # vscode is not stowed: Flatpak VS Code reads
+    # ~/.var/app/com.visualstudio.code/config/Code/User/settings.json
     Package("zsh", REPO_ROOT),
 ]
 

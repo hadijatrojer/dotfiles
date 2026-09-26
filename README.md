@@ -36,16 +36,20 @@ Examples:
 The helper applies:
 
 - Common packages:
-  `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `vscode`, `zsh`
+  `btop`, `foot`, `pi`, `scripts`, `skills`, `sway`, `zsh`
 - Fedora-only packages when running on Fedora:
   `containers`, `dms`, `nautilus`, `systemd`
 
 If you prefer raw GNU Stow commands:
 
 ```bash
-stow -nv btop foot pi scripts skills sway vscode zsh
+stow -nv btop foot pi scripts skills sway zsh
 stow -nv containers dms nautilus systemd
 ```
+
+`vscode/` is kept for reference only and is not stowed: Flatpak VS Code reads
+`~/.var/app/com.visualstudio.code/config/Code/User/settings.json`, and
+`podman-host` is referenced directly by its dotfiles path.
 
 ## Setup Order
 
