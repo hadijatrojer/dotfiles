@@ -71,10 +71,10 @@ layout {
     }
     focus-ring {
         on
-        width 3
-        active-color "#1e66f5"
+        width 5
+        active-color "#fe640b" // Latte peach
         inactive-color "#9ca0b0"
-        urgent-color "#d20f39"
+        urgent-gradient from="#d20f39" to="#e64553" angle=45 in="oklch shorter hue"
     }
 
     // Faint shadow on tiled windows; floating windows get a stronger one
