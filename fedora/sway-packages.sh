@@ -34,6 +34,8 @@ sway_packages=(
   wlr-randr
   # XDG desktop portal backend for screen sharing and Wayland app integration.
   xdg-desktop-portal-wlr
+  # X11 support for swayward, which exports DISPLAY only when this is in PATH.
+  xwayland-satellite
   # Default-terminal chooser used by desktop apps that request a terminal.
   xdg-terminal-exec
 )
