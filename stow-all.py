@@ -28,7 +28,9 @@ COMMON_PACKAGES = [
     Package("foot", REPO_ROOT),
     Package("pi", REPO_ROOT),
     Package("scripts", REPO_ROOT),
-    Package("skills", REPO_ROOT),
+    # Keep ~/.agents/skills a real dir so tool-installed skills (mu, museum)
+    # link in there instead of landing in the repo.
+    Package("skills", REPO_ROOT, no_folding=True),
     Package("sway", REPO_ROOT),
     Package("swayward", REPO_ROOT),
     Package("tmux", REPO_ROOT),
