@@ -26,6 +26,7 @@ class Package:
 COMMON_PACKAGES = [
     Package("btop", REPO_ROOT),
     Package("foot", REPO_ROOT),
+    Package("nvim", REPO_ROOT),
     Package("pi", REPO_ROOT),
     Package("scripts", REPO_ROOT),
     # Keep ~/.agents/skills a real dir so tool-installed skills (mu, museum)

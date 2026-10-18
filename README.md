@@ -5,7 +5,7 @@ GNU Stow-based Linux dotfiles with a Sway + DMS desktop stack.
 ## Repository Shape
 
 - Shared shell and terminal packages:
-  `btop`, `foot`, `vscode`, `zsh`
+  `btop`, `foot`, `nvim`, `vscode`, `zsh`
 - Agent tooling:
   `pi` (pi coding-agent extensions), `skills` (portable agent skills)
 - Desktop behavior:
