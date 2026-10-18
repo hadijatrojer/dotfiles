@@ -60,22 +60,24 @@ input {
 // text #4c4f69, base #eff1f5, mantle #e6e9ef.
 
 layout {
-    gaps 6 // between windows and at screen edges
+    gaps 4 // between windows and at screen edges
     // outer-gaps { left 0; right 0; top 0; bottom 0; } // extra space at screen edges only
 
-    // No sway borders; the focus ring marks the focused window.
-    default-border "none"
-    default-floating-border "none"
+    // Sway-style pixel borders on every window: peach on the focused one,
+    // overlay0 on the rest. The focus ring only ever draws around the focused
+    // window, so it cannot mark unfocused ones.
+    default-border "pixel" width=4
+    default-floating-border "pixel" width=4
     hide-edge-borders "none"
     border {
-        off
-    }
-    focus-ring {
         on
-        width 5
+        width 4
         active-color "#fe640b" // Latte peach
         inactive-color "#9ca0b0"
         urgent-gradient from="#d20f39" to="#e64553" angle=45 in="oklch shorter hue"
+    }
+    focus-ring {
+        off
     }
 
     // Faint shadow on tiled windows; floating windows get a stronger one
@@ -127,10 +129,23 @@ blur {
 
 // ─── Window rules ───────────────────────────────────────────────────────────
 
-// Rounded corners on every window; the focus ring follows the radius.
+// Rounded corners. The radius is the border's outer radius; the window is
+// clipped to the border's inner arc, radius minus border width (10 - 4 = 6).
 window-rule {
-    geometry-corner-radius 6
+    geometry-corner-radius 10
     clip-to-geometry true
+}
+
+// GTK4/libadwaita apps always draw their own header bar, so sway marks them
+// `csd` when floating and draws no border. Force a pixel border instead; once a
+// window has one, floating toggles keep it.
+window-rule {
+    match app-id="^org\\.gnome\\.Nautilus$"
+    sway-for-window-command "border pixel 4"
+    // Floating clears the tiled state, and libadwaita then rounds its own
+    // corners at its own radius. Keep it tiled so it stays square and the
+    // clip-to-geometry radius above is the only rounding.
+    tiled-state true
 }
 
 // Floating windows: deeper shadow so they lift off the tiles below.
