@@ -23,3 +23,7 @@ alias serve='python3 -m http.server 8081'
 alias lees='less'
 alias elss='less'
 alias sless='less'
+
+# Markdown reader and diff review.
+alias m='ramble'
+alias d='debrief'
