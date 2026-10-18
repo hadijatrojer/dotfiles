@@ -23,10 +23,29 @@ mise use --global \
   jj@latest \
   lazygit@latest \
   neovim@latest \
-  node@24 \
+  node@26 \
   ripgrep@latest \
   shellcheck@latest \
   shfmt@latest \
   uv@latest \
   yazi@latest \
   zoxide@latest
+
+# Keep `npm i -g` out of the per-version node install dir so globals survive
+# node bumps. ~/.local/bin is already on PATH (zsh/.zshenv).
+mise set --global NPM_CONFIG_PREFIX="$HOME/.local"
+export NPM_CONFIG_PREFIX="$HOME/.local"
+
+# Global npm tools: agent tooling and LSP servers for nvim.
+mise exec -- npm install -g \
+  @earendil-works/pi-coding-agent \
+  @mu-crew/mu \
+  @mu-crew/murmur \
+  bash-language-server \
+  typescript \
+  typescript-language-server \
+  vscode-langservers-extracted
+
+# The pi extension shims embed the install path; refresh them after a move.
+mise exec -- mu link pi
+mise exec -- murmur link pi
