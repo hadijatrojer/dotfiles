@@ -25,9 +25,11 @@ class Package:
 
 COMMON_PACKAGES = [
     Package("btop", REPO_ROOT),
+    Package("debrief", REPO_ROOT),
     Package("foot", REPO_ROOT),
     Package("nvim", REPO_ROOT),
     Package("pi", REPO_ROOT),
+    Package("ramble", REPO_ROOT),
     Package("scripts", REPO_ROOT),
     # Keep ~/.agents/skills a real dir so tool-installed skills (mu, museum)
     # link in there instead of landing in the repo.
