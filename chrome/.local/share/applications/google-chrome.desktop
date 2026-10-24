@@ -106,7 +106,7 @@ Comment[vi]=Truy cập Internet
 Comment[zh_CN]=访问互联网
 Comment[zh_HK]=連線到網際網路
 Comment[zh_TW]=連線到網際網路
-Exec=sh -c "exec \\"\\$HOME/.local/bin/chrome-launch\\" \\"\\$@\\"" chrome-launch %U
+Exec=/var/home/hadijatrojer/.local/bin/chrome-launch %U
 StartupNotify=true
 StartupWMClass=google-chrome
 Terminal=false
@@ -169,7 +169,7 @@ Name[uk]=Нове вікно
 Name[vi]=Cửa sổ Mới
 Name[zh_CN]=新建窗口
 Name[zh_TW]=開新視窗
-Exec=sh -c "exec \\"\\$HOME/.local/bin/chrome-launch\\" \\"\\$@\\"" chrome-launch
+Exec=/var/home/hadijatrojer/.local/bin/chrome-launch
 
 [Desktop Action new-private-window]
 Name=New Incognito Window
@@ -221,4 +221,4 @@ Name[uk]=Нове вікно в режимі анонімного перегля
 Name[vi]=Cửa sổ ẩn danh mới
 Name[zh_CN]=新建隐身窗口
 Name[zh_TW]=新增無痕式視窗
-Exec=sh -c "exec \\"\\$HOME/.local/bin/chrome-launch\\" \\"\\$@\\"" chrome-launch --incognito
+Exec=/var/home/hadijatrojer/.local/bin/chrome-launch --incognito
