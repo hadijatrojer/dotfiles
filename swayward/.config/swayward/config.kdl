@@ -235,6 +235,10 @@ animations {
     recent-windows-close { spring damping-ratio=1.0 stiffness=1400 epsilon=0.001; }
 }
 
+overview {
+    backdrop-color "#dce0e8" // Latte crust
+}
+
 // ─── Window switcher ────────────────────────────────────────────────────────
 // Built-in MRU switcher; hold Super, tap Tab. Esc cancels, S cycles scope.
 // These binds replace the defaults (no Alt+Tab).
